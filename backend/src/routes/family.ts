@@ -65,15 +65,15 @@ export async function familyRoutes(fastify: FastifyInstance) {
       const token = crypto.randomBytes(32).toString('hex');
       const eu = await db.query('SELECT id FROM users WHERE email = $1', [email]);
       const uid = eu.rows[0]?.id || null;
-      const st = uid ? 'accepted' : 'pending';
+      const st = 'pending';
       let member;
       if (dup.rows.length === 0) {
-        member = await db.query(`INSERT INTO family_members (group_id, user_id, invited_email, role, status, invite_token, visibility, accepted_at) VALUES ($1, $2, $3, $4, $5, $6, 'total', $7) RETURNING *`, [groupId, uid, email, role, st, token, uid ? new Date().toISOString() : null]);
+        member = await db.query(`INSERT INTO family_members (group_id, user_id, invited_email, role, status, invite_token, visibility, accepted_at) VALUES ($1, $2, $3, $4, $5, $6, 'total', $7) RETURNING *`, [groupId, uid, email, role, st, token, null]);
       } else { member = await db.query('SELECT * FROM family_members WHERE id = $1', [dup.rows[0].id]); }
       const inv = await db.query('SELECT full_name FROM users WHERE id = $1', [userId]);
       const invName = inv.rows[0]?.full_name || 'Um membro do ZURT';
       const sent = await sendInviteEmail(email, invName, g.rows[0].name, token);
-      return reply.send({ member: member.rows[0], emailSent: sent, autoAccepted: st === 'accepted', message: st === 'accepted' ? 'Membro adicionado automaticamente!' : sent ? 'Convite enviado por email!' : 'Convite criado. Compartilhe o link manualmente.' });
+      return reply.send({ member: member.rows[0], emailSent: sent, autoAccepted: false, message: st === 'accepted' ? 'Membro adicionado automaticamente!' : sent ? 'Convite enviado por email!' : 'Convite criado. Compartilhe o link manualmente.' });
     } catch (e: any) { return reply.code(500).send({ error: e.message }); }
   });
 
