@@ -152,13 +152,21 @@ export default defineConfig(({ mode }) => {
             return null;
           }
           
-          // Vendor chunks
+          // Vendor chunks — only split large, self-contained libraries.
+          // Everything else stays with the default chunk to avoid cross-chunk
+          // initialization issues (e.g. React.createContext undefined).
           if (id.includes('node_modules')) {
-            // React and core libraries
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+            // React core must load first; include react-dependent base libs together
+            if (
+              id.includes('react') || id.includes('react-dom') ||
+              id.includes('react-router') || id.includes('react-i18next') ||
+              id.includes('i18next') || id.includes('@tanstack/react-query') ||
+              id.includes('react-hook-form') || id.includes('@hookform') ||
+              id.includes('zod')
+            ) {
               return 'vendor-react';
             }
-            // Radix UI components (large library)
+            // Radix UI components (large library, depends on react via vendor-react)
             if (id.includes('@radix-ui')) {
               return 'vendor-radix';
             }
@@ -166,20 +174,11 @@ export default defineConfig(({ mode }) => {
             if (id.includes('recharts')) {
               return 'vendor-charts';
             }
-            // Date utilities
+            // Date utilities (no React dependency)
             if (id.includes('date-fns')) {
               return 'vendor-dates';
             }
-            // Form libraries
-            if (id.includes('react-hook-form') || id.includes('@hookform') || id.includes('zod')) {
-              return 'vendor-forms';
-            }
-            // Query library
-            if (id.includes('@tanstack/react-query')) {
-              return 'vendor-query';
-            }
-            // Other vendor libraries
-            return 'vendor-other';
+            // Let Rollup handle all remaining node_modules automatically
           }
           // Split large page components
           if (id.includes('/pages/admin/')) {
