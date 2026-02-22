@@ -7,6 +7,8 @@
     "dev": "node --max-old-space-size=1536 ./node_modules/vite/bin/vite",
     "dev:no-memory-limit": "vite",
     "build": "vite build",
+    "build:low-mem": "node --max-old-space-size=3072 ./node_modules/vite/bin/vite build",
+    "build:minimal": "BUILD_MINIMAL=1 node --max-old-space-size=3072 ./node_modules/vite/bin/vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
