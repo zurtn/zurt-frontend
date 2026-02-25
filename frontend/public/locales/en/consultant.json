@@ -245,6 +245,8 @@
     "noMessages": "No messages yet",
     "sendFirstMessage": "Send the first message to start",
     "downloadFile": "Download file",
+    "downloadStarted": "Download started.",
+    "downloadError": "Could not download file.",
     "attachFile": "Attach file",
     "messagePlaceholder": "Type your message...",
     "selectConversation": "Select a conversation",

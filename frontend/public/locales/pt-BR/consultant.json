@@ -205,6 +205,8 @@
     "noMessages": "Nenhuma mensagem ainda",
     "sendFirstMessage": "Envie a primeira mensagem para começar",
     "downloadFile": "Baixar arquivo",
+    "downloadStarted": "Download iniciado.",
+    "downloadError": "Não foi possível baixar o arquivo.",
     "attachFile": "Anexar arquivo",
     "messagePlaceholder": "Digite sua mensagem...",
     "selectConversation": "Selecione uma conversa",

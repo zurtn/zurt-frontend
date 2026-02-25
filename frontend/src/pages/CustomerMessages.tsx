@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getToastVariantForApiError } from "@/lib/utils";
+import { getToastVariantForApiError, downloadMessageAttachment } from "@/lib/utils";
 import {
   MessageSquare,
   Send,
@@ -8,6 +8,7 @@ import {
   Paperclip,
   X,
   Download,
+  Loader2,
   Mail,
   UserCheck,
   Clock,
@@ -181,6 +182,7 @@ const CustomerMessages = () => {
     filename: string;
   } | null>(null);
   const [uploadingFile, setUploadingFile] = useState(false);
+  const [downloadingAttachmentId, setDownloadingAttachmentId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -518,6 +520,20 @@ const CustomerMessages = () => {
     }
   };
 
+  const handleDownloadAttachment = async (messageId: string, attachmentUrl: string, attachmentName: string) => {
+    const base = getApiBaseUrl().replace(/\/api\/?$/, "");
+    const fullUrl = base + attachmentUrl;
+    setDownloadingAttachmentId(messageId);
+    try {
+      await downloadMessageAttachment(fullUrl, attachmentName);
+      toast({ title: t("messages:downloadFile"), description: t("messages:downloadStarted", { defaultValue: "Download started." }), variant: "success" });
+    } catch (err) {
+      toast({ title: t("common:error"), description: t("messages:downloadError", { defaultValue: "Could not download file." }), variant: "destructive" });
+    } finally {
+      setDownloadingAttachmentId(null);
+    }
+  };
+
   // --- Auto-scroll ---
 
   useEffect(() => {
@@ -752,21 +768,22 @@ const CustomerMessages = () => {
                                     >
                                       {message.attachmentName}
                                     </a>
-                                    <a
-                                      href={
-                                        getApiBaseUrl().replace(
-                                          /\/api\/?$/,
-                                          ""
-                                        ) + message.attachmentUrl
-                                      }
-                                      download={message.attachmentName}
-                                      rel="noopener noreferrer"
-                                      className="flex-shrink-0 p-1.5 rounded-md hover:bg-black/10 dark:hover:bg-white/10"
+                                    <Button
+                                      type="button"
+                                      variant="ghost"
+                                      size="icon"
+                                      className="flex-shrink-0 h-8 w-8 rounded-md hover:bg-black/10 dark:hover:bg-white/10"
                                       title={t("messages:downloadFile")}
                                       aria-label={t("messages:downloadFile")}
+                                      disabled={downloadingAttachmentId === message.id}
+                                      onClick={() => handleDownloadAttachment(message.id, message.attachmentUrl!, message.attachmentName!)}
                                     >
-                                      <Download className="h-4 w-4" />
-                                    </a>
+                                      {downloadingAttachmentId === message.id ? (
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                      ) : (
+                                        <Download className="h-4 w-4" />
+                                      )}
+                                    </Button>
                                   </div>
                                 )}
                               <p

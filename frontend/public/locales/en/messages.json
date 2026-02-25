@@ -32,6 +32,8 @@
   "deleting": "Deleting...",
   "attachFile": "Attach file",
   "downloadFile": "Download file",
+  "downloadStarted": "Download started.",
+  "downloadError": "Could not download file.",
   "fileTypeNotAllowed": "File type not allowed",
   "fileTypeNotAllowedDesc": "Allowed formats: pdf, doc, docx, xls, xlsx, jpg, png, gif, txt, csv",
   "fileTooLarge": "File too large",

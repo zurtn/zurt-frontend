@@ -12,6 +12,7 @@ import {
   Paperclip,
   X,
   Download,
+  Loader2,
   Clock,
   Mail,
   Users,
@@ -73,7 +74,7 @@ import {
 } from "@/components/ui/select";
 import { consultantApi, getApiBaseUrl } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
+import { cn, downloadMessageAttachment } from "@/lib/utils";
 import { useWebSocket } from "@/contexts/WebSocketContext";
 import { formatDistanceToNow, format } from "date-fns";
 import { ptBR, enUS } from "date-fns/locale";
@@ -186,6 +187,7 @@ const Messages = () => {
   const [deleteChatDialogOpen, setDeleteChatDialogOpen] = useState(false);
   const [pendingAttachment, setPendingAttachment] = useState<{ url: string; filename: string } | null>(null);
   const [uploadingFile, setUploadingFile] = useState(false);
+  const [downloadingAttachmentId, setDownloadingAttachmentId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -545,6 +547,20 @@ const Messages = () => {
     }
   };
 
+  const handleDownloadAttachment = async (messageId: string, attachmentUrl: string, attachmentName: string) => {
+    const base = getApiBaseUrl().replace(/\/api\/?$/, '');
+    const fullUrl = base + attachmentUrl;
+    setDownloadingAttachmentId(messageId);
+    try {
+      await downloadMessageAttachment(fullUrl, attachmentName);
+      toast({ title: t('consultant:messages.downloadFile'), description: t('consultant:messages.downloadStarted', { defaultValue: 'Download started.' }), variant: 'success' });
+    } catch {
+      toast({ title: t('common:error'), description: t('consultant:messages.downloadError', { defaultValue: 'Could not download file.' }), variant: 'destructive' });
+    } finally {
+      setDownloadingAttachmentId(null);
+    }
+  };
+
   // --- Render ---
 
   return (
@@ -744,9 +760,22 @@ const Messages = () => {
                                 <a href={getApiBaseUrl().replace(/\/api\/?$/, "") + message.attachmentUrl} target="_blank" rel="noopener noreferrer" className="text-sm underline truncate flex-1 min-w-0">
                                   {message.attachmentName}
                                 </a>
-                                <a href={getApiBaseUrl().replace(/\/api\/?$/, "") + message.attachmentUrl} download={message.attachmentName} rel="noopener noreferrer" className="flex-shrink-0 p-1.5 rounded-md hover:bg-black/10 dark:hover:bg-white/10" title={t('consultant:messages.downloadFile')} aria-label={t('consultant:messages.downloadFile')}>
-                                  <Download className="h-4 w-4" />
-                                </a>
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="icon"
+                                  className="flex-shrink-0 h-8 w-8 rounded-md hover:bg-black/10 dark:hover:bg-white/10"
+                                  title={t('consultant:messages.downloadFile')}
+                                  aria-label={t('consultant:messages.downloadFile')}
+                                  disabled={downloadingAttachmentId === message.id}
+                                  onClick={() => handleDownloadAttachment(message.id, message.attachmentUrl!, message.attachmentName!)}
+                                >
+                                  {downloadingAttachmentId === message.id ? (
+                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                  ) : (
+                                    <Download className="h-4 w-4" />
+                                  )}
+                                </Button>
                               </div>
                             )}
                             <p
