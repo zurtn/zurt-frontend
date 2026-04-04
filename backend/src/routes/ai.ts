@@ -127,8 +127,8 @@ async function getUserFinance(userId: string) {
     const [acc, inv, cards, tx] = await Promise.all([
       db.query('SELECT name, type, balance_cents::numeric/100 as current_balance, institution_name FROM bank_accounts WHERE user_id = $1', [userId]),
       db.query('SELECT name, type, current_value, institution_name FROM pluggy_investments WHERE user_id = $1', [userId]),
-      db.query('SELECT brand, last4, institution_name FROM credit_cards WHERE user_id = $1', [userId]),
-      db.query('SELECT description, amount, date FROM transactions WHERE user_id = $1 ORDER BY date DESC LIMIT 10', [userId]),
+      db.query('SELECT brand, last4, institution_name FROM pluggy_credit_cards WHERE user_id = $1', [userId]),
+      db.query('SELECT description, amount, date FROM pluggy_transactions WHERE user_id = $1 ORDER BY date DESC LIMIT 10', [userId]),
     ]);
     return { contas: acc.rows, investimentos: inv.rows, cartoes: cards.rows, transacoes: tx.rows };
   } catch { return { contas: [], investimentos: [], cartoes: [], transacoes: [] }; }

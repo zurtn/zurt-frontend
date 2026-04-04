@@ -5,6 +5,7 @@ import {
   getCreditCards,
   getCreditCardInvoices,
   getInvestments,
+  updateItem,
 } from './pluggy.js';
 
 /**
@@ -13,6 +14,17 @@ import {
 export async function syncPluggyData(userId: string, itemId: string): Promise<void> {
   try {
     console.log(`Starting sync for user ${userId}, itemId ${itemId}`);
+
+    // Force Pluggy to refresh item data before syncing
+    try {
+      console.log(`[Sync] Forcing Pluggy item update for ${itemId}...`);
+      await updateItem(itemId);
+      // Wait for Pluggy to process the update
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      console.log(`[Sync] Item update triggered, proceeding with sync`);
+    } catch (updateErr: any) {
+      console.warn(`[Sync] updateItem failed (continuing anyway): ${updateErr.message}`);
+    }
 
     // Sync accounts
     await syncPluggyAccounts(userId, itemId);
@@ -119,9 +131,9 @@ async function syncPluggyTransactions(userId: string, itemId: string): Promise<v
         await db.query(
           `INSERT INTO pluggy_transactions (
             user_id, item_id, pluggy_transaction_id, pluggy_account_id,
-            date, amount, description, category, merchant, status, created_at
+            date, amount, description, category, merchant, status, created_at, updated_at
           )
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW())
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW(), NOW())
           ON CONFLICT (user_id, pluggy_transaction_id)
           DO UPDATE SET
             date = $5,
@@ -129,7 +141,8 @@ async function syncPluggyTransactions(userId: string, itemId: string): Promise<v
             description = $7,
             category = CASE WHEN pluggy_transactions.category_is_manual THEN pluggy_transactions.category ELSE $8 END,
             merchant = $9,
-            status = $10`,
+            status = $10,
+            updated_at = NOW()`,
           [userId, itemId, txId, accountId, date, amount, description, category, merchant, status]
         );
         totalTransactions++;
@@ -245,6 +258,8 @@ async function syncPluggyInvestments(userId: string, itemId: string): Promise<vo
 
     for (const investment of investments) {
       const investmentId = investment.id?.toString() || '';
+      const currentVal = parseFloat((investment.value || 0).toString());
+      if (currentVal <= 0 || investment.status === "TOTAL_WITHDRAWAL") continue;
       const name = investment.name || investment.description || 'Investimento';
       const type = investment.type || 'other';
       const quantity = investment.quantity 

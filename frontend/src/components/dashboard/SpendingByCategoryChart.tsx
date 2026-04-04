@@ -6,7 +6,7 @@ import { useCurrency } from "@/contexts/CurrencyContext";
 import { cn } from "@/lib/utils";
 import { dashboardApi } from "@/lib/api-dashboard";
 
-const COLORS = ['#3b82f6', '#f97316', '#22c55e', '#a855f7', '#06b6d4', '#6b7280'];
+const COLORS = ['#00FF7A', '#f97316', '#06b6d4', '#a855f7', '#eab308', '#6b7280'];
 
 const PERIODS = ['weekly', 'monthly', 'quarterly', 'yearly'] as const;
 type Period = typeof PERIODS[number];

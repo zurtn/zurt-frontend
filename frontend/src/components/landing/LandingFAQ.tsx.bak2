@@ -1,0 +1,79 @@
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+const faqs = [
+  {
+    question: "O ZURT acessa minha senha bancária?",
+    answer: "Nunca. O ZURT utiliza Open Finance regulamentado pelo Banco Central do Brasil. A autorização é feita diretamente no aplicativo do seu banco, com acesso somente-leitura. Nunca movimentamos valores.",
+  },
+  {
+    question: "Quais bancos e corretoras são suportados?",
+    answer: "Todos os bancos e corretoras que participam do Open Finance do Banco Central, incluindo Itaú, Bradesco, Banco do Brasil, Santander, Nubank, Inter, BTG, XP, e mais de 200 instituições. Além disso, oferecemos integração direta com a B3 nos planos Pro e superiores.",
+  },
+  {
+    question: "O que é o ZURT Agent?",
+    answer: "É o assistente financeiro inteligente da ZURT, alimentado por IA. Ele analisa seu patrimônio, responde perguntas sobre seus investimentos e envia alertas proativos sobre oportunidades e riscos.",
+  },
+  {
+    question: "Posso mudar de plano depois?",
+    answer: "Sim. Você pode fazer upgrade ou downgrade a qualquer momento. O valor é ajustado proporcionalmente (pro-rata) no próximo ciclo de cobrança.",
+  },
+  {
+    question: "Como funciona o grupo familiar?",
+    answer: "O administrador convida membros por email ou link. Cada membro conecta suas próprias contas. O admin configura permissões de visibilidade — quem vê o quê. O dashboard consolida o patrimônio de toda a família.",
+  },
+  {
+    question: "Por que o Enterprise está indisponível?",
+    answer: "O plano Enterprise inclui um consultor de investimentos dedicado e credenciado pela CVM. Estamos finalizando a estrutura regulatória necessária para oferecer esse serviço. Em breve estará disponível.",
+  },
+  {
+    question: "Como funciona a integração com a B3?",
+    answer: "Conectamos diretamente à B3 (Área do Investidor) usando seu CPF. Isso permite importar automaticamente todas as suas posições — ações, FIIs, ETFs, BDRs e renda fixa — com dados atualizados.",
+  },
+  {
+    question: "Como cancelo minha assinatura?",
+    answer: "Direto no app, em Configurações → Assinatura. O cancelamento é imediato, sem multa. Você mantém acesso até o fim do período já pago.",
+  },
+];
+
+const LandingFAQ = () => {
+  return (
+    <section id="faq" className="py-24 bg-muted/30 scroll-mt-20">
+      <div className="container mx-auto px-6 sm:px-4">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Perguntas <span className="text-primary">frequentes</span>
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Tudo que você precisa saber sobre a ZURT.
+            </p>
+          </div>
+
+          <Accordion type="single" collapsible className="space-y-3">
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className="bg-background border border-border rounded-xl px-6 data-[state=open]:border-primary/30 data-[state=open]:shadow-sm transition-all"
+              >
+                <AccordionTrigger className="text-left font-medium text-foreground hover:no-underline py-5 hover:text-primary transition-colors text-sm md:text-base">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground pb-5 text-sm leading-relaxed">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default LandingFAQ;

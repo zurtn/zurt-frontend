@@ -1,4 +1,5 @@
-import { Menu, UserCircle, LogOut, Moon, Sun, CircleUserRound } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, UserCircle, LogOut, Moon, Sun } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import NotificationDropdown from "@/components/notifications/NotificationDropdow
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/contexts/ThemeContext";
+import { cn } from "@/lib/utils";
 
 interface TopBarProps {
   onMenuClick?: () => void;
@@ -27,8 +29,18 @@ const TopBar = ({ onMenuClick, showMenuButton = false, hideSearch = false, title
   const navigate = useNavigate();
   const { t } = useTranslation('layout');
   const { theme, toggleTheme } = useTheme();
+  const [clock, setClock] = useState("");
 
-  // Get abbreviated name (First name or First + Last Initial)
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      setClock(now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+    };
+    tick();
+    const id = setInterval(tick, 30000);
+    return () => clearInterval(id);
+  }, []);
+
   const getAbbreviatedName = () => {
     if (!user?.full_name) return '';
     const names = user.full_name.trim().split(' ');
@@ -38,7 +50,6 @@ const TopBar = ({ onMenuClick, showMenuButton = false, hideSearch = false, title
     return names[0];
   };
 
-  // Get user initials for avatar
   const getUserInitials = () => {
     if (!user?.full_name) return 'U';
     const names = user.full_name.trim().split(' ');
@@ -48,86 +59,103 @@ const TopBar = ({ onMenuClick, showMenuButton = false, hideSearch = false, title
     return user.full_name[0].toUpperCase();
   };
 
-  // Get settings path based on user role
   const getSettingsPath = () => {
     if (!user) return '/app/settings';
-
     switch (user.role) {
-      case 'consultant':
-        return '/consultant/settings';
-      case 'admin':
-        return '/admin/settings';
-      default:
-        return '/app/settings';
+      case 'consultant': return '/consultant/settings';
+      case 'admin': return '/admin/settings';
+      default: return '/app/settings';
     }
   };
 
-  const handleLogout = () => {
-    logout(); // clears session and navigates to /login
+  const getRoleBadge = () => {
+    if (!user) return null;
+    const roleMap: Record<string, { label: string; className: string }> = {
+      admin: { label: "Admin", className: "bg-red-500/10 text-red-400 border-red-500/20" },
+      consultant: { label: "Consultor", className: "bg-amber-500/10 text-amber-400 border-amber-500/20" },
+    };
+    const badge = roleMap[user.role];
+    if (!badge) return null;
+    return (
+      <span className={cn("text-[10px] font-semibold px-1.5 py-0.5 rounded border", badge.className)}>
+        {badge.label}
+      </span>
+    );
   };
 
+  const handleLogout = () => { logout(); };
+
   return (
-    <header className={`sticky top-0 z-40 flex h-14 items-center justify-between border-b border-[rgba(255,255,255,0.15)] card-border-color backdrop-blur-xl px-4 lg:px-6 ${theme === "light" ? "bg-background" : "bg-background/80"}`}>
-      <div className="flex items-center gap-4">
+    <header className="sticky top-0 z-40 flex h-12 items-center justify-between border-b border-[rgba(255,255,255,0.06)] bg-[#09090b] px-4 lg:px-5">
+      <div className="flex items-center gap-3">
         {showMenuButton && (
           <Button
             variant="ghost"
             size="icon"
             onClick={onMenuClick}
-            className="lg:hidden text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            className="lg:hidden h-8 w-8 text-muted-foreground hover:text-foreground"
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-4 w-4" />
           </Button>
         )}
         {title && (
-          <h1 className="text-lg font-semibold text-foreground">{title}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-sm font-semibold text-foreground tracking-tight">{title}</h1>
+            {subtitle && (
+              <>
+                <span className="text-muted-foreground/30">/</span>
+                <span className="text-xs text-muted-foreground">{subtitle}</span>
+              </>
+            )}
+          </div>
         )}
+        {getRoleBadge()}
       </div>
 
       <div className="flex items-center gap-1">
-        {/* Language Switcher */}
+        <span className="hidden sm:inline text-xs text-muted-foreground font-mono tabular-nums mr-2">
+          {clock}
+        </span>
+
         <LanguageSwitcher />
 
-        {/* Dark/Light Mode Toggle */}
         <Button
           variant="ghost"
           size="icon"
-          className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+          className="h-8 w-8 text-muted-foreground hover:text-foreground"
           aria-label="Toggle theme"
           onClick={toggleTheme}
         >
-          {theme === "dark" ? (
-            <Moon className="h-[18px] w-[18px]" />
-          ) : (
-            <Sun className="h-[18px] w-[18px]" />
-          )}
+          {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
         </Button>
 
-        {/* Notifications */}
         <NotificationDropdown />
 
-        {/* Separator */}
-        <div className="h-6 w-px bg-border/40 mx-1.5 hidden sm:block" />
+        <div className="h-5 w-px bg-[rgba(255,255,255,0.06)] mx-1 hidden sm:block" />
 
-        {/* User Profile */}
         {user && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="flex items-center gap-2.5 pl-1 pr-2 py-1 rounded-lg text-foreground hover:bg-muted/50 transition-colors focus-visible:outline-none"
+                className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-lg hover:bg-muted/50 transition-colors focus-visible:outline-none"
                 aria-label={t('topbar.openAccountMenu')}
               >
-                <CircleUserRound className="h-5 w-5 text-muted-foreground" />
-                <span className="text-sm font-medium text-foreground hidden sm:inline max-w-[120px] truncate">
+                <div className="relative">
+                  <div className="h-7 w-7 rounded-full bg-[rgba(0,255,122,0.1)] border border-[rgba(0,255,122,0.2)] flex items-center justify-center">
+                    <span className="text-[10px] font-bold text-[#00FF7A] leading-none">{getUserInitials()}</span>
+                  </div>
+                  <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-[#00FF7A] border-2 border-[#09090b]" />
+                </div>
+                <span className="text-xs font-medium text-foreground hidden sm:inline max-w-[100px] truncate">
                   {getAbbreviatedName() || t('topbar.accountFallback')}
                 </span>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 mt-2">
-              <div className="px-2 py-1.5">
-                <p className="text-sm font-medium text-foreground">{user.full_name}</p>
-                <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+              <div className="px-3 py-2">
+                <p className="text-sm font-semibold text-foreground">{user.full_name}</p>
+                <p className="text-xs text-muted-foreground truncate mt-0.5">{user.email}</p>
               </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => navigate(getSettingsPath())}>
@@ -135,7 +163,7 @@ const TopBar = ({ onMenuClick, showMenuButton = false, hideSearch = false, title
                 {t('topbar.myProfile')}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout} className="text-destructive">
+              <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
                 <LogOut className="h-4 w-4 mr-2" />
                 {t('topbar.logout')}
               </DropdownMenuItem>

@@ -222,13 +222,13 @@ const Sidebar = memo(({ collapsed = false, onCollapse, mobileOpen = false, onMob
       >
         {showLabels && (
           <Link to={getDashboardPath()} className="flex items-center gap-3 min-w-0" onClick={onLinkClick}>
-            <img src="/logo.png" alt="zurT Logo" className="h-9 w-9 object-contain shrink-0" />
-            <span className="font-bold text-lg text-white truncate tracking-tight">zurT</span>
+            <img src="/logo.png" alt="ZURT Logo" className="h-9 w-9 object-contain shrink-0" />
+            <span className="font-bold text-lg text-white truncate tracking-wider" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>ZURT</span>
           </Link>
         )}
         {!showLabels && (
           <Link to={getDashboardPath()} className="flex shrink-0" onClick={onLinkClick}>
-            <img src="/logo.png" alt="zurT Logo" className="h-9 w-9 object-contain" />
+            <img src="/logo.png" alt="ZURT Logo" className="h-9 w-9 object-contain" />
           </Link>
         )}
         {!isMobile && (
@@ -364,7 +364,7 @@ const Sidebar = memo(({ collapsed = false, onCollapse, mobileOpen = false, onMob
                   )}
                 </button>
                 {isExpanded && (
-                  <div className="ml-4 mt-1 space-y-1 border-l border-sidebar-border pl-3">
+                  <div className="ml-4 mt-1 space-y-1 border-l border-[rgba(255,255,255,0.06)] pl-3">
                     {item.subItems!.map((subItem) => {
                       const isSubActive = location.pathname === subItem.href;
                       const isSubEnabled = subItem.enabled !== false;
@@ -429,7 +429,7 @@ const Sidebar = memo(({ collapsed = false, onCollapse, mobileOpen = false, onMob
       </ScrollArea>
 
       {/* Logout button pinned to bottom */}
-      <div className="shrink-0 border-t border-sidebar-border">
+      <div className="shrink-0 border-t border-[rgba(255,255,255,0.06)]">
         <button
           onClick={() => {
             logout();
@@ -451,7 +451,7 @@ const Sidebar = memo(({ collapsed = false, onCollapse, mobileOpen = false, onMob
   if (isMobile) {
     return (
       <Sheet open={mobileOpen} onOpenChange={onMobileOpenChange}>
-        <SheetContent side="left" className="w-72 p-0 sidebar-glass text-sidebar-foreground border-sidebar-border/50" data-sidebar="true">
+        <SheetContent side="left" className="w-72 p-0 bg-[#0a0a0a] text-sidebar-foreground border-[rgba(255,255,255,0.06)]" data-sidebar="true">
           <VisuallyHidden.Root asChild>
             <SheetTitle>Navigation Menu</SheetTitle>
           </VisuallyHidden.Root>
@@ -468,7 +468,8 @@ const Sidebar = memo(({ collapsed = false, onCollapse, mobileOpen = false, onMob
     <aside
       data-sidebar="true"
       className={cn(
-        "hidden lg:flex flex-col h-screen sidebar-glass text-sidebar-foreground transition-all duration-300 sticky top-0",
+        "hidden lg:flex flex-col h-screen text-sidebar-foreground transition-all duration-300 sticky top-0",
+        "bg-[#0a0a0a] border-r border-[rgba(255,255,255,0.06)]",
         collapsed ? "w-20" : "w-56"
       )}
     >

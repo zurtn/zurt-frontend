@@ -1,0 +1,204 @@
+import { Check, X, Crown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
+
+interface PlanDef {
+  name: string;
+  price: string;
+  period: string;
+  description: string;
+  features: { text: string; included: boolean }[];
+  featured: boolean;
+  disabled: boolean;
+  cta: string;
+}
+
+const plans: PlanDef[] = [
+  {
+    name: "Starter",
+    price: "R$ 29,90",
+    period: "/mês",
+    description: "Organize seu dinheiro em um só lugar.",
+    features: [
+      { text: "3 conexões bancárias", included: true },
+      { text: "Dashboard completo", included: true },
+      { text: "Cotações de mercado", included: true },
+      { text: "10 perguntas/mês ao ZURT Agent", included: true },
+      { text: "Integração B3", included: false },
+      { text: "Relatórios PDF", included: false },
+      { text: "Grupo familiar", included: false },
+    ],
+    featured: false,
+    disabled: false,
+    cta: "Começar agora",
+  },
+  {
+    name: "Pro",
+    price: "R$ 79,90",
+    period: "/mês",
+    description: "Visão completa do seu patrimônio.",
+    features: [
+      { text: "Conexões ilimitadas", included: true },
+      { text: "Integração B3", included: true },
+      { text: "ZURT Agent ilimitado", included: true },
+      { text: "Relatórios PDF completos", included: true },
+      { text: "Alertas inteligentes", included: true },
+      { text: "Score de saúde financeira", included: true },
+      { text: "Grupo familiar", included: false },
+    ],
+    featured: true,
+    disabled: false,
+    cta: "Assinar Pro",
+  },
+  {
+    name: "Family",
+    price: "R$ 149,90",
+    period: "/mês",
+    description: "Patrimônio familiar consolidado.",
+    features: [
+      { text: "Tudo do Pro incluído", included: true },
+      { text: "Grupo familiar até 5 membros", included: true },
+      { text: "Dashboard consolidado familiar", included: true },
+      { text: "Relatórios por membro", included: true },
+      { text: "Permissões de visibilidade", included: true },
+      { text: "Convites por email ou link", included: true },
+    ],
+    featured: false,
+    disabled: false,
+    cta: "Assinar Family",
+  },
+  {
+    name: "Enterprise",
+    price: "R$ 499,90",
+    period: "/mês",
+    description: "Seu consultor dedicado.",
+    features: [
+      { text: "Tudo do Family incluído", included: true },
+      { text: "Grupo familiar até 10 membros", included: true },
+      { text: "Consultor dedicado CVM", included: true },
+      { text: "Reunião mensal de carteira", included: true },
+      { text: "Análise personalizada", included: true },
+      { text: "Canal direto WhatsApp", included: true },
+    ],
+    featured: false,
+    disabled: true,
+    cta: "Em breve",
+  },
+];
+
+const PricingSection = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleCTA = () => {
+    if (user) {
+      navigate(user.role === "consultant" ? "/consultant/plans" : "/app/plans");
+    } else {
+      navigate("/register");
+    }
+  };
+
+  return (
+    <section id="tools" className="py-24 bg-background scroll-mt-20">
+      <div className="container mx-auto px-6 sm:px-4">
+        <div className="text-center mb-14">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Escolha seu <span className="text-primary">plano</span>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Comece e faça upgrade conforme cresce. Cancele quando quiser, sem burocracia.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
+          {plans.map((plan) => (
+            <div
+              key={plan.name}
+              className={cn(
+                "relative flex flex-col rounded-xl border p-6 transition-all duration-200",
+                plan.featured
+                  ? "border-primary/60 bg-primary/5 shadow-lg shadow-primary/10 scale-[1.02]"
+                  : "border-border bg-card hover:border-primary/20",
+                plan.disabled && "opacity-50"
+              )}
+            >
+              {/* Featured badge */}
+              {plan.featured && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                  <Badge className="bg-primary text-primary-foreground shadow-md px-3 py-1 text-xs font-semibold whitespace-nowrap">
+                    <Crown className="h-3 w-3 mr-1" />
+                    Mais Popular
+                  </Badge>
+                </div>
+              )}
+
+              {/* Disabled badge */}
+              {plan.disabled && (
+                <div className="absolute top-3 right-3">
+                  <Badge variant="outline" className="text-[10px] text-muted-foreground border-border">
+                    Indisponível
+                  </Badge>
+                </div>
+              )}
+
+              {/* Header */}
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-foreground">{plan.name}</h3>
+                <p className="text-xs text-muted-foreground mt-1">{plan.description}</p>
+              </div>
+
+              {/* Price */}
+              <div className="flex items-baseline gap-1 mb-6">
+                <span className="text-3xl font-bold text-foreground tracking-tight">{plan.price}</span>
+                <span className="text-sm text-muted-foreground">{plan.period}</span>
+              </div>
+
+              {/* Separator */}
+              <div className="h-px bg-border mb-5" />
+
+              {/* Features */}
+              <ul className="space-y-3 flex-1 mb-6">
+                {plan.features.map((feat, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    {feat.included ? (
+                      <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                        <Check className="h-3 w-3 text-primary" />
+                      </div>
+                    ) : (
+                      <div className="h-5 w-5 rounded-full bg-muted flex items-center justify-center shrink-0 mt-0.5">
+                        <X className="h-3 w-3 text-muted-foreground/50" />
+                      </div>
+                    )}
+                    <span className={cn("text-sm", feat.included ? "text-foreground/80" : "text-muted-foreground/50")}>
+                      {feat.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA */}
+              <Button
+                onClick={plan.disabled ? undefined : handleCTA}
+                variant={plan.featured ? "default" : "outline"}
+                disabled={plan.disabled}
+                className={cn(
+                  "w-full mt-auto h-11",
+                  plan.featured && "bg-primary hover:bg-primary/90 text-primary-foreground shadow-md",
+                  plan.disabled && "cursor-not-allowed"
+                )}
+                size="lg"
+              >
+                {plan.cta}
+              </Button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default PricingSection;

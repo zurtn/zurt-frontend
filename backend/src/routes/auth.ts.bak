@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { db } from '../db/connection.js';
 import { getClientIp } from '../utils/audit.js';
 import { createAlert } from '../utils/notifications.js';
-import { sendRegistrationOtp } from '../utils/email.js';
+import { sendRegistrationOtp, sendWelcomeEmail } from '../utils/email.js';
 
 // Helper function to log login attempts
 async function logLoginAttempt(userId: string | null, request: FastifyRequest, success: boolean, email?: string) {
@@ -43,7 +43,7 @@ async function logLoginAttempt(userId: string | null, request: FastifyRequest, s
 const registerSchema = z.object({
   full_name: z.string().min(2),
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().min(8).regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+-=]).{8,}$/, 'Senha deve ter 8+ caracteres, 1 maiúscula, 1 número e 1 caractere especial'),
   role: z.enum(['customer', 'consultant', 'admin']).default('customer'),
   invitation_token: z.string().optional(),
 });
@@ -200,7 +200,8 @@ export async function authRoutes(fastify: FastifyInstance) {
       });
 
       if (approved) {
-        const token = fastify.jwt.sign({ userId: user.id, role: user.role });
+        sendWelcomeEmail(user.email, user.full_name).catch((err: any) => fastify.log.error(err, 'Welcome email error'));
+        const token = fastify.jwt.sign({ userId: user.id, role: user.role }, { expiresIn: '7d' });
         return reply.code(201).send({
           message: 'Registration successful. You can log in now.',
           requiresApproval: false,
@@ -341,7 +342,7 @@ export async function authRoutes(fastify: FastifyInstance) {
       await logLoginAttempt(user.id, request, true, body.email);
       
       // Generate JWT
-      const token = fastify.jwt.sign({ userId: user.id, role: user.role });
+      const token = fastify.jwt.sign({ userId: user.id, role: user.role }, { expiresIn: '7d' });
       
       return reply.send({
         user: {
@@ -412,6 +413,104 @@ export async function authRoutes(fastify: FastifyInstance) {
     }
   });
 
+
+  // Google OAuth - Mobile app (POST with idToken)
+  fastify.post('/google', async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const { idToken } = request.body as { idToken?: string };
+      
+      if (!idToken) {
+        return reply.code(400).send({ error: 'idToken is required' });
+      }
+
+      // Verify the idToken with Google
+      const verifyResponse = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`);
+      
+      if (!verifyResponse.ok) {
+        return reply.code(401).send({ error: 'Invalid Google token' });
+      }
+
+      const googleUser = await verifyResponse.json() as { email?: string; name?: string; given_name?: string; sub?: string };
+      const email = googleUser.email;
+      const fullName = googleUser.name || googleUser.given_name || 'User';
+
+      if (!email) {
+        return reply.code(400).send({ error: 'No email in Google token' });
+      }
+
+      // Check if user exists
+      const existingUser = await db.query(
+        `SELECT id, full_name, email, role, is_active, COALESCE(approval_status, 'approved') as approval_status FROM users WHERE email = $1`,
+        [email]
+      );
+
+      let user;
+
+      if (existingUser.rows.length > 0) {
+        user = existingUser.rows[0];
+
+        // Activate approved users
+        if (user.approval_status === 'approved' && !user.is_active) {
+          await db.query(`UPDATE users SET is_active = true, updated_at = NOW() WHERE id = $1`, [user.id]);
+          user.is_active = true;
+        }
+
+        if (user.approval_status === 'pending') {
+          return reply.code(403).send({ error: 'Account pending approval' });
+        }
+
+        if (!user.is_active) {
+          return reply.code(403).send({ error: 'Account is inactive' });
+        }
+
+        await logLoginAttempt(user.id, request, true, email);
+      } else {
+        // New user - create account
+        let registrationRequiresApproval = true;
+        try {
+          const settingsResult = await db.query(
+            `SELECT value FROM system_settings WHERE key = 'registration_requires_approval' LIMIT 1`
+          );
+          if (settingsResult.rows.length > 0 && settingsResult.rows[0].value === 'false') {
+            registrationRequiresApproval = false;
+          }
+        } catch {}
+
+        const approvalStatus = registrationRequiresApproval ? 'pending' : 'approved';
+        const isActive = !registrationRequiresApproval;
+
+        const result = await db.query(
+          `INSERT INTO users (full_name, email, role, approval_status, is_active, password_hash)
+           VALUES ($1, $2, 'customer', $3, $4, NULL)
+           RETURNING id, full_name, email, role, approval_status, is_active`,
+          [fullName, email, approvalStatus, isActive]
+        );
+        user = result.rows[0];
+
+        if (user.approval_status === 'pending') {
+          return reply.code(403).send({ error: 'Account pending approval', message: 'Your account is pending administrator approval.' });
+        }
+
+        await logLoginAttempt(user.id, request, true, email);
+      }
+
+      const token = fastify.jwt.sign({ userId: user.id, role: user.role }, { expiresIn: '7d' });
+
+      return reply.send({
+        token,
+        user: {
+          id: user.id,
+          full_name: user.full_name,
+          email: user.email,
+          role: user.role,
+        },
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({ error: 'Internal server error' });
+    }
+  });
+
   // Google OAuth - Initiate login
   fastify.get('/google', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
@@ -433,6 +532,10 @@ export async function authRoutes(fastify: FastifyInstance) {
       googleAuthUrl.searchParams.set('scope', 'openid email profile');
       googleAuthUrl.searchParams.set('access_type', 'online');
       googleAuthUrl.searchParams.set('prompt', 'select_account');
+      const source = (request.query as any).source || 'web';
+      const mobileRedirect = (request.query as any).redirect || '';
+      const statePayload = Buffer.from(JSON.stringify({ source, redirect: mobileRedirect })).toString('base64');
+      googleAuthUrl.searchParams.set('state', statePayload);
 
       return reply.redirect(googleAuthUrl.toString());
     } catch (error) {
@@ -484,11 +587,11 @@ export async function authRoutes(fastify: FastifyInstance) {
 
       if (!tokenResponse.ok) {
         const errorData = await tokenResponse.text();
-        fastify.log.error('Google token exchange failed:', errorData);
+        fastify.log.error({ errorData }, 'Google token exchange failed');
         return reply.redirect(`${frontendUrl}/auth/google?error=token_exchange_failed`);
       }
 
-      const tokenData = await tokenResponse.json();
+      const tokenData = await tokenResponse.json() as { access_token: string };
       const accessToken = tokenData.access_token;
 
       // Get user info from Google
@@ -502,7 +605,7 @@ export async function authRoutes(fastify: FastifyInstance) {
         return reply.redirect(`${frontendUrl}/auth/google?error=user_info_failed`);
       }
 
-      const googleUser = await userInfoResponse.json();
+      const googleUser = await userInfoResponse.json() as { email?: string; name?: string; given_name?: string; id?: string };
       const email = googleUser.email;
       const fullName = googleUser.name || googleUser.given_name || 'User';
       const googleId = googleUser.id;
@@ -631,9 +734,23 @@ export async function authRoutes(fastify: FastifyInstance) {
       }
 
       // Generate JWT token
-      const token = fastify.jwt.sign({ userId: user.id, role: user.role });
+      const token = fastify.jwt.sign({ userId: user.id, role: user.role }, { expiresIn: '7d' });
 
       // Redirect to frontend with token
+
+  // Check if request came from mobile app
+  let source = 'web';
+  let mobileRedirect = 'zurt://auth/google';
+  try {
+    const stateRaw = (request.query as any).state || '';
+    const stateObj = JSON.parse(Buffer.from(stateRaw, 'base64').toString());
+    source = stateObj.source || 'web';
+    if (stateObj.redirect) mobileRedirect = stateObj.redirect;
+  } catch { source = (request.query as any).state || 'web'; }
+  if (source === "mobile") {
+    return reply.redirect(`${mobileRedirect}?token=${token}`);
+  }
+
       return reply.redirect(`${frontendUrl}/auth/google?token=${token}`);
     } catch (error) {
       fastify.log.error(error);
@@ -641,6 +758,148 @@ export async function authRoutes(fastify: FastifyInstance) {
       return reply.redirect(`${frontendUrl}/auth/google?error=internal_error`);
     }
   });
+
+  // -- Forgot Password --
+  fastify.post('/forgot-password', async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const { email } = request.body as { email?: string };
+      if (!email || !email.trim()) {
+        return reply.code(400).send({ error: 'Email is required' });
+      }
+      const normalizedEmail = email.trim().toLowerCase();
+      const result = await db.query(
+        'SELECT id, full_name, email, password_hash FROM users WHERE LOWER(email) = $1',
+        [normalizedEmail]
+      );
+      if (result.rows.length === 0) {
+        return reply.send({ message: 'Reset code sent if email exists.' });
+      }
+      const user = result.rows[0];
+
+      // Rate limit: max 3 codes per email per hour
+      const rateCheck = await db.query(
+        "SELECT COUNT(*) as cnt FROM password_reset_codes WHERE email = $1 AND created_at > NOW() - INTERVAL '1 hour'",
+        [normalizedEmail]
+      );
+      if (parseInt(rateCheck.rows[0].cnt) >= 3) {
+        return reply.send({ message: "Reset code sent if email exists." });
+      }
+
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+      await db.query('CREATE TABLE IF NOT EXISTS password_reset_codes (id SERIAL PRIMARY KEY, user_id UUID NOT NULL, email TEXT NOT NULL, code TEXT NOT NULL, expires_at TIMESTAMPTZ NOT NULL, used BOOLEAN DEFAULT false, attempts INT DEFAULT 0, created_at TIMESTAMPTZ DEFAULT NOW())');
+      await db.query('UPDATE password_reset_codes SET used = true WHERE email = $1 AND used = false', [normalizedEmail]);
+      await db.query('INSERT INTO password_reset_codes (user_id, email, code, expires_at) VALUES ($1, $2, $3, $4)', [user.id, normalizedEmail, code, expiresAt.toISOString()]);
+      const { sendPasswordResetCode } = await import('../utils/email.js');
+      const firstName = (user.full_name || 'Usuario').split(' ')[0];
+      await sendPasswordResetCode(user.email, code, firstName);
+      return reply.send({ message: 'Reset code sent if email exists.' });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({ error: 'Internal server error' });
+    }
+  });
+
+
+  // -- Verify Reset Code --
+  fastify.post("/verify-code", async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const { email, code } = request.body as { email?: string; code?: string };
+      if (!email || !code) {
+        return reply.code(400).send({ error: "Email and code are required" });
+      }
+      const normalizedEmail = email.trim().toLowerCase();
+
+      // Find latest unused, non-expired code for this email
+      const anyCode = await db.query(
+        "SELECT id, user_id, code, attempts FROM password_reset_codes WHERE email = $1 AND used = false AND expires_at > NOW() ORDER BY created_at DESC LIMIT 1",
+        [normalizedEmail]
+      );
+
+      if (anyCode.rows.length === 0) {
+        return reply.code(400).send({ error: "Invalid or expired code" });
+      }
+
+      const record = anyCode.rows[0];
+
+      if (record.attempts >= 5) {
+        await db.query("UPDATE password_reset_codes SET used = true WHERE id = $1", [record.id]);
+        return reply.code(429).send({ error: "Too many attempts. Request a new code." });
+      }
+
+      if (record.code !== code.trim()) {
+        await db.query("UPDATE password_reset_codes SET attempts = attempts + 1 WHERE id = $1", [record.id]);
+        return reply.code(400).send({ error: "Invalid code", attemptsLeft: 4 - record.attempts });
+      }
+
+      // Code is valid — generate a short-lived reset token
+      const resetToken = fastify.jwt.sign(
+        { userId: record.user_id, scope: "reset-password" },
+        { expiresIn: "5m" }
+      );
+
+      return reply.send({ success: true, resetToken });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({ error: "Internal server error" });
+    }
+  });
+  // -- Reset Password (supports both code-based and token-based flows) --
+  fastify.post('/reset-password', async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const { email, code, newPassword, resetToken } = request.body as { email?: string; code?: string; newPassword?: string; resetToken?: string; };
+
+      // Token-based flow (from verify-code endpoint)
+      if (resetToken && newPassword) {
+        if (newPassword.length < 6) {
+          return reply.code(400).send({ error: 'Password must be at least 6 characters' });
+        }
+        try {
+          const decoded = fastify.jwt.verify(resetToken) as { userId: string; scope: string };
+          if (decoded.scope !== 'reset-password') {
+            return reply.code(400).send({ error: 'Invalid reset token' });
+          }
+          const passwordHash = await bcrypt.hash(newPassword, 10);
+          await db.query('UPDATE users SET password_hash = $1, updated_at = NOW() WHERE id = $2', [passwordHash, decoded.userId]);
+          await db.query('UPDATE password_reset_codes SET used = true WHERE user_id = $1 AND used = false', [decoded.userId]);
+          return reply.send({ message: 'Password reset successfully. You can now login.' });
+        } catch (err) {
+          return reply.code(400).send({ error: 'Invalid or expired reset token' });
+        }
+      }
+
+      // Legacy code-based flow
+      if (!email || !code || !newPassword) {
+        return reply.code(400).send({ error: 'Email, code, and new password are required' });
+      }
+      if (newPassword.length < 8) {
+        return reply.code(400).send({ error: 'Password must be at least 8 characters' });
+      }
+      const normalizedEmail = email.trim().toLowerCase();
+      const codeResult = await db.query('SELECT id, user_id, attempts FROM password_reset_codes WHERE email = $1 AND code = $2 AND used = false AND expires_at > NOW() ORDER BY created_at DESC LIMIT 1', [normalizedEmail, code.trim()]);
+      if (codeResult.rows.length === 0) {
+        const anyCode = await db.query('SELECT id, attempts FROM password_reset_codes WHERE email = $1 AND used = false AND expires_at > NOW() ORDER BY created_at DESC LIMIT 1', [normalizedEmail]);
+        if (anyCode.rows.length > 0) {
+          const attempts = (anyCode.rows[0].attempts || 0) + 1;
+          await db.query('UPDATE password_reset_codes SET attempts = $1 WHERE id = $2', [attempts, anyCode.rows[0].id]);
+          if (attempts >= 5) {
+            await db.query('UPDATE password_reset_codes SET used = true WHERE id = $1', [anyCode.rows[0].id]);
+            return reply.code(429).send({ error: 'Too many attempts. Request a new code.' });
+          }
+        }
+        return reply.code(400).send({ error: 'Invalid or expired code' });
+      }
+      const resetRecord = codeResult.rows[0];
+      const passwordHash = await bcrypt.hash(newPassword, 10);
+      await db.query('UPDATE users SET password_hash = $1, updated_at = NOW() WHERE id = $2', [passwordHash, resetRecord.user_id]);
+      await db.query('UPDATE password_reset_codes SET used = true WHERE id = $1', [resetRecord.id]);
+      return reply.send({ message: 'Password reset successfully. You can now login.' });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({ error: 'Internal server error' });
+    }
+  });
+
 }
 
 // Add authenticate decorator

@@ -5,14 +5,14 @@ import { useSessionTimeout } from "@/hooks/useSessionTimeout";
 import { cn } from "@/lib/utils";
 import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
+import AgentPanel from "./AgentPanel";
 import { useTranslation } from "react-i18next";
 
-const SESSION_TIMEOUT_MS = 60 * 60 * 1000; // 1 hour of inactivity
+const SESSION_TIMEOUT_MS = 60 * 60 * 1000;
 
 const isProtectedPath = (pathname: string) =>
   pathname.startsWith("/app") || pathname.startsWith("/consultant") || pathname.startsWith("/admin");
 
-// Loading fallback component
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-[400px]">
     <div className="flex flex-col items-center gap-3">
@@ -24,17 +24,14 @@ const PageLoader = () => (
 
 const AppLayout = () => {
   const { t } = useTranslation(['common', 'dashboard', 'layout']);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Get page title based on current route
   const pageTitle = useMemo(() => {
     const path = location.pathname;
-
-    // Customer routes
     if (path.includes('/app/dashboard')) return t('dashboard:title');
     if (path.includes('/app/connections/open-finance')) return t('layout:sidebar.nav.openFinance');
     if (path.includes('/app/connections/b3')) return t('layout:sidebar.nav.b3');
@@ -55,8 +52,6 @@ const AppLayout = () => {
     if (path.includes('/app/messages')) return t('layout:sidebar.nav.messages');
     if (path.includes('/app/plans')) return t('layout:sidebar.nav.plans');
     if (path.includes('/app/payment')) return 'Payment';
-
-    // Consultant routes
     if (path.includes('/consultant/dashboard')) return 'Dashboard';
     if (path.includes('/consultant/clients')) return t('layout:sidebar.nav.clients');
     if (path.includes('/consultant/pipeline')) return t('layout:sidebar.nav.pipeline');
@@ -68,8 +63,6 @@ const AppLayout = () => {
     if (path.includes('/consultant/settings')) return 'Settings';
     if (path.includes('/consultant/notifications')) return t('layout:sidebar.nav.notifications');
     if (path.includes('/consultant/plans')) return t('layout:sidebar.nav.plans');
-
-    // Admin routes
     if (path.includes('/admin/dashboard')) return 'Dashboard';
     if (path.includes('/admin/users')) return t('layout:sidebar.nav.users');
     if (path.includes('/admin/plans')) return t('layout:sidebar.nav.plans');
@@ -81,11 +74,9 @@ const AppLayout = () => {
     if (path.includes('/admin/comments')) return t('layout:sidebar.nav.comments');
     if (path.includes('/admin/settings')) return 'Settings';
     if (path.includes('/admin/notifications')) return t('layout:sidebar.nav.notifications');
-
     return '';
   }, [location.pathname, t]);
 
-  // Redirect to login when on a protected path with no session
   useEffect(() => {
     if (!isProtectedPath(location.pathname)) return;
     const token = typeof window !== "undefined" ? localStorage.getItem("auth_token") : null;
@@ -94,7 +85,6 @@ const AppLayout = () => {
     }
   }, [location.pathname, navigate]);
 
-  // Session timeout: log out user after 1 hour of inactivity
   useSessionTimeout({
     enabled: !!user,
     timeoutMs: SESSION_TIMEOUT_MS,
@@ -105,19 +95,13 @@ const AppLayout = () => {
     },
   });
 
-  // Hide search and show date/time on all authenticated pages (customer, consultant, admin)
-  // All routes starting with /app, /consultant, or /admin are authenticated pages
-  const isAuthenticatedPage = location.pathname.startsWith('/app') || 
-                               location.pathname.startsWith('/consultant') || 
+  const isAuthenticatedPage = location.pathname.startsWith('/app') ||
+                               location.pathname.startsWith('/consultant') ||
                                location.pathname.startsWith('/admin');
-  
-  // Hide search box on all authenticated pages
   const hideSearch = isAuthenticatedPage;
-  
-  // Check if it's a customer panel page
   const isCustomerPage = location.pathname.startsWith('/app');
+  const isDashboard = location.pathname.includes('/app/dashboard');
 
-  // Memoize callbacks to prevent Sidebar re-renders
   const handleCollapse = useCallback(() => {
     setSidebarCollapsed(prev => !prev);
   }, []);
@@ -131,14 +115,14 @@ const AppLayout = () => {
   }, []);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-screen overflow-hidden bg-[#09090b]">
       <Sidebar
         collapsed={sidebarCollapsed}
         onCollapse={handleCollapse}
         mobileOpen={mobileSidebarOpen}
         onMobileOpenChange={handleMobileOpenChange}
       />
-      
+
       <div className="flex-1 flex flex-col min-h-0 min-w-0 overflow-hidden">
         <TopBar
           showMenuButton
@@ -146,17 +130,25 @@ const AppLayout = () => {
           onMenuClick={handleMenuClick}
           title={pageTitle}
         />
-        
-        <main className={`flex-1 min-h-0 pt-6 pb-6 px-4 overflow-y-auto ${isCustomerPage ? 'lg:pt-6 lg:pb-6 lg:px-4 xl:pt-6 xl:pb-6 xl:px-4' : 'lg:pt-6 lg:pb-6 lg:px-6'}`}>
-          <div className={cn(
-            'min-w-0 w-full mx-auto',
-            isCustomerPage ? 'max-w-[95%] xl:max-w-[90%] 2xl:max-w-8xl' : 'max-w-8xl'
+
+        {/* Content row: main + optional agent panel side by side */}
+        <div className="flex-1 flex min-h-0 overflow-hidden">
+          <main className={cn(
+            "flex-1 min-h-0 min-w-0 pt-6 pb-6 px-4 overflow-y-auto",
+            isCustomerPage ? 'lg:px-4 xl:px-4' : 'lg:px-6'
           )}>
-            <Suspense fallback={<PageLoader />}>
-              <Outlet />
-            </Suspense>
-          </div>
-        </main>
+            <div className={cn(
+              'min-w-0 w-full mx-auto',
+              isCustomerPage ? 'max-w-[95%] xl:max-w-[90%] 2xl:max-w-8xl' : 'max-w-8xl'
+            )}>
+              <Suspense fallback={<PageLoader />}>
+                <Outlet />
+              </Suspense>
+            </div>
+          </main>
+
+          {isDashboard && <AgentPanel />}
+        </div>
       </div>
     </div>
   );

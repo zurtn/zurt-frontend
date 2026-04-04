@@ -18,11 +18,11 @@ interface ProfessionalKpiCardProps {
 }
 
 const accentStyles: Record<AccentVariant, { icon: string }> = {
-  primary: { icon: "bg-primary/10 text-primary" },
-  success: { icon: "bg-emerald-500/10 text-emerald-500" },
-  info: { icon: "bg-cyan-500/10 text-cyan-500" },
-  warning: { icon: "bg-amber-500/10 text-amber-500" },
-  muted: { icon: "bg-muted/60 text-muted-foreground" },
+  primary: { icon: "bg-[rgba(0,255,122,0.1)] text-[#00FF7A]" },
+  success: { icon: "bg-[rgba(0,255,122,0.1)] text-[#00FF7A]" },
+  info: { icon: "bg-[rgba(0,255,122,0.08)] text-[#00FF7A]" },
+  warning: { icon: "bg-amber-500/10 text-amber-400" },
+  muted: { icon: "bg-[#27272a] text-[#a5a5a5]" },
 };
 
 const ProfessionalKpiCard = ({
@@ -53,7 +53,7 @@ const ProfessionalKpiCard = ({
               <Icon className={cn("h-3.5 w-3.5 sm:h-4 sm:w-4", iconClassName ?? (styles ? "" : "text-muted-foreground"))} />
             </div>
           )}
-          <span className="text-[11px] sm:text-xs font-medium text-muted-foreground truncate">
+          <span className="text-[11px] sm:text-xs font-medium text-[#a5a5a5] truncate">
             {title}
           </span>
         </div>
@@ -64,7 +64,7 @@ const ProfessionalKpiCard = ({
         )}
       </div>
 
-      <div className="text-[15px] sm:text-2xl lg:text-[28px] font-bold text-foreground mb-1 tabular-nums tracking-tight leading-none truncate">
+      <div className="text-[15px] sm:text-2xl lg:text-[28px] font-bold text-[#f3f3f3] mb-1 tabular-nums tracking-tight leading-none truncate">
         {value}
       </div>
 
@@ -74,8 +74,8 @@ const ProfessionalKpiCard = ({
             <span
               className={cn(
                 "flex items-center gap-0.5",
-                changeType === "positive" && "text-emerald-400",
-                changeType === "negative" && "text-red-400"
+                changeType === "positive" && "text-[#00FF7A]",
+                changeType === "negative" && "text-[#ef4444]"
               )}
             >
               {changeType === "positive" ? (

@@ -12,10 +12,12 @@ import { financeApi } from "@/lib/api";
 import { dashboardApi } from "@/lib/api-dashboard";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { useAuth } from "@/hooks/useAuth";
 
 const Dashboard = () => {
   const { t } = useTranslation(['dashboard', 'common']);
   const { formatCurrency } = useCurrency();
+  const { user } = useAuth();
   const [openFinanceData, setOpenFinanceData] = useState<{
     accounts: any[];
     groupedAccounts: any[];
@@ -266,6 +268,13 @@ const Dashboard = () => {
     return cards;
   }, [t, formatCurrency, netWorth, cashBalance, investmentValue, cardDebt, analyticsData, analyticsLoading]);
 
+  const getGreeting = () => {
+    const h = new Date().getHours();
+    if (h < 12) return "Bom dia";
+    if (h < 18) return "Boa tarde";
+    return "Boa noite";
+  };
+  const firstName = user?.full_name?.split(" ")[0] || "";
   // Show loading state
   if (loading) {
     return (
@@ -279,6 +288,13 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
+      {/* Hero Greeting */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-[#f3f3f3] tracking-tight">
+          {getGreeting()}, <span className="text-[#00FF7A]">{firstName}</span>
+        </h1>
+        <p className="text-sm text-[#a5a5a5] mt-1">Aqui está o resumo da sua vida financeira.</p>
+      </div>
       {/* Draggable Dashboard Cards */}
       <div className="flex-1 min-h-0 flex flex-col gap-6">
         <DraggableDashboard

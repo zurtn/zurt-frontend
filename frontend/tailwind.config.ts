@@ -19,7 +19,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Geist', 'Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -158,8 +158,8 @@ export default {
           to: { opacity: "1" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 5px rgba(249, 115, 22, 0.5)" },
-          "50%": { boxShadow: "0 0 20px rgba(249, 115, 22, 0.8)" },
+          "0%, 100%": { boxShadow: "0 0 5px rgba(0, 255, 122, 0.5)" },
+          "50%": { boxShadow: "0 0 20px rgba(0, 255, 122, 0.8)" },
         },
         "slide-from-phone": {
           "0%": { 

@@ -1,11 +1,16 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import rateLimit from '@fastify/rate-limit';
 import jwt from '@fastify/jwt';
+import multipart from "@fastify/multipart";
+import cookie from '@fastify/cookie';
 import dotenv from 'dotenv';
 import { db } from './db/connection.js';
 import { aiRoutes } from './routes/ai.js';
 import { marketRoutes } from './routes/market.js';
 import { familyRoutes } from './routes/family.js';
+import { dollarRoutes } from './routes/dollar.js';
+import { agentRoutes } from './routes/agent.js';
 import { pushRoutes } from './routes/push.js';
 import { invitePageRoutes } from './routes/invite-page.js';
 import { reportRoutes } from './routes/report.js';
@@ -28,18 +33,51 @@ import { publicRoutes } from './routes/public.js';
 import { subscriptionsRoutes } from './routes/subscriptions.js';
 import { commentsRoutes } from './routes/comments.js';
 import { mercadopagoRoutes } from './routes/mercadopago.js';
+import { stripeRoutes } from './routes/stripe.js';
 import { messageFileRoutes } from './routes/message-files.js';
+import { marketDataRoutes } from './routes/market-data.js';
+import { portfolioRoutes } from './routes/portfolio.js';
 import { setupWebSocket } from './websocket/websocket.js';
 import { startSyncScheduler } from './services/sync-scheduler.js';
+import { faceVerificationRoutes } from "./routes/face-verification.js";
+import { b3Routes } from "./routes/b3.js";
+import { postRoutes } from "./routes/posts.js";
+import { onboardingRoutes } from "./routes/onboarding.js";
 import { startGoalDeadlineChecker } from './services/goal-deadline-checker.js';
+import { startMarketCrons } from './services/market-cron.js';
+import { startSmartPushCrons } from "./services/smart-push-crons.js";
 
 dotenv.config();
 
 const fastify = Fastify({
+  trustProxy: true,
+  bodyLimit: 20 * 1024 * 1024,
   logger: true,
 });
 
 // Register plugins
+// Rate limiting
+await fastify.register(rateLimit, {
+  max: 100,
+  timeWindow: '1 minute',
+  errorResponseBuilder: () => ({
+    statusCode: 429,
+    error: 'Too Many Requests',
+    message: 'Limite de requisições excedido. Tente novamente em 1 minuto.'
+  })
+});
+// Raw body for Stripe webhook signature verification
+fastify.addContentTypeParser('application/json', { parseAs: 'buffer' }, (req, body, done) => {
+  try {
+    (req as any).rawBody = body.toString('utf8');
+    const json = JSON.parse(body.toString('utf8'));
+    done(null, json);
+  } catch (err: any) {
+    done(err, undefined);
+  }
+});
+
+await fastify.register(multipart, { limits: { fileSize: 10 * 1024 * 1024 } });
 await fastify.register(cors, {
   origin: (origin, callback) => {
     // Allow requests with no origin (mobile apps, Postman, etc.)
@@ -47,9 +85,9 @@ await fastify.register(cors, {
       callback(null, true);
       return;
     }
-    
+
     // Get allowed origins from environment or use defaults
-    const allowedOrigins = process.env.FRONTEND_URL 
+    const allowedOrigins = process.env.FRONTEND_URL
       ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
       : [
           'http://localhost:8080',
@@ -61,21 +99,21 @@ await fastify.register(cors, {
           'http://167.71.94.65:8080',
           'http://167.71.94.65:8081',
         ];
-    
+
     // Normalize origin (remove trailing slash if present)
     const normalizedOrigin = origin.endsWith('/') ? origin.slice(0, -1) : origin;
-    
+
     // Check if origin is allowed (exact match)
     if (allowedOrigins.includes(normalizedOrigin)) {
       callback(null, true);
       return;
     }
-    
+
     // Also check if origin starts with allowed IP (for any port)
     try {
       const originUrl = new URL(normalizedOrigin);
       const originHostname = originUrl.hostname;
-      
+
       // Check if the hostname matches any of our allowed IPs or domains
       const allowedHostnames = [
         'localhost',
@@ -84,7 +122,7 @@ await fastify.register(cors, {
         'www.zurt.com.br',
         'zurt.com.br',
       ];
-      
+
       if (allowedHostnames.includes(originHostname)) {
         callback(null, true);
         return;
@@ -92,7 +130,7 @@ await fastify.register(cors, {
     } catch (e) {
       // URL parsing failed, deny
     }
-    
+
     // Deny by default
     fastify.log.warn({ origin: normalizedOrigin, allowedOrigins }, 'CORS request blocked');
     callback(new Error('Not allowed by CORS'), false);
@@ -100,8 +138,20 @@ await fastify.register(cors, {
   credentials: true,
 });
 
+await fastify.register(cookie, {
+  parseOptions: {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict',
+  },
+});
+
 await fastify.register(jwt, {
   secret: process.env.JWT_SECRET || 'your-secret-key-change-in-production',
+  cookie: {
+    cookieName: 'token',
+    signed: false,
+  },
 });
 
 // Add authenticate decorator
@@ -114,7 +164,7 @@ fastify.decorate('authenticate', async function (request: any, reply: any) {
 });
 
 // Health check
-fastify.get('/health', async () => {
+fastify.get('/api/health', async () => {
   try {
     await db.query('SELECT 1');
     return { status: 'ok', database: 'connected' };
@@ -125,12 +175,14 @@ fastify.get('/health', async () => {
 
 // Register routes
 await fastify.register(aiRoutes, { prefix: '/api/ai' });
-  fastify.register(marketRoutes, { prefix: '/api/market' });
-  fastify.register(familyRoutes, { prefix: '/api/family' });
-  fastify.register(pushRoutes, { prefix: '/api' });
-  fastify.register(invitePageRoutes, { prefix: '/invite' });
-  fastify.register(reportRoutes, { prefix: '/api/ai' });
-  fastify.register(authRoutes, { prefix: '/api/auth' });
+await fastify.register(marketRoutes, { prefix: '/api/market' });
+await fastify.register(familyRoutes, { prefix: '/api/family' });
+  await fastify.register(dollarRoutes, { prefix: '/api/dollar' });
+  await fastify.register(agentRoutes, { prefix: '/api/agent' });
+await fastify.register(pushRoutes, { prefix: '/api' });
+await fastify.register(invitePageRoutes, { prefix: '/invite' });
+await fastify.register(reportRoutes, { prefix: '/api/ai' });
+await fastify.register(authRoutes, { prefix: '/api/auth' });
 await fastify.register(usersRoutes, { prefix: '/api/users' });
 await fastify.register(dashboardRoutes, { prefix: '/api/dashboard' });
 await fastify.register(connectionsRoutes, { prefix: '/api/connections' });
@@ -149,7 +201,14 @@ await fastify.register(publicRoutes, { prefix: '/api/public' });
 await fastify.register(subscriptionsRoutes, { prefix: '/api/subscriptions' });
 await fastify.register(commentsRoutes, { prefix: '/api/comments' });
 await fastify.register(mercadopagoRoutes, { prefix: '/api/mercadopago' });
+await fastify.register(stripeRoutes, { prefix: '/api/stripe' });
 await fastify.register(messageFileRoutes, { prefix: '/api/messages' });
+  await fastify.register(faceVerificationRoutes, { prefix: "/api/auth" });
+  await fastify.register(b3Routes, { prefix: "/api/b3" });
+  await fastify.register(postRoutes, { prefix: "/api" });
+  await fastify.register(onboardingRoutes, { prefix: "/api/onboarding" });
+await fastify.register(marketDataRoutes, { prefix: '/api/market-data' });
+await fastify.register(portfolioRoutes, { prefix: '/api/portfolio' });
 
 // Ensure system_settings table and defaults exist (idempotent, runs on every startup)
 async function ensureSystemSettings() {
@@ -172,12 +231,12 @@ const start = async () => {
     // Ensure required DB tables/settings exist before accepting traffic
     await ensureSystemSettings();
 
-    // Setup WebSocket before listening (needs the server instance)
+    // Start listening FIRST
+    await fastify.listen({ port, host });
+
+    // Setup WebSocket AFTER listening (uses the existing server instance)
     setupWebSocket(fastify);
 
-    // Start listening
-    await fastify.listen({ port, host });
-    
     console.log(`🚀 Server running on http://${host}:${port}`);
     console.log(`📡 WebSocket available on ws://${host}:${port}/ws`);
 
@@ -187,6 +246,8 @@ const start = async () => {
 
     // Start goal deadline checker (every 24 hours)
     startGoalDeadlineChecker();
+    startMarketCrons();
+    startSmartPushCrons();
     console.log(`🎯 Goal deadline checker started (every 24 hours)`);
   } catch (err) {
     fastify.log.error(err);

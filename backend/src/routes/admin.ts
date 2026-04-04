@@ -70,19 +70,19 @@ export async function adminRoutes(fastify: FastifyInstance) {
       );
       const newUsers = parseInt(newUsersResult.rows[0].count);
 
-      // Calculate MRR (Monthly Recurring Revenue) - handle missing tables
+      // Calculate MRR from Stripe API
       let mrr = 0;
+      let stripeSubCount = 0;
       try {
-        const mrrResult = await db.query(
-          `SELECT COALESCE(SUM(p.price_cents), 0) / 100.0 as mrr
-           FROM subscriptions s
-           JOIN plans p ON s.plan_id = p.id
-           WHERE s.status = 'active'
-           AND s.current_period_end > NOW()`
-        );
-        mrr = parseFloat(mrrResult.rows[0].mrr) || 0;
+        const Stripe = (await import('stripe')).default;
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' as any });
+        const stripeSubs = await stripe.subscriptions.list({ status: 'active', limit: 100, expand: ['data.plan'] });
+        stripeSubCount = stripeSubs.data.length;
+        mrr = stripeSubs.data.reduce((sum: number, sub: any) => {
+          const plan = sub.items?.data?.[0]?.plan;
+          return sum + ((plan?.amount || 0) / 100);
+        }, 0);
       } catch (e) {
-        // Tables might not exist yet
         mrr = 0;
       }
 
@@ -254,23 +254,16 @@ export async function adminRoutes(fastify: FastifyInstance) {
       // Subscription stats
       let subscriptionStats = { total: 0, active: 0, canceled: 0, trialing: 0, pastDue: 0, paused: 0 };
       try {
-        const subStatsResult = await db.query(
-          `SELECT
-             COUNT(*) as total,
-             COUNT(*) FILTER (WHERE status = 'active') as active,
-             COUNT(*) FILTER (WHERE status = 'canceled') as canceled,
-             COUNT(*) FILTER (WHERE status = 'trialing') as trialing,
-             COUNT(*) FILTER (WHERE status = 'past_due') as past_due,
-             COUNT(*) FILTER (WHERE status = 'paused') as paused
-           FROM subscriptions`
-        );
+        const Stripe2 = (await import('stripe')).default;
+        const stripe2 = new Stripe2(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' as any });
+        const allSubs = await stripe2.subscriptions.list({ limit: 100 });
         subscriptionStats = {
-          total: parseInt(subStatsResult.rows[0].total) || 0,
-          active: parseInt(subStatsResult.rows[0].active) || 0,
-          canceled: parseInt(subStatsResult.rows[0].canceled) || 0,
-          trialing: parseInt(subStatsResult.rows[0].trialing) || 0,
-          pastDue: parseInt(subStatsResult.rows[0].past_due) || 0,
-          paused: parseInt(subStatsResult.rows[0].paused) || 0,
+          total: allSubs.data.length,
+          active: allSubs.data.filter((s: any) => s.status === 'active').length,
+          canceled: allSubs.data.filter((s: any) => s.status === 'canceled').length,
+          trialing: allSubs.data.filter((s: any) => s.status === 'trialing').length,
+          pastDue: allSubs.data.filter((s: any) => s.status === 'past_due').length,
+          paused: allSubs.data.filter((s: any) => s.status === 'paused').length,
         };
       } catch (e) {
         // subscriptions table may not exist
@@ -302,6 +295,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
       const result = {
         kpis: {
           activeUsers,
+          totalUsers: activeUsers,
           newUsers,
           mrr,
           churnRate: parseFloat(churnRate.toFixed(2)),
@@ -641,6 +635,8 @@ export async function adminRoutes(fastify: FastifyInstance) {
                s.status,
                s.current_period_start,
                s.current_period_end,
+               p.id as plan_id,
+               p.code as plan_code,
                p.name as plan_name,
                p.price_cents / 100.0 as plan_price
              FROM subscriptions s
@@ -698,6 +694,19 @@ export async function adminRoutes(fastify: FastifyInstance) {
         } catch {}
 
         financialSummary.netWorth = financialSummary.cash + financialSummary.investments - financialSummary.debt;
+      } catch {}
+
+      // Get login stats
+      let totalLogins = 0;
+      let lastLogin: string | null = null;
+      try {
+        const loginResult = await db.query(
+          `SELECT COUNT(*) as total, MAX(created_at) as last_login
+           FROM login_history WHERE user_id = $1`,
+          [id]
+        );
+        totalLogins = parseInt(loginResult.rows[0]?.total) || 0;
+        lastLogin = loginResult.rows[0]?.last_login || null;
       } catch {}
 
       // Get connections count
@@ -766,12 +775,25 @@ export async function adminRoutes(fastify: FastifyInstance) {
           status: isBlocked ? 'blocked' : (user.is_active ? 'active' : 'pending'),
           createdAt: user.created_at,
           updatedAt: user.updated_at,
-          subscription,
+          totalLogins,
+          lastLogin,
+          subscription: subscription ? {
+            status: subscription.status,
+            currentPeriodStart: subscription.current_period_start,
+            currentPeriodEnd: subscription.current_period_end,
+            plan: {
+              id: subscription.plan_id,
+              code: subscription.plan_code,
+              name: subscription.plan_name,
+              price: subscription.plan_price,
+            },
+          } : null,
           financialSummary,
           stats: {
             connections: connectionsCount,
             goals: goalsCount,
             clients: clientsCount,
+            logins: totalLogins,
           },
           consultants,
         },
@@ -780,6 +802,53 @@ export async function adminRoutes(fastify: FastifyInstance) {
       fastify.log.error('Error fetching user details:', error);
       console.error('Full error:', error);
       reply.code(500).send({ error: 'Failed to fetch user', details: error.message });
+    }
+  });
+
+
+  // Impersonate user - generate temp JWT for admin to view as user
+  fastify.post("/users/:id/impersonate", {
+    preHandler: [requireAdmin],
+  }, async (request: any, reply) => {
+    try {
+      const { id } = request.params;
+      const adminId = getAdminId(request);
+      if (id === adminId) {
+        return reply.code(400).send({ error: "Cannot impersonate yourself" });
+      }
+      const userResult = await db.query(
+        "SELECT id, full_name, email, role FROM users WHERE id = $1",
+        [id]
+      );
+      if (userResult.rows.length === 0) {
+        return reply.code(404).send({ error: "User not found" });
+      }
+      const user = userResult.rows[0];
+      const token = fastify.jwt.sign(
+        { userId: user.id, role: user.role, impersonatedBy: adminId },
+        { expiresIn: "1h" }
+      );
+      await logAudit({
+        adminId,
+        action: "user_impersonated",
+        resourceType: "user",
+        resourceId: id,
+        newValue: { email: user.email },
+        ipAddress: getClientIp(request),
+        userAgent: request.headers["user-agent"],
+      });
+      return reply.send({
+        token,
+        user: {
+          id: user.id,
+          name: user.full_name,
+          email: user.email,
+          role: user.role,
+        },
+      });
+    } catch (error: any) {
+      fastify.log.error(error);
+      return reply.code(500).send({ error: "Failed to impersonate user" });
     }
   });
 
@@ -1744,7 +1813,40 @@ export async function adminRoutes(fastify: FastifyInstance) {
         userAgent: request.headers['user-agent'],
       });
 
-      // Delete the user (CASCADE will handle related records)
+      // Delete user and all related data (no CASCADE on most FKs)
+      const tables = [
+        "password_reset_codes", "ai_usage", "family_invites", "family_members",
+        "family_groups", "user_invite_links", "pluggy_card_invoices", "pluggy_credit_cards",
+        "pluggy_investments", "pluggy_transactions", "pluggy_accounts",
+        "user_notification_preferences", "login_history",
+        "invoice_items", "card_invoices", "credit_cards",
+        "dividends", "corporate_events", "b3_positions", "holdings",
+        "alerts", "client_notes", "tasks", "crm_leads",
+        "reports", "messages", "conversations", "comments",
+        "transactions", "bank_accounts", "connections",
+      ];
+      for (const table of tables) {
+        await db.query(`DELETE FROM ${table} WHERE user_id = $1`, [id]).catch(() => {});
+      }
+      // Handle tables with non-standard FK column names
+      await db.query(`UPDATE comments SET replied_by = NULL WHERE replied_by = $1`, [id]).catch(() => {});
+      await db.query(`UPDATE comments SET processed_by = NULL WHERE processed_by = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM crm_leads WHERE consultant_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM crm_leads WHERE customer_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM tasks WHERE consultant_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM tasks WHERE customer_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM client_notes WHERE consultant_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM client_notes WHERE customer_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM conversations WHERE consultant_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM conversations WHERE customer_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM reports WHERE owner_user_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM reports WHERE target_user_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM messages WHERE sender_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM blocked_users WHERE user_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM subscriptions WHERE user_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM goals WHERE user_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM customer_consultants WHERE customer_id = $1 OR consultant_id = $1`, [id]).catch(() => {});
+      await db.query(`DELETE FROM push_tokens WHERE user_id = $1`, [id]).catch(() => {});
       await db.query('DELETE FROM users WHERE id = $1', [id]);
 
       // Invalidate cache
@@ -1769,124 +1871,64 @@ export async function adminRoutes(fastify: FastifyInstance) {
     preHandler: [requireAdmin],
   }, async (request: any, reply) => {
     try {
-      // Check if subscriptions and plans tables exist
-      let tablesExist = false;
-      try {
-        await db.query('SELECT 1 FROM subscriptions LIMIT 1');
-        await db.query('SELECT 1 FROM plans LIMIT 1');
-        tablesExist = true;
-      } catch {
-        // Tables don't exist, return empty result
-        tablesExist = false;
-      }
+      const Stripe = (await import('stripe')).default;
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' as any });
 
-      if (!tablesExist) {
+      const stripeSubscriptions = await stripe.subscriptions.list({
+        limit: 100,
+        expand: ['data.customer', 'data.plan'],
+      });
+
+      const charges = await stripe.charges.list({ limit: 100 });
+
+      const subscriptions = stripeSubscriptions.data.map((sub: any) => {
+        const customer = sub.customer as any;
+        const plan = sub.items?.data?.[0]?.plan;
         return {
-          subscriptions: [],
-          pagination: {
-            page: 1,
-            limit: 20,
-            total: 0,
-            totalPages: 0,
-          },
+          id: sub.id,
+          stripe_subscription_id: sub.id,
+          customer_id: typeof customer === 'string' ? customer : customer?.id,
+          email: typeof customer === 'string' ? '' : (customer?.email || ''),
+          name: typeof customer === 'string' ? '' : (customer?.name || ''),
+          plan_name: plan?.nickname || plan?.id || 'N/A',
+          amount: (plan?.amount || 0) / 100,
+          currency: plan?.currency?.toUpperCase() || 'BRL',
+          interval: plan?.interval || 'month',
+          status: sub.status,
+          current_period_start: new Date(sub.current_period_start * 1000).toISOString(),
+          current_period_end: new Date(sub.current_period_end * 1000).toISOString(),
+          created_at: new Date(sub.created * 1000).toISOString(),
+          cancel_at: sub.cancel_at ? new Date(sub.cancel_at * 1000).toISOString() : null,
         };
-      }
+      });
 
-      const { search, status, plan, page = '1', limit = '20', startDate, endDate } = request.query as any;
-      const pageNum = parseInt(page) || 1;
-      const limitNum = Math.min(parseInt(limit) || 20, 100); // Max 100 per page
-      const offset = (pageNum - 1) * limitNum;
-      
-      // Build WHERE clause
-      let whereClause = 'WHERE 1=1';
-      const params: any[] = [];
-      let paramIndex = 1;
-
-      if (search) {
-        whereClause += ` AND (u.full_name ILIKE $${paramIndex} OR u.email ILIKE $${paramIndex})`;
-        params.push(`%${search}%`);
-        paramIndex++;
-      }
-
-      if (status) {
-        whereClause += ` AND s.status = $${paramIndex}`;
-        params.push(status);
-        paramIndex++;
-      }
-
-      if (plan) {
-        whereClause += ` AND p.name = $${paramIndex}`;
-        params.push(plan);
-        paramIndex++;
-      }
-
-      // Date range filtering - filter by subscription creation date
-      if (startDate) {
-        whereClause += ` AND s.created_at >= $${paramIndex}::date`;
-        params.push(startDate);
-        paramIndex++;
-      }
-
-      if (endDate) {
-        whereClause += ` AND s.created_at <= $${paramIndex}::date + INTERVAL '1 day'`;
-        params.push(endDate);
-        paramIndex++;
-      }
-
-      // Get total count
-      const countQuery = `
-        SELECT COUNT(*) as total
-        FROM subscriptions s
-        JOIN users u ON s.user_id = u.id
-        JOIN plans p ON s.plan_id = p.id
-        ${whereClause}
-      `;
-      const countResult = await db.query(countQuery, params);
-      const total = parseInt(countResult.rows[0].total);
-
-      // Get paginated results
-      const dataQuery = `
-        SELECT 
-          s.id,
-          u.full_name as user_name,
-          u.email,
-          p.name as plan_name,
-          p.price_cents / 100.0 as amount,
-          s.status,
-          s.current_period_end as next_billing,
-          s.created_at
-        FROM subscriptions s
-        JOIN users u ON s.user_id = u.id
-        JOIN plans p ON s.plan_id = p.id
-        ${whereClause}
-        ORDER BY s.created_at DESC
-        LIMIT $${paramIndex} OFFSET $${paramIndex + 1}
-      `;
-      params.push(limitNum, offset);
-      const result = await db.query(dataQuery, params);
+      const payments = charges.data.map((charge: any) => ({
+        id: charge.id,
+        amount: charge.amount / 100,
+        currency: charge.currency?.toUpperCase() || 'BRL',
+        status: charge.status,
+        email: charge.billing_details?.email || charge.receipt_email || '',
+        description: charge.description || '',
+        created_at: new Date(charge.created * 1000).toISOString(),
+        payment_method: charge.payment_method_details?.type || '',
+        card_brand: charge.payment_method_details?.card?.brand || '',
+        card_last4: charge.payment_method_details?.card?.last4 || '',
+      }));
 
       return {
-        subscriptions: result.rows.map((row: any) => ({
-          id: row.id,
-          user: row.user_name,
-          email: row.email,
-          plan: row.plan_name,
-          amount: parseFloat(row.amount),
-          status: row.status,
-          nextBilling: row.next_billing,
-          createdAt: row.created_at,
-        })),
-        pagination: {
-          page: pageNum,
-          limit: limitNum,
-          total,
-          totalPages: Math.ceil(total / limitNum),
+        subscriptions,
+        payments,
+        summary: {
+          totalSubscriptions: subscriptions.length,
+          activeSubscriptions: subscriptions.filter((s: any) => s.status === 'active').length,
+          canceledSubscriptions: subscriptions.filter((s: any) => s.status === 'canceled').length,
+          totalPayments: payments.length,
+          totalRevenue: payments.filter((p: any) => p.status === 'succeeded').reduce((sum: number, p: any) => sum + p.amount, 0),
         },
       };
     } catch (error: any) {
-      fastify.log.error('Error fetching subscriptions:', error);
-      console.error('Full error:', error);
-      reply.code(500).send({ error: 'Failed to fetch subscriptions', details: error.message });
+      fastify.log.error("Error fetching Stripe data: " + (error instanceof Error ? error.message : String(error)));
+      reply.code(500).send({ error: 'Failed to fetch Stripe data', details: error.message });
     }
   });
 
@@ -3850,5 +3892,129 @@ export async function adminRoutes(fastify: FastifyInstance) {
       reply.code(500).send({ error: 'Failed to create institution', details: error.message });
     }
   });
-}
 
+  // POST /admin/push — Send manual push to all users (admin only)
+  fastify.post('/push', { preHandler: [fastify.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const userId = (request.user as any).userId;
+    const role = (request.user as any).role;
+    if (role !== 'admin') return reply.code(403).send({ error: 'Admin only' });
+    const { title, body } = request.body as any;
+    if (!title || !body) return reply.code(400).send({ error: 'Title and body required' });
+    const { sendPushToAll } = await import('../services/push-service.js');
+    const sent = await sendPushToAll(title, body, { type: 'admin_manual', sentBy: userId });
+    try {
+      await db.query(
+        `INSERT INTO push_log (title, body, sent_by, recipients_count, push_type) VALUES ($1, $2, $3, $4, 'manual')`,
+        [title, body, userId, sent]
+      );
+    } catch (e: any) { console.error('[AdminPush] Log error:', e.message); }
+    return reply.send({ success: true, sent });
+  });
+
+  // GET /admin/push/log — Push history
+  fastify.get('/push/log', { preHandler: [fastify.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const role = (request.user as any).role;
+    if (role !== 'admin') return reply.code(403).send({ error: 'Admin only' });
+    const result = await db.query(
+      `SELECT pl.*, u.full_name as sender_name FROM push_log pl LEFT JOIN users u ON pl.sent_by = u.id ORDER BY pl.created_at DESC LIMIT 50`
+    );
+    return reply.send({ logs: result.rows });
+  });
+
+  // POST /admin/push/test-market — Test market close notification now
+  fastify.post('/push/test-market', { preHandler: [fastify.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const role = (request.user as any).role;
+    if (role !== 'admin') return reply.code(403).send({ error: 'Admin only' });
+    const { sendMarketCloseNotification } = await import('../services/market-cron.js');
+    await sendMarketCloseNotification();
+    return reply.send({ success: true, message: 'Market close notification triggered' });
+  });
+
+  // GET /admin/market-snapshot — Get latest market snapshot
+  fastify.get('/market-snapshot', { preHandler: [fastify.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const result = await db.query(`SELECT * FROM market_snapshots ORDER BY snapshot_date DESC LIMIT 1`);
+    return reply.send(result.rows[0] || null);
+  });
+
+
+
+  // POST /admin/upload — Upload file (images, PDFs)
+  fastify.post("/upload", { preHandler: [fastify.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const data = await request.file();
+    if (!data) return reply.code(400).send({ error: "No file provided" });
+
+    const allowed = [".pdf", ".png", ".jpg", ".jpeg", ".gif", ".webp"];
+    const ext = "." + (data.filename.split(".").pop() || "bin").toLowerCase();
+    if (!allowed.includes(ext)) return reply.code(400).send({ error: "File type not allowed" });
+
+    const { randomUUID } = await import("crypto");
+    const filename = randomUUID() + ext;
+    const destPath = `/var/www/zurt/uploads/${filename}`;
+
+    const fs = await import("fs");
+    const { pipeline } = await import("stream/promises");
+    await pipeline(data.file, fs.createWriteStream(destPath));
+
+    const url = `https://zurt.com.br/uploads/${filename}`;
+    return reply.send({ url, filename: data.filename, type: data.mimetype });
+  });
+
+  // POST /admin/push/schedule — Schedule a push for later
+  fastify.post("/push/schedule", { preHandler: [fastify.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const userId = (request.user as any).userId;
+    const { title, body, target, targetValue, scheduledAt, data } = request.body as any;
+    if (!title || !body || !scheduledAt) return reply.code(400).send({ error: "title, body, scheduledAt required" });
+
+    const result = await db.query(
+      `INSERT INTO scheduled_push (title, body, target_type, target_value, scheduled_at, sent_by, data)
+       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+      [title, body, target || "all", targetValue || null, scheduledAt, userId, JSON.stringify(data || {})]
+    );
+    return reply.send({ scheduled: result.rows[0] });
+  });
+
+  // GET /admin/push/scheduled — List pending scheduled pushes
+  fastify.get("/push/scheduled", { preHandler: [fastify.authenticate] }, async (_request: FastifyRequest, reply: FastifyReply) => {
+    const result = await db.query(
+      "SELECT * FROM scheduled_push WHERE status = $1 ORDER BY scheduled_at ASC",
+      ["pending"]
+    );
+    return reply.send({ items: result.rows });
+  });
+
+  // DELETE /admin/push/scheduled/:id — Cancel a scheduled push
+  fastify.delete("/push/scheduled/:id", { preHandler: [fastify.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const { id } = request.params as any;
+    await db.query("UPDATE scheduled_push SET status = $1 WHERE id = $2 AND status = $3", ["cancelled", id, "pending"]);
+    return reply.send({ success: true });
+  });
+
+  // POST /admin/push/event — Add economic calendar event
+  fastify.post("/push/event", { preHandler: [fastify.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const { eventDate, eventTime, eventName, country, importance, category, description, previousValue, forecastValue } = request.body as any;
+    if (!eventDate || !eventName) return reply.code(400).send({ error: "eventDate and eventName required" });
+
+    const result = await db.query(
+      `INSERT INTO economic_calendar (event_date, event_time, event_name, country, importance, category, description, previous_value, forecast_value)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      [eventDate, eventTime || null, eventName, country || "BR", importance || "high", category || null, description || null, previousValue || null, forecastValue || null]
+    );
+    return reply.send({ event: result.rows[0] });
+  });
+
+  // GET /admin/push/events — List all events
+  fastify.get("/push/events", { preHandler: [fastify.authenticate] }, async (_request: FastifyRequest, reply: FastifyReply) => {
+    const result = await db.query("SELECT * FROM economic_calendar ORDER BY event_date DESC, event_time ASC LIMIT 50");
+    return reply.send({ events: result.rows });
+  });
+
+  // GET /admin/push/events/upcoming — Next 7 days
+  fastify.get("/push/events/upcoming", { preHandler: [fastify.authenticate] }, async (_request: FastifyRequest, reply: FastifyReply) => {
+    const result = await db.query(
+      "SELECT * FROM economic_calendar WHERE event_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL $1 ORDER BY event_date, event_time",
+      ["7 days"]
+    );
+    return reply.send({ events: result.rows });
+  });
+
+}

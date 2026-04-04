@@ -160,6 +160,7 @@ export async function usersRoutes(fastify: FastifyInstance) {
   });
 
   // Change password
+
   fastify.patch('/profile/password', {
     preHandler: [fastify.authenticate],
   }, async (request: FastifyRequest, reply: FastifyReply) => {

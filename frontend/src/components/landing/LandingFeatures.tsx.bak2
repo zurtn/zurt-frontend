@@ -1,0 +1,78 @@
+import { Landmark, BarChart3, Bot, FileText, Bell, Heart, Users, TrendingUp } from "lucide-react";
+
+const features = [
+  {
+    icon: Landmark,
+    title: "Open Finance",
+    description: "Conecte todos os seus bancos e corretoras via Open Finance do Banco Central. Mais de 200 instituições.",
+  },
+  {
+    icon: BarChart3,
+    title: "Integração B3",
+    description: "Posição e movimentação direto da B3. Ações, FIIs, ETFs, BDRs e renda fixa em tempo real.",
+  },
+  {
+    icon: Bot,
+    title: "ZURT Agent",
+    description: "Assistente financeiro com IA. Pergunte sobre seus investimentos e receba análises personalizadas.",
+  },
+  {
+    icon: FileText,
+    title: "Relatórios PDF",
+    description: "Relatórios profissionais do seu patrimônio. Compartilhe com assessor, contador ou use para controle.",
+  },
+  {
+    icon: Bell,
+    title: "Alertas Inteligentes",
+    description: "Notificações sobre movimentações atípicas, oportunidades de mercado e concentração excessiva.",
+  },
+  {
+    icon: Heart,
+    title: "Score Financeiro",
+    description: "Índice de saúde financeira de 0 a 100. Avalia diversificação, endividamento e disciplina.",
+  },
+  {
+    icon: Users,
+    title: "Grupo Familiar",
+    description: "Consolide o patrimônio da família. Configure quem vê o quê com permissões granulares.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Cotações em Tempo Real",
+    description: "Ações, FIIs, índices, câmbio e criptomoedas. Dados atualizados de mercado ao seu alcance.",
+  },
+];
+
+const LandingFeatures = () => {
+  return (
+    <section id="features" className="py-24 bg-muted/30 scroll-mt-20">
+      <div className="container mx-auto px-6 sm:px-4">
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Tudo que você <span className="text-primary">precisa</span>
+          </h2>
+          <p className="text-lg text-muted-foreground">
+            Consolidação de patrimônio, inteligência de mercado e controle financeiro em uma única plataforma.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map(({ icon: Icon, title, description }) => (
+            <div
+              key={title}
+              className="p-6 rounded-xl bg-background border border-border hover:border-primary/30 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
+                <Icon className="h-5 w-5 text-primary" />
+              </div>
+              <h3 className="text-base font-semibold text-foreground mb-2">{title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default LandingFeatures;

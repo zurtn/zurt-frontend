@@ -67,7 +67,7 @@ const RecentTransactionsTable = ({ transactions, loading }: RecentTransactionsTa
               <col className="hidden sm:table-column w-[20%]" />
             </colgroup>
             <thead>
-              <tr className="border-b border-white/10">
+              <tr className="border-b border-[#27272a]">
                 <th className="text-left text-xs font-medium text-muted-foreground pb-3 pl-1">{t('dashboard:analytics.merchant')}</th>
                 <th className="text-center text-xs font-medium text-muted-foreground pb-3 hidden sm:table-cell">{t('dashboard:analytics.category')}</th>
                 <th className="text-center text-xs font-medium text-muted-foreground pb-3">{t('dashboard:analytics.date')}</th>
@@ -95,7 +95,7 @@ const RecentTransactionsTable = ({ transactions, loading }: RecentTransactionsTa
                   const statusColor = tx.status === 'completed' ? 'text-success' : tx.status === 'pending' ? 'text-warning' : 'text-muted-foreground';
 
                   return (
-                    <tr key={tx.id} className="border-b border-white/10 last:border-0">
+                    <tr key={tx.id} className="border-b border-[#27272a] last:border-0">
                       <td className="py-3">
                         <div className="flex items-center gap-2.5">
                           <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">

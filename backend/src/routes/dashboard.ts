@@ -259,13 +259,15 @@ export async function dashboardRoutes(fastify: FastifyInstance) {
       if (accounts.length === 0) {
         try {
           const pluggyAccResult = await db.query(
-            `SELECT pa.id, pa.name, pa.type, pa.current_balance,
-                    i.name AS institution_name
+            `SELECT DISTINCT ON (pa.name, pa.type)
+               pa.id, pa.name, pa.type, pa.current_balance,
+               COALESCE(i.name, '') AS institution_name,
+               COALESCE(i.logo_url, '') AS institution_logo
              FROM pluggy_accounts pa
-             LEFT JOIN connections c ON pa.item_id = c.external_consent_id
+             LEFT JOIN connections c ON pa.item_id = c.external_consent_id::text AND c.user_id = pa.user_id
              LEFT JOIN institutions i ON c.institution_id = i.id
              WHERE pa.user_id = $1
-             ORDER BY pa.name`,
+             ORDER BY pa.name, pa.type, pa.current_balance DESC, pa.updated_at DESC`,
             [userId]
           );
           accounts = pluggyAccResult.rows;
@@ -294,47 +296,73 @@ export async function dashboardRoutes(fastify: FastifyInstance) {
       if (investments.length === 0) {
         try {
           const pluggyInvResult = await db.query(
-            `SELECT pi.id, pi.type, pi.name, pi.current_value,
-                    pi.quantity, i.name AS institution_name
+            `SELECT DISTINCT ON (pi.name) pi.id, pi.type, pi.name, pi.current_value,
+                    pi.quantity
              FROM pluggy_investments pi
-             LEFT JOIN connections c ON pi.item_id = c.external_consent_id
-             LEFT JOIN institutions i ON c.institution_id = i.id
-             WHERE pi.user_id = $1
-             ORDER BY pi.current_value DESC`,
+             WHERE pi.user_id = $1 AND pi.current_value > 0
+             ORDER BY pi.name, pi.updated_at DESC`,
             [userId]
           );
           investments = pluggyInvResult.rows;
         } catch { /* table may not exist */ }
       }
 
-      // Cards
+      // Cards — direct from pluggy_credit_cards (single source of truth)
       let cards: any[] = [];
-      try {
-        const cardsResult = await db.query(
-          `SELECT c.id, c.brand, c.last4, COALESCE(oi.connector_name, '') AS institution_name, 0 AS "openDebt"
-           FROM cards c
-           LEFT JOIN open_finance_items oi ON oi.id = c.item_id
-           WHERE c.user_id = $1`,
-          [userId]
-        );
-        cards = cardsResult.rows;
-      } catch { /* table may not exist */ }
-
-      // Fallback: pluggy_credit_cards
-      if (cards.length === 0) {
+      {
         try {
           const pluggyCardsResult = await db.query(
-            `SELECT pc.id, pc.brand, pc.last4, i.name AS institution_name,
-                    COALESCE(pc.balance, 0) AS "openDebt"
+            `SELECT DISTINCT ON (pc.last4)
+                    pc.id, pc.brand, pc.last4, i.name AS institution_name,
+                    i.logo_url AS institution_logo,
+                    COALESCE(pc.balance, 0) AS balance,
+                    COALESCE(pc."limit", 0) AS limit_amount,
+                    COALESCE(pc.available_limit, 0) AS available_limit,
+                    (SELECT pci.due_date FROM pluggy_card_invoices pci
+                     WHERE pci.pluggy_card_id = pc.pluggy_card_id AND pci.user_id = pc.user_id
+                     ORDER BY pci.due_date DESC LIMIT 1) AS due_date
              FROM pluggy_credit_cards pc
-             LEFT JOIN connections c ON pc.item_id = c.external_consent_id
+             LEFT JOIN connections c ON c.external_consent_id = pc.item_id AND c.user_id = pc.user_id
              LEFT JOIN institutions i ON c.institution_id = i.id
-             WHERE pc.user_id = $1`,
+             WHERE pc.user_id = $1
+             ORDER BY pc.last4, pc.updated_at DESC`,
             [userId]
           );
           cards = pluggyCardsResult.rows;
         } catch { /* table may not exist */ }
       }
+
+      // Enrich cards with fields the frontend CreditCard type expects
+      cards = cards.map((row: any) => {
+        const bal = parseFloat(row.balance) || 0;
+        const lim = parseFloat(row.limit_amount) || 0;
+        const avail = parseFloat(row.available_limit) || 0;
+        const inst = (row.institution_name || '').toLowerCase();
+        const br = (row.brand || '').toLowerCase();
+        let color = '#1A1A2E'; let secondaryColor = '#2A3040'; let textColor = '#FFFFFF';
+        if (inst.includes('itaú') || inst.includes('itau')) { color = '#EC7000'; secondaryColor = '#FDB913'; textColor = '#1A1A2E'; }
+        else if (inst.includes('nubank')) { color = '#820AD1'; secondaryColor = '#A83FF0'; }
+        else if (inst.includes('bradesco')) { color = '#CC092F'; secondaryColor = '#E0234E'; }
+        else if (inst.includes('santander')) { color = '#EC0000'; secondaryColor = '#FF3333'; }
+        else if (inst.includes('btg')) { color = '#1A1A2E'; secondaryColor = '#16213E'; }
+        else if (inst.includes('inter')) { color = '#FF7A00'; secondaryColor = '#FF9933'; textColor = '#1A1A2E'; }
+        else if (br === 'mastercard') { color = '#EB001B'; secondaryColor = '#FF5F00'; }
+        else if (br === 'visa') { color = '#1A1F71'; secondaryColor = '#2E3192'; }
+        const cleanName = row.institution_name || row.brand || 'Cartão';
+        return {
+          ...row,
+          name: cleanName,
+          lastFour: row.last4,
+          last_four: row.last4,
+          display_name: cleanName + ' •••• ' + (row.last4 || ''),
+          limit: lim, limit_amount: lim, credit_limit: lim,
+          used: bal, balance: bal, currentInvoice: bal, current_invoice: bal,
+          available_limit: avail, openDebt: bal,
+          color, secondaryColor, secondary_color: secondaryColor,
+          institution_logo: row.institution_logo || '',
+          dueDate: row.due_date || '', closingDate: '', nextInvoice: 0, textColor,
+        };
+      });
 
       // Deduplicate cards by brand + last4 (multiple connections can sync the same physical card)
       {
@@ -377,7 +405,7 @@ export async function dashboardRoutes(fastify: FastifyInstance) {
              LEFT JOIN pluggy_accounts pa ON pt.pluggy_account_id = pa.pluggy_account_id AND pt.user_id = pa.user_id
              LEFT JOIN connections c ON pt.item_id = c.external_consent_id
              LEFT JOIN institutions i ON c.institution_id = i.id
-             WHERE pt.user_id = $1
+             WHERE pt.user_id = $1 AND pt.date <= NOW()
              ORDER BY pt.date DESC
              LIMIT 50`,
             [userId]
@@ -485,12 +513,18 @@ export async function dashboardRoutes(fastify: FastifyInstance) {
             )
             SELECT
               p.period,
-              COALESCE(SUM(CASE WHEN pt.amount > 0 THEN pt.amount ELSE 0 END), 0)::float AS income,
-              COALESCE(SUM(CASE WHEN pt.amount < 0 THEN ABS(pt.amount) ELSE 0 END), 0)::float AS expenses
+              COALESCE(SUM(CASE WHEN d.amount > 0 THEN d.amount ELSE 0 END), 0)::float AS income,
+              COALESCE(SUM(CASE WHEN d.amount < 0 THEN ABS(d.amount) ELSE 0 END), 0)::float AS expenses
             FROM periods p
-            LEFT JOIN pluggy_transactions pt
-              ON DATE_TRUNC('${truncUnit}', pt.date)::date = p.period
-              AND pt.user_id = $1
+            LEFT JOIN (
+              SELECT DISTINCT ON (pt.description, pt.amount, pt.date::date)
+                pt.amount, pt.date, pt.user_id
+              FROM pluggy_transactions pt
+              WHERE pt.user_id = $1
+              ORDER BY pt.description, pt.amount, pt.date::date, pt.updated_at DESC
+            ) d
+              ON DATE_TRUNC('${truncUnit}', d.date)::date = p.period
+              AND d.user_id = $1
             GROUP BY p.period
             ORDER BY p.period ASC`,
             [userId]
@@ -498,11 +532,16 @@ export async function dashboardRoutes(fastify: FastifyInstance) {
 
           // 2. Spending by category — raw rows for JS-side auto-categorize
           db.query(
-            `SELECT pt.category, pt.merchant, pt.description, ABS(pt.amount)::float AS abs_amount
-             FROM pluggy_transactions pt
-             WHERE pt.user_id = $1
-               AND pt.amount < 0
-               AND pt.date >= CURRENT_DATE - INTERVAL '365 days'`,
+            `SELECT d.category, d.merchant, d.description, ABS(d.amount)::float AS abs_amount
+             FROM (
+               SELECT DISTINCT ON (pt.description, pt.amount, pt.date::date)
+                 pt.category, pt.merchant, pt.description, pt.amount, pt.date
+               FROM pluggy_transactions pt
+               WHERE pt.user_id = $1
+                 AND pt.amount < 0
+                 AND pt.date >= CURRENT_DATE - INTERVAL '365 days'
+               ORDER BY pt.description, pt.amount, pt.date::date, pt.updated_at DESC
+             ) d`,
             [userId]
           ),
 
@@ -762,11 +801,16 @@ export async function dashboardRoutes(fastify: FastifyInstance) {
       let categoryResult;
       if (usePluggy) {
         categoryResult = await db.query(
-          `SELECT pt.category, pt.merchant, pt.description, ABS(pt.amount)::float AS abs_amount
-           FROM pluggy_transactions pt
-           WHERE pt.user_id = $1
-             AND pt.amount < 0
-             AND pt.date >= CURRENT_DATE - INTERVAL '${interval}'`,
+          `SELECT d.category, d.merchant, d.description, ABS(d.amount)::float AS abs_amount
+           FROM (
+             SELECT DISTINCT ON (pt.description, pt.amount, pt.date::date)
+               pt.category, pt.merchant, pt.description, pt.amount, pt.date
+             FROM pluggy_transactions pt
+             WHERE pt.user_id = $1
+               AND pt.amount < 0
+               AND pt.date >= CURRENT_DATE - INTERVAL '${interval}'
+             ORDER BY pt.description, pt.amount, pt.date::date, pt.updated_at DESC
+           ) d`,
           [userId]
         );
       } else {

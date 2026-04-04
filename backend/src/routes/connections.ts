@@ -712,6 +712,76 @@ export async function connectionsRoutes(fastify: FastifyInstance) {
     }
   });
 
+
+  // Force refresh all Pluggy connections for the authenticated user
+  fastify.post("/refresh-all", {
+    preHandler: [fastify.authenticate],
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const userId = (request.user as any).userId;
+
+    try {
+      // Rate limit: 1 refresh per 5 minutes per user
+      const lastRefresh = await db.query(
+        `SELECT MAX(last_sync_at) as latest_sync FROM connections
+         WHERE user_id = $1 AND status = 'connected' AND external_consent_id IS NOT NULL`,
+        [userId]
+      );
+
+      if (lastRefresh.rows[0]?.latest_sync) {
+        const msSince = Date.now() - new Date(lastRefresh.rows[0].latest_sync).getTime();
+        if (msSince < 5 * 60 * 1000) {
+          return reply.code(429).send({
+            error: "Rate limit",
+            message: "Aguarde 5 minutos entre atualizações.",
+          });
+        }
+      }
+
+      const connResult = await db.query(
+        `SELECT id, external_consent_id FROM connections
+         WHERE user_id = $1 AND status = 'connected' AND external_consent_id IS NOT NULL`,
+        [userId]
+      );
+
+      if (connResult.rows.length === 0) {
+        return reply.send({ success: true, message: "No connections to refresh", refreshed: 0 });
+      }
+
+      let refreshed = 0;
+      let failed = 0;
+
+      for (const conn of connResult.rows) {
+        try {
+          await updateItem(conn.external_consent_id);
+          await new Promise(r => setTimeout(r, 2000));
+
+          const { syncPluggyData } = await import("../services/pluggy-sync.js");
+          await syncPluggyData(userId, conn.external_consent_id);
+
+          await db.query(
+            `UPDATE connections SET last_sync_at = NOW(), last_sync_status = 'ok', updated_at = NOW() WHERE id = $1`,
+            [conn.id]
+          );
+          refreshed++;
+        } catch (err: any) {
+          failed++;
+          fastify.log.warn(`refresh-all: failed for ${conn.id}: ${err.message}`);
+          try {
+            await db.query(
+              `UPDATE connections SET last_sync_status = 'error', last_error = $1, updated_at = NOW() WHERE id = $2`,
+              [err.message?.substring(0, 500), conn.id]
+            );
+          } catch {}
+        }
+      }
+
+      return reply.send({ success: true, refreshed, failed });
+    } catch (error: any) {
+      fastify.log.error("refresh-all error:", error);
+      return reply.code(500).send({ error: "Failed to refresh connections" });
+    }
+  });
+
   // Delete a connection
   fastify.delete('/:id', {
     preHandler: [fastify.authenticate],
@@ -743,12 +813,33 @@ export async function connectionsRoutes(fastify: FastifyInstance) {
 
       const connection = verifyResult.rows[0];
 
+      const itemId = connection.external_consent_id;
+
       // Delete from Pluggy if item ID exists
-      if (connection.external_consent_id) {
+      if (itemId) {
         try {
-          await deletePluggyItem(connection.external_consent_id);
+          await deletePluggyItem(itemId);
         } catch (pluggyError: any) {
           fastify.log.warn('Error deleting Pluggy item (continuing with local delete):', pluggyError);
+        }
+
+        // Clean up all synced financial data linked to this connection
+        try {
+          await db.query('DELETE FROM pluggy_transactions WHERE user_id = $1 AND item_id = $2', [userId, itemId]);
+          await db.query('DELETE FROM pluggy_investments WHERE user_id = $1 AND item_id = $2', [userId, itemId]);
+          await db.query('DELETE FROM pluggy_credit_cards WHERE user_id = $1 AND item_id = $2', [userId, itemId]);
+          await db.query('DELETE FROM pluggy_accounts WHERE user_id = $1 AND item_id = $2', [userId, itemId]);
+          fastify.log.info(`Cleaned up pluggy data for user ${userId}, itemId ${itemId}`);
+        } catch (cleanupErr: any) {
+          fastify.log.warn('Error cleaning up pluggy data (non-fatal):', cleanupErr.message);
+        }
+
+        // Clean up legacy tables too
+        try {
+          await db.query('DELETE FROM transactions WHERE user_id = $1 AND connection_id = $2', [userId, id]);
+          await db.query('DELETE FROM bank_accounts WHERE user_id = $1 AND connection_id = $2', [userId, id]);
+        } catch (legacyErr: any) {
+          fastify.log.warn('Error cleaning legacy data (non-fatal):', legacyErr.message);
         }
       }
 

@@ -113,14 +113,14 @@ const NetWorthChart = () => {
             <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
             <defs>
               <linearGradient id="netWorthGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.4} />
-                <stop offset="50%" stopColor="#3b82f6" stopOpacity={0.2} />
-                <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.05} />
+                <stop offset="0%" stopColor="#00FF7A" stopOpacity={0.4} />
+                <stop offset="50%" stopColor="#00FF7A" stopOpacity={0.2} />
+                <stop offset="100%" stopColor="#00FF7A" stopOpacity={0.05} />
               </linearGradient>
             </defs>
             <CartesianGrid
               strokeDasharray="0"
-              stroke="rgba(59, 130, 246, 0.08)"
+              stroke="rgba(0, 255, 122, 0.08)"
               opacity={1}
               horizontal={true}
               vertical={false}
@@ -143,8 +143,8 @@ const NetWorthChart = () => {
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "rgba(8, 12, 20, 0.95)",
-                border: "1px solid rgba(59, 130, 246, 0.3)",
+                backgroundColor: "rgba(24, 24, 27, 0.95)",
+                border: "1px solid rgba(0, 255, 122, 0.3)",
                 borderRadius: "10px",
                 boxShadow: "0 8px 24px rgba(0, 0, 0, 0.5)",
                 color: "#ffffff",
@@ -164,12 +164,12 @@ const NetWorthChart = () => {
                 formatCurrency(value),
                 t('chart.tooltipLabel'),
               ]}
-              cursor={{ stroke: 'rgba(59, 130, 246, 0.2)', strokeWidth: 2 }}
+              cursor={{ stroke: 'rgba(0, 255, 122, 0.2)', strokeWidth: 2 }}
             />
             <Area
               type="monotone"
               dataKey="value"
-              stroke="#3b82f6"
+              stroke="#00FF7A"
               strokeWidth={2.5}
               fill="url(#netWorthGradient)"
               fillOpacity={1}

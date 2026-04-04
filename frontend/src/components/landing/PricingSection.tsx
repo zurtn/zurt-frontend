@@ -1,275 +1,206 @@
-import { Check, Crown, Package } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { useNavigate } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import { publicApi } from "@/lib/api";
-import { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
-import { useTranslation } from "react-i18next";
+import { Check, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
-interface Plan {
+interface PlanDef {
   name: string;
-  code: string;
-  subtitle: string;
   price: string;
-  period: string;
-  features: string[];
-  cta: string;
+  cents: string;
+  description: string;
+  features: { text: string; ok: boolean }[];
   featured: boolean;
-  connectionLimit: number | null;
-  subscriberCount: number;
+  disabled: boolean;
+  cta: string;
+  href: string;
 }
 
-// Minimum display counts per plan index
-const MIN_USER_COUNTS = [50, 70, 80];
-
-// Simulated user avatars
-const AVATAR_SETS = [
-  [
-    { initials: "MR", from: "from-violet-500", to: "to-purple-600" },
-    { initials: "AL", from: "from-rose-500", to: "to-pink-600" },
-    { initials: "JS", from: "from-amber-500", to: "to-orange-600" },
-    { initials: "KT", from: "from-cyan-500", to: "to-blue-600" },
-  ],
-  [
-    { initials: "RP", from: "from-emerald-500", to: "to-teal-600" },
-    { initials: "FS", from: "from-blue-500", to: "to-indigo-600" },
-    { initials: "LM", from: "from-pink-500", to: "to-rose-600" },
-    { initials: "DC", from: "from-orange-500", to: "to-red-600" },
-  ],
-  [
-    { initials: "TC", from: "from-indigo-500", to: "to-violet-600" },
-    { initials: "NA", from: "from-teal-500", to: "to-emerald-600" },
-    { initials: "GH", from: "from-fuchsia-500", to: "to-purple-600" },
-    { initials: "WB", from: "from-sky-500", to: "to-blue-600" },
-  ],
+const plans: PlanDef[] = [
+  {
+    name: "Starter",
+    price: "29",
+    cents: ",90",
+    description: "Organize seu dinheiro em um só lugar.",
+    features: [
+      { text: "3 conexões bancárias", ok: true },
+      { text: "Dashboard completo", ok: true },
+      { text: "Cotações de mercado", ok: true },
+      { text: "10 perguntas ao ZURT Agent", ok: true },
+      { text: "Integração B3", ok: false },
+      { text: "Relatórios PDF", ok: false },
+    ],
+    featured: false,
+    disabled: false,
+    cta: "Começar agora",
+    href: "/register",
+  },
+  {
+    name: "Pro",
+    price: "79",
+    cents: ",90",
+    description: "Visão completa do seu patrimônio.",
+    features: [
+      { text: "Conexões ilimitadas", ok: true },
+      { text: "Integração B3", ok: true },
+      { text: "ZURT Agent ilimitado", ok: true },
+      { text: "Relatórios PDF", ok: true },
+      { text: "Alertas inteligentes", ok: true },
+      { text: "Score financeiro", ok: true },
+    ],
+    featured: true,
+    disabled: false,
+    cta: "Assinar Pro",
+    href: "/register",
+  },
+  {
+    name: "Family",
+    price: "149",
+    cents: ",90",
+    description: "Patrimônio familiar consolidado.",
+    features: [
+      { text: "Tudo do Pro incluído", ok: true },
+      { text: "Até 5 membros", ok: true },
+      { text: "Dashboard familiar", ok: true },
+      { text: "Relatórios por membro", ok: true },
+      { text: "Permissões de visibilidade", ok: true },
+      { text: "Convites por email/link", ok: true },
+    ],
+    featured: false,
+    disabled: false,
+    cta: "Assinar Family",
+    href: "/register",
+  },
+  {
+    name: "Enterprise",
+    price: "499",
+    cents: ",90",
+    description: "Seu consultor dedicado.",
+    features: [
+      { text: "Tudo do Family incluído", ok: true },
+      { text: "Até 10 membros", ok: true },
+      { text: "Consultor dedicado CVM", ok: true },
+      { text: "Reunião mensal", ok: true },
+      { text: "Análise personalizada", ok: true },
+      { text: "WhatsApp direto", ok: true },
+    ],
+    featured: false,
+    disabled: true,
+    cta: "Em breve",
+    href: "#",
+  },
 ];
 
 const PricingSection = () => {
-  const [plans, setPlans] = useState<Plan[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const { t } = useTranslation(['landing', 'plans']);
-
-  useEffect(() => {
-    const fetchPlans = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await publicApi.getPlans();
-
-        const displayCodes = ['basic', 'pro', 'consultant'];
-        const mappedPlans: Plan[] = response.plans
-          .filter(plan => plan.isActive && displayCodes.includes((plan.code || '').toLowerCase()))
-          .map((plan) => {
-            const getSubtitle = (code: string, name: string) => {
-              if (code === 'free') return t('pricing.subtitleFree');
-              if (code === 'basic') return t('pricing.subtitleBasic');
-              if (code === 'pro' || code === 'professional') return t('pricing.subtitlePro');
-              return name;
-            };
-
-            const getCta = (code: string, name: string) => {
-              if (code === 'free') return t('pricing.ctaFree');
-              if (code === 'basic') return t('pricing.ctaBasic');
-              if (code === 'pro' || code === 'professional') return t('pricing.ctaPro');
-              return t('pricing.ctaDefault', { name });
-            };
-
-            const formatPrice = (cents: number) => {
-              if (cents === 0) return 'R$ 0';
-              const reais = cents / 100;
-              return `R$ ${reais.toFixed(2).replace('.', ',')}`;
-            };
-
-            const period = plan.priceCents === 0 ? t('pricing.periodForever') : t('pricing.periodMonth');
-            const featured = plan.code === 'pro' || plan.code === 'professional';
-
-            return {
-              name: plan.name,
-              code: plan.code,
-              subtitle: getSubtitle(plan.code, plan.name),
-              price: formatPrice(plan.priceCents),
-              period,
-              features: plan.features || [],
-              cta: getCta(plan.code, plan.name),
-              featured,
-              connectionLimit: plan.connectionLimit,
-              subscriberCount: plan.subscriberCount,
-            };
-          })
-          .sort((a, b) => {
-            if (a.featured && !b.featured) return -1;
-            if (!a.featured && b.featured) return 1;
-            return 0;
-          });
-
-        setPlans(mappedPlans);
-      } catch (err: any) {
-        console.error('Failed to fetch plans:', err);
-        setError(t('pricing.errorLoading'));
-        setPlans([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPlans();
-  }, []);
-
   return (
-    <section id="tools" className="py-20 bg-background scroll-mt-20">
-      <div className="container mx-auto px-6 sm:px-4">
+    <section id="tools" className="relative py-24 md:py-32 scroll-mt-20" style={{ background: '#000' }}>
+      <div className="container mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            {t('pricing.heading')}{" "}
-            <span className="text-primary">{t('pricing.headingHighlight')}</span>
+        <div className="landing-reveal text-center mb-16">
+          <h2 className="display-font" style={{ fontSize: 'clamp(40px, 5vw, 64px)', color: '#F0F0EE' }}>
+            ESCOLHA SEU <span style={{ color: '#00FF7A' }}>PLANO</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {t('pricing.description')}
+          <p className="body-font mt-4 text-base" style={{ color: 'rgba(255,255,255,0.4)', maxWidth: '480px', margin: '16px auto 0' }}>
+            Comece e faça upgrade conforme cresce. Cancele quando quiser.
           </p>
         </div>
 
-        {/* Plans Grid */}
-        {loading ? (
-          <div className="flex justify-center items-center py-12">
-            <div className="text-muted-foreground">{t('pricing.loadingPlans')}</div>
-          </div>
-        ) : error ? (
-          <div className="flex justify-center items-center py-12">
-            <div className="text-destructive">{error}</div>
-          </div>
-        ) : plans.length === 0 ? (
-          <div className="flex justify-center items-center py-12">
-            <Package className="h-12 w-12 text-muted-foreground/50 mr-3" />
-            <div className="text-muted-foreground">{t('pricing.noPlans')}</div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {plans.map((plan, index) => {
-              const minCount = MIN_USER_COUNTS[index] ?? 80;
-              const userCount = Math.max(plan.subscriberCount, minCount);
-              const avatars = AVATAR_SETS[index % AVATAR_SETS.length];
-
-              return (
+        {/* Plans grid */}
+        <div className="landing-reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-[1200px] mx-auto">
+          {plans.map((plan) => (
+            <div
+              key={plan.name}
+              className={`plan-card-hover relative flex flex-col p-6 border ${
+                plan.disabled ? 'opacity-45 pointer-events-none' : ''
+              }`}
+              style={{
+                background: plan.featured ? 'rgba(0,255,122,0.03)' : 'rgba(255,255,255,0.02)',
+                borderColor: plan.featured ? 'rgba(0,255,122,0.3)' : 'rgba(255,255,255,0.06)',
+              }}
+            >
+              {/* Featured tag */}
+              {plan.featured && (
                 <div
-                  key={plan.name}
-                  className={cn(
-                    "chart-card relative flex flex-col transition-all duration-300 overflow-visible hover:scale-[1.02]",
-                    plan.featured &&
-                      "ring-2 ring-primary/60 shadow-lg shadow-primary/10"
-                  )}
+                  className="absolute -top-px left-1/2 -translate-x-1/2 mono-font text-[9px] tracking-[0.16em] uppercase px-4 py-1"
+                  style={{ background: '#00FF7A', color: '#000', fontWeight: 500 }}
                 >
-                  {/* Featured Badge */}
-                  {plan.featured && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                      <Badge className="bg-primary text-primary-foreground shadow-md px-3 py-1 text-xs font-semibold whitespace-nowrap">
-                        <Crown className="h-3 w-3 mr-1" />
-                        {t('pricing.mostPopular')}
-                      </Badge>
-                    </div>
-                  )}
-
-                  {/* Plan Header */}
-                  <div className="pt-2 pb-4">
-                    <h3 className="text-lg font-bold text-foreground">
-                      {plan.name}
-                    </h3>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {plan.subtitle}
-                    </p>
-                  </div>
-
-                  {/* Price Section */}
-                  <div className="pb-4">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold text-foreground tracking-tight">
-                        {plan.price}
-                      </span>
-                      {plan.period && (
-                        <span className="text-sm text-muted-foreground">
-                          {plan.period}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* User Avatars */}
-                  <div className="flex items-center gap-2 py-3">
-                    <div className="flex -space-x-2">
-                      {avatars.map((av, i) => (
-                        <div
-                          key={i}
-                          className={cn(
-                            "h-7 w-7 rounded-full border-2 border-background flex items-center justify-center bg-gradient-to-br",
-                            av.from,
-                            av.to
-                          )}
-                        >
-                          <span className="text-[9px] font-bold text-white leading-none">
-                            {av.initials}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <span className="text-xs text-muted-foreground">
-                      {t('plans:usedByUsers', { count: userCount })}
-                    </span>
-                  </div>
-
-                  {/* Connections */}
-                  <p className="text-xs font-medium text-muted-foreground pb-3">
-                    {plan.connectionLimit !== null
-                      ? t('plans:connections', { count: plan.connectionLimit })
-                      : t('plans:connectionsUnlimited')}
-                  </p>
-
-                  {/* Features */}
-                  <ul className="space-y-2.5 flex-1 pb-5">
-                    {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5">
-                        <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                          <Check className="h-3 w-3 text-primary" />
-                        </div>
-                        <span className="text-sm text-foreground/80">
-                          {feature}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* CTA */}
-                  <Button
-                    onClick={() => {
-                      if (user) {
-                        if (user.role === 'consultant') {
-                          navigate('/consultant/plans');
-                        } else {
-                          navigate('/app/plans');
-                        }
-                      } else {
-                        navigate('/login');
-                      }
-                    }}
-                    variant={plan.featured ? "default" : "outline"}
-                    className={cn(
-                      "w-full mt-auto h-11",
-                      plan.featured &&
-                        "bg-primary hover:bg-primary/90 text-primary-foreground shadow-md"
-                    )}
-                    size="lg"
-                  >
-                    {plan.cta}
-                  </Button>
+                  Mais Popular
                 </div>
-              );
-            })}
-          </div>
-        )}
+              )}
+
+              {/* Disabled tag */}
+              {plan.disabled && (
+                <div
+                  className="absolute top-4 right-4 mono-font text-[9px] tracking-[0.12em] uppercase px-2.5 py-1 border"
+                  style={{ color: 'rgba(255,255,255,0.3)', borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}
+                >
+                  Em breve
+                </div>
+              )}
+
+              {/* Name */}
+              <div className="mono-font text-[10px] tracking-[0.18em] uppercase mb-6"
+                style={{ color: plan.featured ? '#00FF7A' : 'rgba(255,255,255,0.35)' }}>
+                {plan.name}
+              </div>
+
+              {/* Price */}
+              <div className="flex items-baseline mb-1">
+                <span className="display-font" style={{ fontSize: '48px', color: '#F0F0EE', lineHeight: 1 }}>
+                  <span style={{ fontSize: '20px', color: 'rgba(255,255,255,0.4)' }}>R$</span>
+                  {plan.price}
+                </span>
+                <span className="body-font text-lg" style={{ color: 'rgba(255,255,255,0.4)' }}>{plan.cents}</span>
+              </div>
+              <div className="mono-font text-[10px] tracking-[0.1em] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                por mês
+              </div>
+
+              {/* Description */}
+              <p className="body-font text-xs mb-6" style={{ color: 'rgba(255,255,255,0.35)', minHeight: '32px' }}>
+                {plan.description}
+              </p>
+
+              {/* Divider */}
+              <div className="h-px mb-5" style={{ background: 'rgba(255,255,255,0.06)' }} />
+
+              {/* Features */}
+              <ul className="space-y-2.5 flex-1 mb-6">
+                {plan.features.map((f, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    {f.ok ? (
+                      <Check className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" style={{ color: '#00FF7A' }} />
+                    ) : (
+                      <X className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.15)' }} />
+                    )}
+                    <span className="body-font text-xs" style={{ color: f.ok ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)' }}>
+                      {f.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA */}
+              {plan.disabled ? (
+                <div
+                  className="mono-font text-center text-[11px] tracking-[0.14em] uppercase py-3 border"
+                  style={{ borderColor: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.2)', cursor: 'not-allowed' }}
+                >
+                  Indisponível
+                </div>
+              ) : (
+                <Link
+                  to={plan.href}
+                  className="mono-font text-center text-[11px] tracking-[0.14em] uppercase py-3 block border transition-all hover:opacity-85"
+                  style={
+                    plan.featured
+                      ? { background: '#00FF7A', color: '#000', borderColor: '#00FF7A', fontWeight: 500 }
+                      : { borderColor: 'rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.5)' }
+                  }
+                >
+                  {plan.cta}
+                </Link>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

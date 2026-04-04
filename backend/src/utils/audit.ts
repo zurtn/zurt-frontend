@@ -14,40 +14,33 @@ export interface AuditLogEntry {
 
 export async function logAudit(entry: AuditLogEntry): Promise<void> {
   try {
-    // Build metadata object with all additional information
-    const metadata: any = {};
-    if (entry.oldValue) metadata.oldValue = entry.oldValue;
-    if (entry.newValue) metadata.newValue = entry.newValue;
-    if (entry.ipAddress) metadata.ipAddress = entry.ipAddress;
-    if (entry.userAgent) metadata.userAgent = entry.userAgent;
-    if (entry.metadata) {
-      // Merge any additional metadata
-      Object.assign(metadata, entry.metadata);
-    }
+    const meta: any = {};
+    if (entry.metadata) Object.assign(meta, entry.metadata);
+    if (entry.ipAddress) meta.ipAddress = entry.ipAddress;
+    if (entry.userAgent) meta.userAgent = entry.userAgent;
 
     await db.query(
       `INSERT INTO audit_logs (
-        actor_user_id, action, entity_type, entity_id, metadata_json
-      ) VALUES ($1, $2, $3, $4, $5)`,
+        admin_id, action, resource_type, resource_id, old_value, new_value, metadata
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
       [
         entry.adminId,
         entry.action,
         entry.resourceType,
-        entry.resourceId || null, // Will be null for bulk operations
-        JSON.stringify(metadata),
+        entry.resourceId || null,
+        entry.oldValue ? JSON.stringify(entry.oldValue) : null,
+        entry.newValue ? JSON.stringify(entry.newValue) : null,
+        Object.keys(meta).length > 0 ? JSON.stringify(meta) : '{}',
       ]
     );
   } catch (error: any) {
-    // Log error but don't throw - audit logging shouldn't break the main flow
     console.error('Failed to log audit:', error);
   }
 }
 
-// Helper function to get IP address from Fastify request
 export function getClientIp(request: any): string | undefined {
-  return request.ip || 
+  return request.ip ||
          request.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
          request.headers['x-real-ip'] ||
          request.socket?.remoteAddress;
 }
-

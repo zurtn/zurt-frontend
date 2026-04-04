@@ -100,7 +100,7 @@ export function DraggableDashboard({
           <div
             key={card.id}
             className={cn(
-              'animate-pulse bg-card/50 rounded-xl border border-border/60',
+              'animate-pulse bg-[#18181b]/50 rounded-xl border border-[#27272a]',
               card.span?.desktop === 4 && 'lg:col-span-4',
               card.span?.desktop === 2 && 'lg:col-span-2'
             )}
@@ -148,7 +148,7 @@ export function DraggableDashboard({
       {/* Drag Overlay - Shows the dragged item */}
       <DragOverlay>
         {activeCard ? (
-          <div className="opacity-80 scale-105 shadow-2xl border-2 border-primary rounded-xl">
+          <div className="opacity-80 scale-105 shadow-2xl border-2 border-[#00FF7A] rounded-xl">
             {activeCard.component}
           </div>
         ) : null}

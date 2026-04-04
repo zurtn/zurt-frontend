@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { db } from '../db/connection.js';
 import { syncPluggyData } from '../services/pluggy-sync.js';
+import { updateItem } from '../services/pluggy.js';
 import { autoCategorize } from '../utils/auto-categorize.js';
 
 export async function financeRoutes(fastify: FastifyInstance) {
@@ -43,30 +44,29 @@ export async function financeRoutes(fastify: FastifyInstance) {
       const { itemId } = request.query as any;
 
       let query = `
-        WITH latest_connections AS (
-          SELECT DISTINCT ON (c.institution_id)
-            c.external_consent_id as item_id,
-            c.institution_id,
+        WITH deduped AS (
+          SELECT DISTINCT ON (pa.name, pa.type)
+            pa.*,
             i.name as institution_name,
             i.logo_url as institution_logo
-          FROM connections c
-          LEFT JOIN institutions i ON c.institution_id = i.id
-          WHERE c.user_id = $1 AND c.provider = 'open_finance'
-          ORDER BY c.institution_id, c.created_at DESC
+          FROM pluggy_accounts pa
+          JOIN connections c ON pa.item_id = c.external_consent_id::text AND c.user_id = pa.user_id
+          JOIN institutions i ON c.institution_id = i.id
+          WHERE pa.user_id = $1
+          ORDER BY pa.name, pa.type, pa.current_balance DESC, pa.updated_at DESC
         )
-        SELECT pa.*, lc.institution_name, lc.institution_logo
-        FROM pluggy_accounts pa
-        INNER JOIN latest_connections lc ON pa.item_id = lc.item_id
-        WHERE pa.user_id = $1
+        SELECT d.*
+        FROM deduped d
+        WHERE 1=1
       `;
       const params: any[] = [userId];
 
       if (itemId) {
-        query += ' AND pa.item_id = $2';
+        query += ' AND d.item_id = $2';
         params.push(itemId);
       }
 
-      query += ' ORDER BY pa.updated_at DESC';
+      query += ' ORDER BY d.name ASC';
 
       const result = await db.query(query, params);
 
@@ -141,12 +141,29 @@ export async function financeRoutes(fastify: FastifyInstance) {
         const truncExpr = view === 'daily' ? dateCol : `date_trunc('${view === 'weekly' ? 'week' : view === 'monthly' ? 'month' : 'year'}', ${dateCol})`;
         const amountExpr = usePluggy ? 'pt.amount' : '(t.amount_cents::float / 100)';
 
-        let chartQuery = `
-          SELECT ${truncExpr}::date as period,
-                 SUM(CASE WHEN ${amountExpr} > 0 THEN ${amountExpr} ELSE 0 END) as income,
-                 SUM(CASE WHEN ${amountExpr} < 0 THEN ABS(${amountExpr}) ELSE 0 END) as expense
-          FROM ${table}
-          WHERE ${userCol} = $1`;
+        // Use deduped subquery for pluggy to avoid inflated values from duplicate connections
+        let chartQuery: string;
+        if (usePluggy) {
+          chartQuery = `
+            SELECT ${truncExpr}::date as period,
+                   SUM(CASE WHEN pt.amount > 0 THEN pt.amount ELSE 0 END) as income,
+                   SUM(CASE WHEN pt.amount < 0 THEN ABS(pt.amount) ELSE 0 END) as expense
+            FROM (
+              SELECT DISTINCT ON (sub.description, sub.amount, sub.date::date)
+                sub.*
+              FROM pluggy_transactions sub
+              WHERE sub.user_id = $1
+              ORDER BY sub.description, sub.amount, sub.date::date, sub.updated_at DESC
+            ) pt
+            WHERE pt.user_id = $1`;
+        } else {
+          chartQuery = `
+            SELECT ${truncExpr}::date as period,
+                   SUM(CASE WHEN ${amountExpr} > 0 THEN ${amountExpr} ELSE 0 END) as income,
+                   SUM(CASE WHEN ${amountExpr} < 0 THEN ABS(${amountExpr}) ELSE 0 END) as expense
+            FROM ${table}
+            WHERE ${userCol} = $1`;
+        }
         const chartParams: any[] = [userId];
         let ci = 2;
 
@@ -198,6 +215,8 @@ export async function financeRoutes(fastify: FastifyInstance) {
           WHERE pt.user_id = $1`;
         const params: any[] = [userId];
         let idx = 2;
+        // Exclude future-dated transactions by default
+        if (!to) { query += ` AND pt.date <= NOW()`; }
 
         if (from)      { query += ` AND pt.date >= $${idx}`; params.push(from); idx++; }
         if (to)        { query += ` AND pt.date <= $${idx}`; params.push(to); idx++; }
@@ -207,6 +226,7 @@ export async function financeRoutes(fastify: FastifyInstance) {
 
         let countQuery = `SELECT COUNT(*) as total FROM pluggy_transactions pt WHERE pt.user_id = $1`;
         const cp: any[] = [userId]; let ci = 2;
+        if (!to) { countQuery += ` AND pt.date <= NOW()`; }
         if (from)      { countQuery += ` AND pt.date >= $${ci}`; cp.push(from); ci++; }
         if (to)        { countQuery += ` AND pt.date <= $${ci}`; cp.push(to); ci++; }
         if (itemId)    { countQuery += ` AND pt.item_id = $${ci}`; cp.push(itemId); ci++; }
@@ -341,30 +361,25 @@ export async function financeRoutes(fastify: FastifyInstance) {
       const { itemId } = request.query as any;
 
       let query = `
-        WITH latest_connections AS (
-          SELECT DISTINCT ON (c.institution_id)
-            c.external_consent_id as item_id,
-            c.institution_id,
-            i.name as institution_name,
-            i.logo_url as institution_logo
-          FROM connections c
-          LEFT JOIN institutions i ON c.institution_id = i.id
-          WHERE c.user_id = $1 AND c.provider = 'open_finance'
-          ORDER BY c.institution_id, c.created_at DESC
+        WITH deduped AS (
+          SELECT DISTINCT ON (pi.name)
+            pi.*
+          FROM pluggy_investments pi
+          WHERE pi.user_id = $1 AND pi.current_value > 0
+          ORDER BY pi.name, pi.updated_at DESC
         )
-        SELECT pi.*, lc.institution_name, lc.institution_logo
-        FROM pluggy_investments pi
-        INNER JOIN latest_connections lc ON pi.item_id = lc.item_id
-        WHERE pi.user_id = $1
+        SELECT d.*
+        FROM deduped d
+        WHERE 1=1
       `;
       const params: any[] = [userId];
 
       if (itemId) {
-        query += ' AND pi.item_id = $2';
+        query += ' AND d.item_id = $2';
         params.push(itemId);
       }
 
-      query += ' ORDER BY pi.updated_at DESC';
+      query += ' ORDER BY d.current_value DESC';
 
       const result = await db.query(query, params);
 
@@ -625,6 +640,14 @@ export async function financeRoutes(fastify: FastifyInstance) {
           }
         }
 
+        // Force Pluggy to refresh data before pulling
+        try {
+          await updateItem(itemId);
+          await new Promise(r => setTimeout(r, 2000)); // Brief delay for Pluggy to process
+        } catch (err: any) {
+          fastify.log.warn('updateItem failed, syncing with cached data:', err.message);
+        }
+
         // Sync specific item
         await syncPluggyData(userId, itemId);
 
@@ -645,6 +668,13 @@ export async function financeRoutes(fastify: FastifyInstance) {
 
         for (const conn of connections.rows) {
           try {
+            // Force Pluggy to refresh data before pulling
+            try {
+              await updateItem(conn.external_consent_id);
+              await new Promise(r => setTimeout(r, 2000));
+            } catch (err: any) {
+              fastify.log.warn('updateItem failed for ' + conn.external_consent_id + ', syncing cached:', err.message);
+            }
             await syncPluggyData(userId, conn.external_consent_id);
           } catch (error: any) {
             fastify.log.error(`Error syncing item ${conn.external_consent_id}:`, error);
@@ -666,4 +696,17 @@ export async function financeRoutes(fastify: FastifyInstance) {
       return reply.code(500).send({ error: 'Internal server error', details: error.message });
     }
   });
+
+  // GET /finance/market-close — Latest market snapshot (any authenticated user)
+  fastify.get('/market-close', { preHandler: [fastify.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const result = await db.query(
+        'SELECT snapshot_date, ibov_points, ibov_change, top_movers, bottom_movers, created_at FROM market_snapshots ORDER BY snapshot_date DESC LIMIT 7'
+      );
+      return reply.send({ snapshots: result.rows });
+    } catch (e: any) {
+      return reply.code(500).send({ error: e.message });
+    }
+  });
+
 }

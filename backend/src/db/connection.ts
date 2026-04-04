@@ -21,7 +21,7 @@ const getDbConfig = () => {
     port: parseInt(process.env.DB_PORT || '5432', 10),
     database: process.env.DB_NAME || 'fintech_db',
     user: process.env.DB_USER || 'fintech_user',
-    password: process.env.DB_PASSWORD || 'Basketball@0615',
+    password: process.env.DB_PASSWORD,
     ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
   };
 };

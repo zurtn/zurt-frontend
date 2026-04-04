@@ -147,7 +147,7 @@ const WeeklyActivityCard = ({ data, loading }: WeeklyActivityCardProps) => {
       {/* Trend cards */}
       <div className="grid grid-cols-2 gap-3">
         {/* Activity Trend */}
-        <div className="rounded-xl bg-card/60 border border-white/10 p-3 flex flex-col">
+        <div className="rounded-xl bg-[#27272a]/40 border border-[#27272a] p-3 flex flex-col">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] text-muted-foreground font-medium">{t('dashboard:analytics.activityTrend')}</span>
             <div className="flex items-center gap-1">
@@ -165,7 +165,7 @@ const WeeklyActivityCard = ({ data, loading }: WeeklyActivityCardProps) => {
             </div>
           </div>
           <div className="flex-1 mb-2">
-            <Sparkline values={cumulativeActivity} color="#3b82f6" height={44} />
+            <Sparkline values={cumulativeActivity} color="#00FF7A" height={44} />
           </div>
           <div>
             <p className="text-lg font-bold text-foreground tabular-nums leading-tight">{data.totalTransactions}</p>
@@ -174,7 +174,7 @@ const WeeklyActivityCard = ({ data, loading }: WeeklyActivityCardProps) => {
         </div>
 
         {/* Spending Trend */}
-        <div className="rounded-xl bg-card/60 border border-white/10 p-3 flex flex-col">
+        <div className="rounded-xl bg-[#27272a]/40 border border-[#27272a] p-3 flex flex-col">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] text-muted-foreground font-medium">{t('dashboard:analytics.spendingTrend')}</span>
             <div className="flex items-center gap-1">
