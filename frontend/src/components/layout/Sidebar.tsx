@@ -31,6 +31,7 @@ import {
   Globe,
   BarChart2,
   PieChart,
+  Bitcoin,
   LogOut,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -107,6 +108,7 @@ const Sidebar = memo(({ collapsed = false, onCollapse, mobileOpen = false, onMob
     { icon: Receipt, label: t('sidebar.nav.transactions'), href: "/app/transactions", enabled: true, section: t('sidebar.sections.financeiro') },
     { icon: CreditCard, label: t('sidebar.nav.cards'), href: "/app/cards", enabled: true, section: t('sidebar.sections.financeiro'),  },
     { icon: TrendingUp, label: t('sidebar.nav.investments'), href: "/app/investments", enabled: true, section: t('sidebar.sections.financeiro') },
+    { icon: Bitcoin, label: t('sidebar.nav.exchanges'), href: "/app/exchanges", enabled: true, section: t('sidebar.sections.financeiro') },
     {
       icon: FileText,
       label: t('sidebar.nav.reports'),

@@ -1,1 +1,0 @@
-import{H as p}from"./index-0fABncgr.js";const s={getPlatformStats:()=>p.get("/public/stats"),getPlans:a=>{const t=new URLSearchParams;return a&&t.append("billingPeriod",a),p.get(`/plans${t.toString()?`?${t.toString()}`:""}`)}};export{s as p};

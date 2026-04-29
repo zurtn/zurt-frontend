@@ -47,6 +47,7 @@ const B3 = lazy(() => import("./pages/B3"));
 const Accounts = lazy(() => import("./pages/Accounts"));
 const Cards = lazy(() => import("./pages/Cards"));
 const Investments = lazy(() => import("./pages/Investments"));
+const Exchanges = lazy(() => import("./pages/Exchanges"));
 const B3Portfolio = lazy(() => import("./pages/B3Portfolio"));
 const Reports = lazy(() => import("./pages/Reports"));
 const ReportHistory = lazy(() => import("./pages/ReportHistory"));
@@ -154,6 +155,7 @@ const App = () => (
               <Route path="assets" element={<Assets />} />
               <Route path="investments" element={<Investments />} />
               <Route path="investments/b3" element={<FeatureGate feature="b3"><B3Portfolio /></FeatureGate>} />
+              <Route path="exchanges" element={<Exchanges />} />
               <Route path="reports" element={<FeatureGate feature="reports"><Reports /></FeatureGate>} />
               <Route path="reports/history" element={<FeatureGate feature="reports"><ReportHistory /></FeatureGate>} />
               <Route path="goals" element={<Goals />} />

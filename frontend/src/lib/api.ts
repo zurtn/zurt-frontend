@@ -22,3 +22,4 @@ export { customerApi } from './api-customer';
 export { publicApi } from './api-public';
 export { adminApi } from './api-admin';
 export { consultantApi } from './api-consultant';
+export { exchangesApi } from './api-exchanges';

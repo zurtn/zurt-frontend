@@ -26,3 +26,7 @@ node_modules
 *.njsproj
 *.sln
 *.sw?
+
+# Local backups
+*.bak
+*.bak[0-9]*
