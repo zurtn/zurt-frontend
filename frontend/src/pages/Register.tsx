@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
+import { resolvePostLoginPath } from "@/lib/api-activation";
 import { authApi } from "@/lib/api";
 import { toast } from "@/hooks/use-toast";
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
@@ -72,7 +73,8 @@ const Register = () => {
       }
 
       const userRole = response?.user?.role || role;
-      const redirectPath = userRole === 'consultant' ? "/consultant/dashboard" : "/app/dashboard";
+      // Clientes recém-registrados caem no onboarding de ativação (fail-open).
+      const redirectPath = await resolvePostLoginPath(userRole);
       navigate(redirectPath);
     } catch (err: any) {
       setError(err?.error || t('register.createError'));
