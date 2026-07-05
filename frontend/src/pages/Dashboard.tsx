@@ -7,6 +7,7 @@ import SpendingByCategoryChart from "@/components/dashboard/SpendingByCategoryCh
 import WeeklyActivityCard from "@/components/dashboard/WeeklyActivityCard";
 import RecentTransactionsTable from "@/components/dashboard/RecentTransactionsTable";
 import { DraggableDashboard } from "@/components/dashboard/DraggableDashboard";
+import SetupChecklist from "@/components/dashboard/SetupChecklist";
 import type { DashboardCard } from "@/types/dashboard";
 import { financeApi } from "@/lib/api";
 import { dashboardApi } from "@/lib/api-dashboard";
@@ -294,6 +295,10 @@ const Dashboard = () => {
           {getGreeting()}, <span className="text-[#00FF7A]">{firstName}</span>
         </h1>
         <p className="text-sm text-[#a5a5a5] mt-1">Aqui está o resumo da sua vida financeira.</p>
+      </div>
+      {/* Setup checklist -- auto-hides once all sources are connected or if dismissed */}
+      <div className="mb-6">
+        <SetupChecklist />
       </div>
       {/* Draggable Dashboard Cards */}
       <div className="flex-1 min-h-0 flex flex-col gap-6">

@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
+import { resolvePostLoginPath } from "@/lib/api-activation";
 
 const GoogleAuthCallback = () => {
   const [searchParams] = useSearchParams();
@@ -62,15 +63,9 @@ const GoogleAuthCallback = () => {
             // Update the query cache with the user data
             queryClient.setQueryData(['auth', 'me'], data.user);
 
-            // Redirect based on role
-            const role = data.user.role;
-            if (role === 'admin') {
-              navigate("/admin/dashboard");
-            } else if (role === 'consultant') {
-              navigate("/consultant/dashboard");
-            } else {
-              navigate("/app/dashboard");
-            }
+            // Redirect based on role; clientes no primeiro acesso passam pelo
+            // onboarding de ativação (fail-open — nunca bloqueia o login).
+            navigate(await resolvePostLoginPath(data.user.role));
           } else {
             throw new Error("Failed to fetch user info");
           }

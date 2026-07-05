@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
+import { resolvePostLoginPath } from "@/lib/api-activation";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Login = () => {
@@ -22,10 +23,8 @@ const Login = () => {
     setError(null);
     try {
       const response = await loginAsync({ email, password });
-      const userRole = response?.user?.role;
-      let redirectPath = "/app/dashboard";
-      if (userRole === 'consultant') redirectPath = "/consultant/dashboard";
-      else if (userRole === 'admin') redirectPath = "/admin/dashboard";
+      // Clientes no primeiro acesso vão para o onboarding de ativação (fail-open).
+      const redirectPath = await resolvePostLoginPath(response?.user?.role);
       navigate(redirectPath);
     } catch (err: any) {
       if (err?.approval_status === 'pending') {
