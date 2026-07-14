@@ -169,13 +169,17 @@ export function useAuth() {
       password,
       role,
       invitation_token,
+      cpf,
+      birth_date,
     }: {
       full_name: string;
       email: string;
       password: string;
       role?: 'customer' | 'consultant' | 'admin';
       invitation_token?: string;
-    }) => authService.register(full_name, email, password, role, invitation_token),
+      cpf?: string;
+      birth_date?: string;
+    }) => authService.register(full_name, email, password, role, invitation_token, cpf, birth_date),
     onSuccess: (data: { user?: any; token?: string; requiresApproval?: boolean; requiresVerification?: boolean }) => {
       hasUnauthorizedError.current = false;
       if (data.token) {

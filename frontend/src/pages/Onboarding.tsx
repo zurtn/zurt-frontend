@@ -30,36 +30,8 @@ const F = {
 };
 const GREEN = "#00FF7A";
 
-/* -------------------------------- CPF helpers ------------------------------- */
-
-function onlyDigits(s: string): string {
-  return (s || "").replace(/\D/g, "");
-}
-
-function formatCpf(v: string): string {
-  const d = onlyDigits(v).slice(0, 11);
-  if (d.length > 9) return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9)}`;
-  if (d.length > 6) return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6)}`;
-  if (d.length > 3) return `${d.slice(0, 3)}.${d.slice(3)}`;
-  return d;
-}
-
-/** Same check-digit validation used server-side (routes/b3-consent.ts). */
-function isValidCpf(raw: string): boolean {
-  const cpf = onlyDigits(raw);
-  if (cpf.length !== 11) return false;
-  if (/^(\d)\1{10}$/.test(cpf)) return false;
-  const calc = (slice: string, factorStart: number): number => {
-    let sum = 0;
-    let factor = factorStart;
-    for (const ch of slice) sum += parseInt(ch, 10) * factor--;
-    const mod = (sum * 10) % 11;
-    return mod === 10 ? 0 : mod;
-  };
-  if (calc(cpf.slice(0, 9), 10) !== parseInt(cpf[9], 10)) return false;
-  if (calc(cpf.slice(0, 10), 11) !== parseInt(cpf[10], 10)) return false;
-  return true;
-}
+/* CPF helpers extraídos p/ @/lib/cpf (BUILD-CPF-IDENTIDADE T3 — reuso no registro) */
+import { onlyDigits, formatCpf, isValidCpf, maskCpfFromLast3 } from "@/lib/cpf";
 
 /* ------------------------------- Config & copy ------------------------------ */
 
@@ -389,22 +361,35 @@ const Onboarding = () => {
     }
   };
 
+  // BUILD-CPF-IDENTIDADE: conta COM CPF registrado conecta SEM digitar CPF —
+  // o backend usa o CPF da conta (server-driven). Conta legada mantém o input
+  // (o CPF digitado vira também a identidade da conta, travada dali em diante).
+  const accountCpfMasked = maskCpfFromLast3(user?.cpf_last3);
+
   const submitB3Consent = async () => {
     const digits = onlyDigits(cpf);
-    if (!isValidCpf(digits)) {
+    if (!accountCpfMasked && !isValidCpf(digits)) {
       setCpfError("CPF inválido — confira os dígitos.");
       return;
     }
     setBusy(true);
     setCpfError(null);
     try {
-      await activationApi.b3Consent(digits);
+      await activationApi.b3Consent(accountCpfMasked ? undefined : digits);
       record("b3", "completed");
       await refetch();
       toast({ title: "B3 autorizada", description: "Suas posições serão importadas automaticamente." });
       next();
     } catch (e: any) {
-      setCpfError(e?.error || "Falha ao autorizar. Tente novamente.");
+      if (e?.code === "B3_CPF_IN_USE" || e?.code === "CPF_IN_USE") {
+        setCpfError("Este CPF já está vinculado a outra conta ZURT. Se ele é seu, fale com o suporte.");
+      } else if (e?.code === "B3_CPF_MISMATCH") {
+        setCpfError("Este CPF não é o CPF do cadastro da sua conta. A B3 só pode ser conectada com o CPF do titular.");
+      } else if (e?.code === "B3_CPF_INVALID") {
+        setCpfError("CPF inválido — confira os dígitos.");
+      } else {
+        setCpfError(e?.error || "Falha ao autorizar. Tente novamente.");
+      }
     } finally {
       setBusy(false);
     }
@@ -646,36 +631,57 @@ const Onboarding = () => {
                 <Eyebrow>B3 · A Bolsa do Brasil</Eyebrow>
                 <H1>AUTORIZE A CONEXÃO B3.</H1>
                 <Sub>
-                  Informe o CPF titular dos investimentos. Ele é usado apenas para
-                  localizar suas posições na B3 — criptografado, nunca exibido,
-                  revogável quando quiser.
+                  {accountCpfMasked
+                    ? "Conectamos a B3 com o CPF do seu cadastro — criptografado, nunca exibido, revogável quando quiser."
+                    : "Informe o CPF titular dos investimentos. Ele é usado apenas para localizar suas posições na B3 — criptografado, nunca exibido, revogável quando quiser."}
                 </Sub>
 
-                <div className="space-y-2 mb-6">
-                  <label
-                    htmlFor="cpf"
-                    className="uppercase block"
-                    style={{ fontFamily: F.mono, fontSize: 10, letterSpacing: "0.1em", color: "rgba(255,255,255,0.4)" }}
-                  >
-                    CPF
-                  </label>
-                  <input
-                    id="cpf"
-                    inputMode="numeric"
-                    autoComplete="off"
-                    placeholder="000.000.000-00"
-                    value={cpf}
-                    onChange={(e) => {
-                      setCpf(formatCpf(e.target.value));
-                      setCpfError(null);
-                    }}
-                    className="w-full py-3 px-4 bg-white/[0.03] border border-white/[0.08] text-white placeholder-white/20 outline-none focus:border-[#00FF7A]/50 transition-colors"
-                    style={{ fontFamily: F.mono, fontSize: 14, letterSpacing: "0.06em" }}
-                  />
-                  {cpfError && (
-                    <p style={{ fontFamily: F.mono, fontSize: 11, color: "#f87171" }}>{cpfError}</p>
-                  )}
-                </div>
+                {accountCpfMasked ? (
+                  /* Conta com CPF registrado: confirmação mascarada, sem input */
+                  <div className="space-y-2 mb-6 py-3 px-4 bg-white/[0.03] border border-white/[0.08]">
+                    <span
+                      className="uppercase block"
+                      style={{ fontFamily: F.mono, fontSize: 10, letterSpacing: "0.1em", color: "rgba(255,255,255,0.4)" }}
+                    >
+                      CPF do seu cadastro
+                    </span>
+                    <span className="block text-white" style={{ fontFamily: F.mono, fontSize: 16, letterSpacing: "0.08em" }}>
+                      {accountCpfMasked}
+                    </span>
+                    <p style={{ fontFamily: F.mono, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>
+                      Por segurança, a B3 só pode ser conectada com o CPF do titular da conta.
+                    </p>
+                    {cpfError && (
+                      <p style={{ fontFamily: F.mono, fontSize: 11, color: "#f87171" }}>{cpfError}</p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-2 mb-6">
+                    <label
+                      htmlFor="cpf"
+                      className="uppercase block"
+                      style={{ fontFamily: F.mono, fontSize: 10, letterSpacing: "0.1em", color: "rgba(255,255,255,0.4)" }}
+                    >
+                      CPF
+                    </label>
+                    <input
+                      id="cpf"
+                      inputMode="numeric"
+                      autoComplete="off"
+                      placeholder="000.000.000-00"
+                      value={cpf}
+                      onChange={(e) => {
+                        setCpf(formatCpf(e.target.value));
+                        setCpfError(null);
+                      }}
+                      className="w-full py-3 px-4 bg-white/[0.03] border border-white/[0.08] text-white placeholder-white/20 outline-none focus:border-[#00FF7A]/50 transition-colors"
+                      style={{ fontFamily: F.mono, fontSize: 14, letterSpacing: "0.06em" }}
+                    />
+                    {cpfError && (
+                      <p style={{ fontFamily: F.mono, fontSize: 11, color: "#f87171" }}>{cpfError}</p>
+                    )}
+                  </div>
+                )}
                 <div className="space-y-3">
                   <CTA onClick={submitB3Consent} disabled={busy}>
                     {busy ? "AUTORIZANDO..." : "AUTORIZAR CONEXÃO B3"}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Eye, EyeOff, Mail, Lock, User, AlertCircle, UserCheck, Home, Sun, Moon } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, AlertCircle, UserCheck, Home, Sun, Moon, CreditCard, Calendar } from "lucide-react";
 import { useTranslation, Trans } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 import { resolvePostLoginPath } from "@/lib/api-activation";
+import { formatCpf, onlyDigits, isValidCpf } from "@/lib/cpf";
 import { authApi } from "@/lib/api";
 import { toast } from "@/hooks/use-toast";
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
@@ -32,6 +33,10 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  // BUILD-CPF-IDENTIDADE: CPF (identidade da conta — só ele conecta a B3) e
+  // nascimento (gate 18 anos, validado também no backend), obrigatórios.
+  const [cpf, setCpf] = useState("");
+  const [birthDate, setBirthDate] = useState(""); // input type="date" → AAAA-MM-DD
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState<'customer' | 'consultant'>('customer');
@@ -58,8 +63,41 @@ const Register = () => {
       return;
     }
 
+    // CPF: dígitos verificadores no cliente; palavra final é do backend
+    const cpfDigits = onlyDigits(cpf);
+    if (!isValidCpf(cpfDigits)) {
+      setError("CPF inválido — confira os dígitos.");
+      return;
+    }
+
+    // Gate 18 anos — espelho do backend (lá é a palavra final)
+    if (!birthDate) {
+      setError("Informe sua data de nascimento.");
+      return;
+    }
+    const [by, bm, bd] = birthDate.split("-").map(Number);
+    const now = new Date();
+    let age = now.getFullYear() - by;
+    if (now.getMonth() + 1 < bm || (now.getMonth() + 1 === bm && now.getDate() < bd)) age--;
+    if (!by || by < 1900 || Number.isNaN(age) || age < 0) {
+      setError("Data de nascimento inválida.");
+      return;
+    }
+    if (age < 18) {
+      setError("A ZURT ainda não atende menores de 18 anos.");
+      return;
+    }
+
     try {
-      const response = await registerAsync({ full_name: name, email, password, role, invitation_token: refToken });
+      const response = await registerAsync({
+        full_name: name,
+        email,
+        password,
+        role,
+        invitation_token: refToken,
+        cpf: cpfDigits,
+        birth_date: birthDate,
+      });
 
       if (response?.requiresApproval || response?.user?.approval_status === 'pending') {
         setError(null);
@@ -77,7 +115,18 @@ const Register = () => {
       const redirectPath = await resolvePostLoginPath(userRole);
       navigate(redirectPath);
     } catch (err: any) {
-      setError(err?.error || t('register.createError'));
+      // Códigos do fluxo CPF-identidade → mensagens PT claras
+      if (err?.code === "CPF_IN_USE") {
+        setError("Este CPF já está vinculado a outra conta ZURT. Faça login ou fale com o suporte.");
+      } else if (err?.code === "CPF_INVALID") {
+        setError("CPF inválido — confira os dígitos.");
+      } else if (err?.code === "UNDERAGE") {
+        setError("A ZURT ainda não atende menores de 18 anos.");
+      } else if (err?.code === "BIRTH_DATE_INVALID") {
+        setError("Data de nascimento inválida.");
+      } else {
+        setError(err?.error || t('register.createError'));
+      }
     }
   };
 
@@ -302,6 +351,43 @@ const Register = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10 bg-white border-gray-300 rounded-lg text-black"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <div className="relative">
+                  <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <Input
+                    id="cpf"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    placeholder="CPF — 000.000.000-00"
+                    value={cpf}
+                    onChange={(e) => setCpf(formatCpf(e.target.value))}
+                    className="pl-10 bg-white border-gray-300 rounded-lg text-black"
+                    maxLength={14}
+                    required
+                  />
+                </div>
+                <p className="text-xs text-gray-500">
+                  Sua identidade na ZURT — só este CPF poderá conectar a B3. Fica criptografado.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="birth_date" className="text-black">Data de nascimento</Label>
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
+                  <Input
+                    id="birth_date"
+                    type="date"
+                    value={birthDate}
+                    onChange={(e) => setBirthDate(e.target.value)}
+                    className="pl-10 bg-white border-gray-300 rounded-lg text-black"
+                    max={new Date().toISOString().slice(0, 10)}
                     required
                   />
                 </div>

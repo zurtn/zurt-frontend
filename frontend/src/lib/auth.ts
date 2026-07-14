@@ -5,6 +5,9 @@ export interface User {
   full_name: string;
   email: string;
   role: 'customer' | 'consultant' | 'admin';
+  // BUILD-CPF-IDENTIDADE: 3 últimos dígitos do CPF da conta (exibição
+  // mascarada no fluxo B3). null/ausente = conta sem CPF registrado (legada).
+  cpf_last3?: string | null;
 }
 
 export interface AuthResponse {
@@ -27,9 +30,11 @@ class AuthService {
     email: string,
     password: string,
     role: 'customer' | 'consultant' | 'admin' = 'customer',
-    invitation_token?: string
+    invitation_token?: string,
+    cpf?: string,
+    birth_date?: string
   ): Promise<AuthResponse & { requiresApproval?: boolean; requiresVerification?: boolean; email?: string }> {
-    const response = await authApi.register({ full_name, email, password, role, invitation_token });
+    const response = await authApi.register({ full_name, email, password, role, invitation_token, cpf, birth_date });
     if (response.token) {
       api.setToken(response.token);
       this.currentUser = response.user;

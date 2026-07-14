@@ -33,8 +33,13 @@ export const activationApi = {
   complete: () =>
     api.post<{ ok: boolean; completed_at: string | null }>('/activation/complete', {}),
 
-  /** Binds the user's CPF for B3 position lookup (encrypted at rest, LGPD-revocable). */
-  b3Consent: (cpf: string) => api.post<{ consent: any }>('/b3/consent', { cpf }),
+  /**
+   * Binds the CPF for B3 position lookup (encrypted at rest, LGPD-revocable).
+   * BUILD-CPF-IDENTIDADE: sem argumento = conta com CPF registrado (o backend
+   * usa o CPF da conta); com argumento = conta legada informando o CPF, que
+   * passa a ser também a identidade da conta.
+   */
+  b3Consent: (cpf?: string) => api.post<{ consent: any }>('/b3/consent', cpf ? { cpf } : {}),
 };
 
 /**
