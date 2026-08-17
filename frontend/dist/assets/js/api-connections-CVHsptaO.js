@@ -1,0 +1,1 @@
+import{J as t}from"./index-8Zj4Hr11.js";const e={getAll:()=>t.get("/connections"),getInstitutions:n=>t.get(`/connections/institutions${n?`?provider=${n}`:""}`),getConnectToken:()=>t.post("/connections/connect-token",{}),create:n=>t.post("/connections",n),sync:n=>t.post(`/connections/${n}/sync`),delete:n=>t.delete(`/connections/${n}`)};export{e as c};

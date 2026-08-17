@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Radar Semanal · ZURT</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#07090e">
+<!--
+  Acervo do Radar Semanal — versão WEB responsiva.
+
+  VISUAL: extraído de "Radar Semanal.dc.html" (Claude Design, direção 1b).
+  Cores, tipografia e componentes vêm do markup original; o LAYOUT foi
+  adaptado — o design era uma tela de 402px e aqui vira web que colapsa
+  para mobile, não uma moldura de celular centralizada.
+
+  POR QUE NÃO O BUNDLE: o design roda sobre dc-runtime (support.js), bundle
+  gerado "do not edit" que exige window.React. Prender o acervo do assinante
+  a runtime proprietário quebra sem diagnóstico.
+
+  AUTENTICAÇÃO: localStorage["auth_token"], mesma chave da SPA. O servidor
+  revalida JWT e plano em /api/radar/* — a porta está no backend.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#07090e;color:#f4f4f5;font-family:'Outfit',system-ui,sans-serif;
+       -webkit-font-smoothing:antialiased;min-height:100vh}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes pulsa{0%,100%{opacity:.45}50%{opacity:.8}}
+  .fade{animation:fadeUp 460ms cubic-bezier(.21,.78,.35,1) both}
+
+  /* ---- header ---- */
+  .hdr{position:sticky;top:0;z-index:20;background:rgba(7,9,14,0.82);
+       backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.05)}
+  .hdr .in{max-width:1180px;margin:0 auto;padding:14px 20px;
+           display:flex;align-items:center;gap:12px}
+  .divisor{width:1px;height:18px;background:rgba(255,255,255,0.08)}
+  .titulo-h{font-size:14px;font-weight:600;color:#e4e4e7;letter-spacing:-.01em}
+  .badge-ass{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;
+    letter-spacing:.14em;color:#34d399;background:rgba(16,185,129,0.10);
+    border:1px solid rgba(16,185,129,0.18);padding:4px 7px;border-radius:5px}
+  .avatar{width:28px;height:28px;border-radius:50%;
+    background:linear-gradient(135deg,#38bdf8,#22d3ee);color:#07090e;font-size:11px;
+    font-weight:800;display:flex;align-items:center;justify-content:center}
+  .voltar{color:#71717a;text-decoration:none;font-size:13px;margin-left:auto}
+  .voltar:hover{color:#e4e4e7}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px 72px}
+
+  /* ---- fechamento ---- */
+  .fech{margin-top:20px;border-radius:16px;border:1px solid rgba(255,255,255,0.06);
+    background:rgba(255,255,255,0.03);overflow:hidden}
+  .fech .cab{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px}
+  .fech .lbl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;
+    letter-spacing:.22em;color:#52525b}
+  .vivo{display:flex;align-items:center;gap:5px}
+  .vivo i{width:5px;height:5px;border-radius:50%;background:#34d399}
+  .vivo b{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;
+    color:#34d399;font-weight:700}
+  .fech .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+    background:rgba(255,255,255,0.05)}
+  .cel{background:#0b0e14;padding:11px 16px}
+  .cel .k{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;
+    letter-spacing:.18em;color:#52525b}
+  .cel .linha{display:flex;align-items:baseline;gap:6px;margin-top:4px}
+  .cel .v{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;
+    color:#f4f4f5;letter-spacing:-.02em}
+  .cel .d{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:#71717a}
+
+  .sec-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;
+    letter-spacing:.22em;color:#52525b;margin:26px 0 10px}
+
+  /* ---- destaque ---- */
+  .dest{display:flex;gap:16px;padding:16px;border-radius:18px;width:100%;
+    border:1px solid rgba(56,189,248,0.18);text-align:left;
+    background:linear-gradient(120deg,rgba(56,189,248,0.10),rgba(34,211,238,0.03) 60%,transparent)}
+  .dest:hover{border-color:rgba(56,189,248,0.32)}
+  .capa{flex-shrink:0;width:96px;position:relative;aspect-ratio:3/4;border-radius:10px;
+    overflow:hidden;border:1px solid rgba(255,255,255,0.08);
+    background:linear-gradient(150deg,#0e1826 0%,#071019 60%,#050810 100%)}
+  .capa .glow{position:absolute;inset:0}
+  .capa .n{position:absolute;right:-4px;bottom:-14px;font-family:'JetBrains Mono',monospace;
+    font-size:58px;font-weight:700;line-height:1;color:rgba(255,255,255,0.09)}
+  .capa .tg{position:absolute;top:8px;left:8px;font-family:'JetBrains Mono',monospace;
+    font-size:7.5px;font-weight:700;letter-spacing:.16em}
+  .dest .txt{flex:1;min-width:0;display:flex;flex-direction:column}
+  .dest .ed{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;
+    letter-spacing:.18em;color:#38bdf8}
+  .dest h2{font-size:19px;font-weight:700;letter-spacing:-.02em;line-height:1.2;
+    color:#f4f4f5;margin-top:7px;text-wrap:pretty}
+  .dest p{font-size:13px;line-height:1.55;color:#a1a1aa;margin-top:8px;max-width:62ch}
+  .dest .rod{margin-top:auto;padding-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .cta{padding:10px 16px;border-radius:10px;display:inline-block;
+    background:linear-gradient(90deg,#38bdf8,#06b6d4);color:#07090e;
+    font-size:12.5px;font-weight:700;text-decoration:none}
+  .meta-s{font-family:'JetBrains Mono',monospace;font-size:9px;color:#71717a;letter-spacing:.08em}
+
+  /* ---- acervo ---- */
+  .acv-cab{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:26px 0 12px}
+  .acv-cab .sec-lbl{margin:0}
+  .busca{flex:1;min-width:190px;max-width:320px;margin-left:auto;background:#0b0e14;
+    border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 13px;
+    color:#f4f4f5;font-family:'Outfit';font-size:13px;outline:none}
+  .busca:focus{border-color:rgba(56,189,248,0.35)}
+  .busca::placeholder{color:#52525b}
+
+  .grade{display:grid;gap:10px;grid-template-columns:1fr}
+  .item{display:flex;gap:12px;align-items:center;padding:13px;border-radius:14px;
+    border:1px solid rgba(255,255,255,0.05);background:#0b0e14;text-align:left;width:100%}
+  .item:hover{border-color:rgba(255,255,255,0.13)}
+  .item .mini{flex-shrink:0;width:40px;height:52px;border-radius:8px;position:relative;
+    overflow:hidden;background:linear-gradient(150deg,#0e1826,#050810);display:flex;
+    align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;
+    font-size:15px;font-weight:700;color:rgba(255,255,255,0.24)}
+  .item .info{flex:1;min-width:0}
+  .item .tg{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:700;
+    letter-spacing:.16em}
+  .item h3{font-size:14px;font-weight:600;line-height:1.3;color:#e4e4e7;margin-top:3px}
+  .item .dt{font-family:'JetBrains Mono',monospace;font-size:9px;color:#52525b;
+    letter-spacing:.1em;margin-top:5px}
+
+  .vazio{padding:34px 18px;text-align:center;color:#71717a;font-size:13.5px;line-height:1.65;
+    border:1px solid rgba(255,255,255,0.05);border-radius:16px;background:#0b0e14}
+  .vazio b{display:block;color:#e4e4e7;font-size:15px;margin-bottom:6px;font-weight:600}
+  .sk{height:104px;border-radius:16px;background:#0b0e14;margin-bottom:10px;
+    animation:pulsa 1.4s ease-in-out infinite}
+
+  /* ---- WEB: expande a partir de 640px ---- */
+  @media(min-width:640px){
+    .fech .grid{grid-template-columns:repeat(3,1fr)}
+    .grade{grid-template-columns:repeat(2,1fr)}
+    .capa{width:120px}
+    .dest h2{font-size:22px}
+  }
+  @media(min-width:960px){
+    .fech .grid{grid-template-columns:repeat(5,1fr)}
+    .grade{grid-template-columns:repeat(3,1fr)}
+    .dest{gap:22px;padding:22px}
+    .capa{width:148px}
+    .dest h2{font-size:26px;margin-top:9px}
+    .dest p{font-size:14px}
+  }
+  /* telas estreitas: o destaque vira coluna para o título não espremer */
+  @media(max-width:430px){
+    .dest{flex-direction:column;gap:14px}
+    .capa{width:100%;max-width:150px}
+  }
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="in">
+    <svg viewBox="0 0 180 60" height="22" style="display:block;flex-shrink:0" aria-label="zurT">
+      <defs><linearGradient id="zg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#38bdf8"></stop>
+        <stop offset="100%" stop-color="#22d3ee"></stop>
+      </linearGradient></defs>
+      <text x="0" y="46" font-family="Outfit,system-ui,sans-serif" font-size="56" font-weight="800" letter-spacing="-3" fill="#f4f4f5">zur</text>
+      <text x="85" y="46" font-family="Outfit,system-ui,sans-serif" font-size="56" font-weight="800" letter-spacing="-2" fill="url(#zg)">T</text>
+      <circle cx="133" cy="42" r="5" fill="#22d3ee"></circle>
+    </svg>
+    <div class="divisor"></div>
+    <div class="titulo-h">Radar Semanal</div>
+    <a class="voltar" href="/app/dashboard">← plataforma</a>
+    <span class="badge-ass" id="badge">ASSINANTE</span>
+    <span class="avatar" id="avatar">··</span>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+
+<script>
+(function () {
+  'use strict';
+  var app = document.getElementById('app');
+  var TOKEN = null;
+  try { TOKEN = localStorage.getItem('auth_token'); } catch (e) {}
+  if (!TOKEN) { location.replace('/login?returnTo=' + encodeURIComponent('/radar/')); return; }
+  app.innerHTML = '<div class="sk"></div><div class="sk"></div>';
+
+  var THEMES = {
+    macro:  { label: 'MACRO',         color: '#22d3ee' },
+    rf:     { label: 'RENDA FIXA',    color: '#38bdf8' },
+    bolsa:  { label: 'BOLSA',         color: '#34d399' },
+    cambio: { label: 'CÂMBIO',        color: '#fbbf24' },
+    intl:   { label: 'INTERNACIONAL', color: '#a78bfa' },
+    cripto: { label: 'CRIPTO',        color: '#7c8aff' }
+  };
+  var PISTAS = [
+    ['cripto', /cripto|bitcoin|ethereum|\bbtc\b|\beth\b/i],
+    ['cambio', /câmbio|cambio|dólar|dolar|\busd\b|ptax/i],
+    ['bolsa',  /bolsa|ibovespa|ações|acoes|ação|dividendo|small cap/i],
+    ['rf',     /renda fixa|\bcdb\b|tesouro|debênture|debenture|crédito privado|credito privado|juros|selic|\bcdi\b/i],
+    ['intl',   /internacional|\bfed\b|s&p|nasdaq|global|exterior/i]
+  ];
+  function temaDe(ed) {
+    var alvo = [ed.tema, ed.titulo, (ed.tags || []).join(' ')].filter(Boolean).join(' ');
+    for (var i = 0; i < PISTAS.length; i++) if (PISTAS[i][1].test(alvo)) return PISTAS[i][0];
+    return 'macro';
+  }
+
+  var MES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function curta(iso){ if(!iso) return ''; var p=String(iso).slice(0,10).split('-');
+    return p.length===3 ? p[2]+' '+MES[parseInt(p[1],10)-1] : iso; }
+  function numEd(ed){ if(!ed.edicao) return String(ed.data||'').slice(8,10)||'—';
+    var m=String(ed.edicao).match(/^(\d+)/); return m?m[1]:String(ed.edicao); }
+  function pct(v){ return v==null ? null : Number(v).toFixed(2).replace('.',',')+'%'; }
+  function brl(v){ return v==null ? null : 'R$ '+Number(v).toFixed(4).replace('.',','); }
+
+  var EDICOES = [], MACRO = null;
+
+  // Mapeamento conferido contra getMacroSnapshot() em 28/07/2026. Eu havia
+  // presumido MACRO.selic/cdi/ipca/dolar — nenhum existe, e a faixa aparecia
+  // vazia. A forma real é aninhada com .valor em cada série.
+  function fechamentoHtml() {
+    if (!MACRO) return '';
+    var L = [];
+    function add(k, v, nota) { if (v != null) L.push({ k: k, v: v, d: nota }); }
+    add('SELIC META', pct(MACRO.selicMeta && MACRO.selicMeta.valor), 'a.a.');
+    add('CDI',        pct(MACRO.cdi && MACRO.cdi.valor), 'a.a.');
+    add('IPCA 12M',   pct(MACRO.ipca12m && MACRO.ipca12m.valor), null);
+    add('IGP-M 12M',  pct(MACRO.igpm12m && MACRO.igpm12m.valor), null);
+    add('DÓLAR PTAX', brl(MACRO.ptax && MACRO.ptax.valor), null);
+    if (!L.length) return '';
+
+    // Data real do dado, não "hoje" — a série do BCB é D-1 e escrever a data
+    // de hoje sobre um número de ontem seria falsear a origem.
+    var ref = (MACRO.ptax && MACRO.ptax.data) || (MACRO.cdi && MACRO.cdi.data) || '';
+    var quando = '';
+    if (ref) { var p = String(ref).split('/');
+      if (p.length === 3) quando = ' · ' + p[0] + ' ' + (MES[parseInt(p[1],10)-1]||'').toUpperCase(); }
+
+    return '<section class="fech fade">' +
+      '<div class="cab"><div class="lbl">FECHAMENTO' + quando + '</div>' +
+      '<div class="vivo"><i></i><b>AO VIVO</b></div></div>' +
+      '<div class="grid">' + L.map(function (l) {
+        return '<div class="cel"><div class="k">' + esc(l.k) + '</div>' +
+          '<div class="linha"><div class="v">' + esc(l.v) + '</div>' +
+          (l.d ? '<div class="d">' + esc(l.d) + '</div>' : '') + '</div></div>';
+      }).join('') + '</div></section>';
+  }
+
+  function destaqueHtml(ed) {
+    var t = THEMES[temaDe(ed)];
+    var meta = [ed.paginas ? ed.paginas + ' PÁG' : null, ed.periodoLongo || null]
+      .filter(Boolean).join(' · ');
+    return '<div class="sec-lbl">A LEITURA DA SEMANA</div>' +
+      '<button class="dest fade" data-arq="' + esc(ed.arquivo) + '">' +
+        '<div class="capa">' +
+          '<div class="glow" style="background:radial-gradient(ellipse 90% 70% at 25% 15%,' +
+            t.color + '47 0%,transparent 62%)"></div>' +
+          '<div class="n">' + esc(numEd(ed)) + '</div>' +
+          '<div class="tg" style="color:' + t.color + '">' + t.label + '</div>' +
+        '</div>' +
+        '<div class="txt">' +
+          '<div class="ed">EDIÇÃO ' + esc(numEd(ed)) + '</div>' +
+          '<h2>' + esc(ed.tema || ed.titulo || 'Radar Semanal') + '</h2>' +
+          (ed.leitura ? '<p>' + esc(ed.leitura) + '</p>' : '') +
+          '<div class="rod"><span class="cta">Baixar PDF ↓</span>' +
+            (meta ? '<span class="meta-s">' + esc(meta) + '</span>' : '') + '</div>' +
+        '</div>' +
+      '</button>';
+  }
+
+  function itemHtml(ed) {
+    var t = THEMES[temaDe(ed)];
+    return '<button class="item" data-arq="' + esc(ed.arquivo) + '">' +
+      '<div class="mini">' + esc(numEd(ed)) + '</div>' +
+      '<div class="info">' +
+        '<div class="tg" style="color:' + t.color + '">' + t.label + '</div>' +
+        '<h3>' + esc(ed.tema || ed.titulo || 'Radar Semanal') + '</h3>' +
+        '<div class="dt">' + esc(curta(ed.data)) +
+          (ed.paginas ? ' · ' + ed.paginas + ' PÁG' : '') + '</div>' +
+      '</div></button>';
+  }
+
+  function render(filtro) {
+    var termo = (filtro || '').trim().toLowerCase();
+    var lista = EDICOES.filter(function (e) {
+      if (!termo) return true;
+      return [e.tema, e.titulo, e.leitura, (e.tags || []).join(' '), e.data]
+        .filter(Boolean).join(' ').toLowerCase().indexOf(termo) !== -1;
+    });
+    var resto = termo ? lista : EDICOES.slice(1);
+    var html = fechamentoHtml();
+    if (EDICOES[0] && !termo) html += destaqueHtml(EDICOES[0]);
+
+    html += '<div class="acv-cab"><div class="sec-lbl">ACERVO COMPLETO · ' +
+      EDICOES.length + (EDICOES.length === 1 ? ' EDIÇÃO' : ' EDIÇÕES') + '</div>' +
+      '<input class="busca" id="q" type="search" placeholder="Buscar por tema, data ou edição" ' +
+      'value="' + esc(filtro || '') + '"></div>';
+
+    html += resto.length
+      ? '<div class="grade">' + resto.map(itemHtml).join('') + '</div>'
+      : '<div class="vazio"><b>' + (termo ? 'Nada no acervo com esse termo'
+          : 'Só a edição em destaque por enquanto') + '</b>' +
+        (termo ? 'Tente por tema: juros, câmbio, dividendos.'
+               : 'As próximas edições aparecem aqui toda sexta.') + '</div>';
+    app.innerHTML = html;
+
+    var q = document.getElementById('q');
+    if (q) {
+      q.addEventListener('input', function () { render(q.value); });
+      if (termo) { q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
+    }
+  }
+
+  // PDF exige Bearer, então não dá para usar <a href>. Busca com token, vira
+  // blob e abre em aba nova; objectURL revogado para não segurar o arquivo.
+  function baixar(arquivo, alvo) {
+    var cta = alvo.querySelector('.cta');
+    var rot = cta ? cta.textContent : null;
+    if (cta) cta.textContent = 'Abrindo…';
+    fetch('/api/radar/file/' + encodeURIComponent(arquivo), {
+      headers: { Authorization: 'Bearer ' + TOKEN }
+    })
+      .then(function (r) {
+        if (r.status === 401) { location.replace('/login?returnTo=' + encodeURIComponent('/radar/')); return null; }
+        if (r.status === 403) throw new Error('Esta edição é exclusiva para assinantes.');
+        if (!r.ok) throw new Error('Não foi possível abrir a edição (HTTP ' + r.status + ').');
+        return r.blob();
+      })
+      .then(function (b) {
+        if (!b) return;
+        var u = URL.createObjectURL(b);
+        window.open(u, '_blank', 'noopener');
+        setTimeout(function () { URL.revokeObjectURL(u); }, 60000);
+      })
+      .catch(function (e) { alert(e.message || 'Falha ao abrir o PDF.'); })
+      .finally(function () { if (cta && rot) cta.textContent = rot; });
+  }
+
+  app.addEventListener('click', function (ev) {
+    var alvo = ev.target.closest('[data-arq]');
+    if (!alvo) return;
+    ev.preventDefault();
+    baixar(alvo.getAttribute('data-arq'), alvo);
+  });
+
+  function aviso(t, s, extra) {
+    app.innerHTML = '<div style="margin-top:26px"><div class="vazio"><b>' + esc(t) + '</b>' +
+      esc(s) + (extra || '') + '</div></div>';
+  }
+
+  // Macro é enfeite do hero: se falhar, a faixa some e o acervo carrega igual.
+  var pMacro = fetch('/api/macro', { headers: { Authorization: 'Bearer ' + TOKEN } })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) { MACRO = d; })
+    .catch(function () { MACRO = null; });
+
+  var pEd = fetch('/api/radar/editions', { headers: { Authorization: 'Bearer ' + TOKEN } })
+    .then(function (r) {
+      if (r.status === 401) { location.replace('/login?returnTo=' + encodeURIComponent('/radar/')); return null; }
+      if (r.status === 403) return { bloqueado: true };
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    });
+
+  Promise.all([pMacro, pEd]).then(function (res) {
+    var d = res[1];
+    if (!d) return;
+    if (d.bloqueado) {
+      var b = document.getElementById('badge');
+      b.textContent = 'SEM ACESSO';
+      b.style.color = '#71717a';
+      b.style.background = 'transparent';
+      b.style.borderColor = 'rgba(255,255,255,0.10)';
+      aviso('Conteúdo exclusivo para assinantes',
+        'O acervo do Radar Semanal faz parte do ZURT Premium.',
+        '<div style="margin-top:18px"><a class="cta" href="/app/plans">Ver o plano</a></div>');
+      return;
+    }
+    EDICOES = d.edicoes || [];
+    if (!EDICOES.length) {
+      aviso('O acervo está sendo montado',
+        'A primeira edição aparece aqui automaticamente. O Radar sai toda sexta às 19h.');
+      return;
+    }
+    render('');
+  }).catch(function () {
+    aviso('Não conseguimos carregar o acervo', 'Tente novamente em instantes.');
+  });
+})();
+</script>
+</body>
+</html>

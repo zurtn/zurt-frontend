@@ -1,0 +1,2221 @@
+﻿<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="b4fad34c-f941-4dcb-aa94-4f5d5b3d8ad6"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("a932bbc5-1b3e-407a-a4c5-c5ab1b20a9d3") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("19126a42-9715-48b2-805c-446742f1f494") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("cac1e440-b883-4455-9327-e5d3d3e23e8d") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("73830607-55c0-48f7-bdae-04ea4441747e") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("ccc25a8d-0bc4-48ce-bf30-1db59bc0e378") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("e329ae9e-f412-4cf7-bb28-7e8a3e2ae0ab") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("a932bbc5-1b3e-407a-a4c5-c5ab1b20a9d3") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("19126a42-9715-48b2-805c-446742f1f494") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("cac1e440-b883-4455-9327-e5d3d3e23e8d") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("73830607-55c0-48f7-bdae-04ea4441747e") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("ccc25a8d-0bc4-48ce-bf30-1db59bc0e378") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("e329ae9e-f412-4cf7-bb28-7e8a3e2ae0ab") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("a932bbc5-1b3e-407a-a4c5-c5ab1b20a9d3") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("19126a42-9715-48b2-805c-446742f1f494") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("cac1e440-b883-4455-9327-e5d3d3e23e8d") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("73830607-55c0-48f7-bdae-04ea4441747e") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("ccc25a8d-0bc4-48ce-bf30-1db59bc0e378") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("e329ae9e-f412-4cf7-bb28-7e8a3e2ae0ab") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("a932bbc5-1b3e-407a-a4c5-c5ab1b20a9d3") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("19126a42-9715-48b2-805c-446742f1f494") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("cac1e440-b883-4455-9327-e5d3d3e23e8d") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("73830607-55c0-48f7-bdae-04ea4441747e") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("ccc25a8d-0bc4-48ce-bf30-1db59bc0e378") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("e329ae9e-f412-4cf7-bb28-7e8a3e2ae0ab") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("a5a86408-622a-4e45-9013-0fad39fa3de9") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("d7148150-9803-45ce-89f7-f82dc4902cfa") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("a5a86408-622a-4e45-9013-0fad39fa3de9") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("d7148150-9803-45ce-89f7-f82dc4902cfa") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("a5a86408-622a-4e45-9013-0fad39fa3de9") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("d7148150-9803-45ce-89f7-f82dc4902cfa") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("a5a86408-622a-4e45-9013-0fad39fa3de9") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("d7148150-9803-45ce-89f7-f82dc4902cfa") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("a5a86408-622a-4e45-9013-0fad39fa3de9") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("d7148150-9803-45ce-89f7-f82dc4902cfa") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("a5a86408-622a-4e45-9013-0fad39fa3de9") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("d7148150-9803-45ce-89f7-f82dc4902cfa") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("a5a86408-622a-4e45-9013-0fad39fa3de9") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("d7148150-9803-45ce-89f7-f82dc4902cfa") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  body { margin: 0; background: #07090e; color: #f4f4f5; font-family: 'Outfit', system-ui, sans-serif; font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  a { color: #38bdf8; text-decoration: none; }
+  a:hover { color: #22d3ee; }
+  input, button { font-family: inherit; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+  ::selection { background: rgba(56,189,248,0.35); color: #fff; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scaleIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+  @keyframes dotPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  @keyframes drawIn { from { stroke-dashoffset: 1400; } to { stroke-dashoffset: 0; } }
+</style>
+</helmet>
+
+
+
+<div style="min-height: 100vh; background: #07090e">
+
+  <sc-if value="{{ isAuth }}" hint-placeholder-val="{{ false }}">
+    <div style="min-height: 100vh; display: grid; grid-template-columns: {{ authGrid }}; background: #07090e">
+      <div style="position: relative; overflow: hidden; padding: {{ authPad }}; display: flex; flex-direction: column; gap: 40px; justify-content: space-between; border-right: 1px solid rgba(255,255,255,0.05)">
+        <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 15% 15%, rgba(56,189,248,0.13) 0%, transparent 58%), radial-gradient(ellipse 70% 55% at 85% 90%, rgba(167,139,250,0.10) 0%, transparent 58%), linear-gradient(180deg, #0b1018 0%, #050810 100%)"></div>
+        <div style="position: absolute; inset: 0; opacity: 0.025; background-image: linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px); background-size: 60px 60px"></div>
+
+        <div style="position: relative">
+          <svg sc-camel-view-box="0 0 180 60" height="34" style="display: block" aria-label="ZURT">
+            <defs>
+              <linearGradient id="zt1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#38bdf8"></stop><stop offset="100%" stop-color="#22d3ee"></stop></linearGradient>
+            </defs>
+            <text x="0" y="46" font-family="Outfit, system-ui, sans-serif" font-size="56" font-weight="800" letter-spacing="-3" fill="#f4f4f5">zur</text>
+            <text x="85" y="46" font-family="Outfit, system-ui, sans-serif" font-size="56" font-weight="800" letter-spacing="-2" fill="url(#zt1)">T</text>
+            <circle cx="133" cy="42" r="5" fill="#22d3ee"></circle>
+          </svg>
+        </div>
+
+        <div style="position: relative; max-width: 520px">
+          <div style="display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 9999px; background: rgba(56,189,248,0.10); border: 1px solid rgba(56,189,248,0.20)">
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #38bdf8"></span>
+            <span style="font-size: 11px; font-weight: 600; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.1em">Inteligência patrimonial</span>
+          </div>
+          <h1 style="font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; margin: 18px 0 0; text-wrap: pretty">Todo o seu patrimônio em uma tela. Inclusive o que você esqueceu.</h1>
+          <p style="font-size: 15px; line-height: 1.6; color: #a1a1aa; margin: 18px 0 0; max-width: 460px; text-wrap: pretty">Bancos por Open Finance, carteira na B3, cripto na exchange e os bens que não estão em sistema nenhum. A ZURT consolida, calcula e explica.</p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 30px; max-width: 480px">
+            <div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; color: #f4f4f5">2.400<span style="font-size: 13px; color: #71717a; font-weight: 400">+</span></div>
+              <div style="font-size: 10px; color: #71717a; text-transform: uppercase; letter-spacing: 0.12em; margin-top: 2px">Instituições via Open Finance</div>
+            </div>
+            <div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; color: #f4f4f5">6 <span style="font-size: 13px; color: #71717a; font-weight: 400">classes</span></div>
+              <div style="font-size: 10px; color: #71717a; text-transform: uppercase; letter-spacing: 0.12em; margin-top: 2px">Consolidadas em uma tela</div>
+            </div>
+            <div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; color: #f4f4f5">~2 <span style="font-size: 13px; color: #71717a; font-weight: 400">min</span></div>
+              <div style="font-size: 10px; color: #71717a; text-transform: uppercase; letter-spacing: 0.12em; margin-top: 2px">Da conta ao painel pronto</div>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 26px">
+            <div style="display: flex; align-items: center; gap: 12px">
+              <span style="width: 20px; height: 20px; border-radius: 6px; background: rgba(56,189,248,0.12); color: #38bdf8; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0">◐</span>
+              <span style="font-size: 13.5px; color: #e4e4e7">Consolidação automática — sem planilha, sem digitar saldo</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px">
+              <span style="width: 20px; height: 20px; border-radius: 6px; background: rgba(56,189,248,0.12); color: #38bdf8; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0">⬢</span>
+              <span style="font-size: 13.5px; color: #e4e4e7">Análise de alocação, liquidez e concentração de risco</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px">
+              <span style="width: 20px; height: 20px; border-radius: 6px; background: rgba(56,189,248,0.12); color: #38bdf8; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0">◆</span>
+              <span style="font-size: 13.5px; color: #e4e4e7">Relatório de patrimônio pronto para levar ao seu assessor</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="position: relative; display: flex; align-items: center; gap: 20px; flex-wrap: wrap">
+          <div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">ZURT PREMIUM</div>
+            <div style="display: flex; align-items: baseline; gap: 6px; margin-top: 4px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; color: #f4f4f5">R$ 24,90</span>
+              <span style="font-size: 12px; color: #71717a">/mês · ou R$ 249,90/ano</span>
+            </div>
+          </div>
+          <div style="width: 1px; height: 34px; background: rgba(255,255,255,0.06)"></div>
+          <div style="font-size: 12px; color: #a1a1aa; line-height: 1.45">30 dias de teste.<br>Cancela quando quiser.</div>
+          <div style="width: 100%; display: flex; justify-content: space-between; font-size: 11px; color: #52525b; padding-top: 8px">
+            <span>© 2026 ZURT Tecnologia</span>
+            <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981"></span>Plataforma operacional</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: center; padding: {{ authPad }}">
+        <div style="width: 100%; max-width: 400px; animation: fadeUp 500ms cubic-bezier(.21,.78,.35,1) both">
+          <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <h2 style="font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin: 0">Entrar na sua conta</h2>
+              <p style="font-size: 13px; color: #71717a; margin: 8px 0 0">Ainda não tem conta? <a href="#" sc-camel-on-click="{{ goSignup }}">Criar conta grátis →</a></p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <h2 style="font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin: 0">Criar sua conta</h2>
+              <p style="font-size: 13px; color: #71717a; margin: 8px 0 0">Já é cliente? <a href="#" sc-camel-on-click="{{ goLogin }}">Entrar →</a></p>
+            </div>
+          </sc-if>
+
+          <button sc-camel-on-click="{{ enter }}" style="width: 100%; margin-top: 26px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10); color: #e4e4e7; font-size: 13px; font-weight: 600; cursor: pointer">
+            <svg width="16" height="16" sc-camel-view-box="0 0 48 48"><path fill="#4285f4" d="M45 24c0-1.6-.14-3.14-.4-4.63H24v8.76h11.77c-.5 2.7-2.05 5-4.35 6.54v5.44h7.03C42.6 36.24 45 30.6 45 24z"></path><path fill="#34a853" d="M24 46c5.94 0 10.92-1.97 14.45-5.34l-7.03-5.44c-1.96 1.32-4.47 2.1-7.42 2.1-5.7 0-10.53-3.85-12.26-9.03H4.5v5.67C8.05 41.06 15.4 46 24 46z"></path><path fill="#fbbc04" d="M11.74 28.29A13.3 13.3 0 0 1 11.03 24c0-1.49.26-2.94.71-4.29V14.04H4.5A21.9 21.9 0 0 0 2 24c0 3.55.85 6.9 2.5 9.96l7.24-5.67z"></path><path fill="#ea4335" d="M24 10.75c3.22 0 6.1 1.11 8.37 3.28l6.24-6.24C34.9 4.28 29.93 2 24 2 15.4 2 8.05 6.94 4.5 14.04l7.24 5.67C13.47 14.6 18.3 10.75 24 10.75z"></path></svg>
+            Continuar com Google
+          </button>
+
+          <div style="display: flex; align-items: center; gap: 12px; margin: 20px 0">
+            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.06)"></div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #52525b">OU E-MAIL</span>
+            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.06)"></div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 14px">
+            <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
+              <div>
+                <label style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #71717a; margin-bottom: 7px">NOME COMPLETO</label>
+                <input placeholder="Como está no seu documento" style="width: 100%; box-sizing: border-box; padding: 11px 13px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: #e4e4e7; font-size: 13px; outline: none">
+              </div>
+            </sc-if>
+            <div>
+              <label style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #71717a; margin-bottom: 7px">E-MAIL</label>
+              <input placeholder="voce@email.com" style="width: 100%; box-sizing: border-box; padding: 11px 13px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: #e4e4e7; font-size: 13px; outline: none">
+            </div>
+            <div>
+              <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 7px">
+                <label style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #71717a">SENHA</label>
+                <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+                  <a href="#" style="font-size: 11px; color: #52525b">Esqueci</a>
+                </sc-if>
+              </div>
+              <input type="password" placeholder="••••••••••" style="width: 100%; box-sizing: border-box; padding: 11px 13px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: #e4e4e7; font-size: 13px; outline: none">
+            </div>
+          </div>
+
+          <button sc-camel-on-click="{{ enter }}" style="width: 100%; margin-top: 20px; padding: 13px; border: none; border-radius: 10px; background: linear-gradient(90deg,#38bdf8,#06b6d4); color: #07090e; font-size: 14px; font-weight: 700; box-shadow: 0 10px 24px -10px rgba(56,189,248,0.35); cursor: pointer">{{ authCta }}</button>
+
+          <div style="font-size: 11px; color: #52525b; line-height: 1.55; margin-top: 16px; text-wrap: pretty">Ao continuar você aceita os <a href="#" style="color: #71717a">Termos de Uso</a> e a <a href="#" style="color: #71717a">Política de Privacidade</a>. Seus dados são criptografados e a ZURT nunca movimenta dinheiro na sua conta.</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isApp }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; min-height: 100vh; align-items: stretch">
+
+      <aside style="display: {{ sidebarDisplay }}; width: 232px; flex-shrink: 0; background: #0b0e14; border-right: 1px solid rgba(255,255,255,0.06); flex-direction: column; position: sticky; top: 0; height: 100vh">
+        <div style="padding: 20px 18px 16px; border-bottom: 1px solid rgba(255,255,255,0.04)">
+          <svg sc-camel-view-box="0 0 180 60" height="22" style="display: block" aria-label="ZURT">
+            <defs>
+              <linearGradient id="zt2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#38bdf8"></stop><stop offset="100%" stop-color="#22d3ee"></stop></linearGradient>
+            </defs>
+            <text x="0" y="46" font-family="Outfit, system-ui, sans-serif" font-size="56" font-weight="800" letter-spacing="-3" fill="#f4f4f5">zur</text>
+            <text x="85" y="46" font-family="Outfit, system-ui, sans-serif" font-size="56" font-weight="800" letter-spacing="-2" fill="url(#zt2)">T</text>
+            <circle cx="133" cy="42" r="5" fill="#22d3ee"></circle>
+          </svg>
+        </div>
+
+        <nav style="flex: 1; overflow-y: auto; padding: 14px 10px">
+          <div style="display: flex; flex-direction: column; gap: 2px">
+            <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+              <button sc-camel-on-click="{{ n.go }}" style="width: 100%; display: flex; align-items: center; gap: 11px; padding: 9px 11px; border-radius: 9px; border: none; cursor: pointer; text-align: left; background: {{ n.bg }}; color: {{ n.fg }}; font-size: 13px; font-weight: 500">
+                <span style="font-size: 14px; line-height: 1; width: 15px; flex-shrink: 0; color: {{ n.icon }}">{{ n.glyph }}</span>
+                <span style="flex: 1">{{ n.label }}</span>
+                <sc-if value="{{ n.badge }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; color: #fbbf24; background: rgba(251,191,36,0.12); padding: 2px 5px; border-radius: 5px">{{ n.badgeText }}</span>
+                </sc-if>
+              </button>
+            </sc-for>
+          </div>
+
+          <div style="height: 1px; background: rgba(255,255,255,0.04); margin: 16px 8px"></div>
+
+          <button sc-camel-on-click="{{ openPalette }}" style="width: 100%; display: flex; align-items: center; gap: 9px; padding: 9px 11px; border-radius: 9px; border: 1px dashed rgba(255,255,255,0.10); background: transparent; color: #71717a; font-size: 12px; cursor: pointer; text-align: left">
+            <span style="font-size: 12px">⌕</span>
+            <span style="flex: 1">Buscar tudo</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #52525b; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 1px 4px">⌘K</span>
+          </button>
+        </nav>
+
+        <div style="padding: 12px; border-top: 1px solid rgba(255,255,255,0.04)">
+          <div style="border-radius: 12px; border: 1px solid rgba(56,189,248,0.16); background: linear-gradient(135deg, rgba(56,189,248,0.10), transparent 70%); padding: 12px">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.2em; color: #38bdf8">PREMIUM · TESTE</div>
+            <div style="font-size: 12px; color: #e4e4e7; margin-top: 5px; line-height: 1.4">Restam <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600">21 dias</span> de teste</div>
+            <button style="width: 100%; margin-top: 9px; padding: 7px; border: none; border-radius: 8px; background: linear-gradient(90deg,#38bdf8,#06b6d4); color: #07090e; font-size: 11.5px; font-weight: 700; cursor: pointer">Assinar por R$ 24,90 →</button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 9px; margin-top: 12px; padding: 0 3px">
+            <div style="width: 28px; height: 28px; border-radius: 50%; background: #1c2430; border: 1px solid rgba(255,255,255,0.08); color: #a1a1aa; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700">RS</div>
+            <div style="flex: 1; min-width: 0">
+              <div style="font-size: 12px; font-weight: 600; color: #e4e4e7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Rafael Souza</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.14em; color: #52525b">CPF •••.•••.•••-42</div>
+            </div>
+            <button sc-camel-on-click="{{ logout }}" title="Sair" style="background: none; border: none; color: #52525b; font-size: 13px; cursor: pointer">→</button>
+          </div>
+        </div>
+      </aside>
+
+      <main style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+        <header style="height: 60px; flex-shrink: 0; padding: 0 26px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(11,14,20,0.72); backdrop-filter: blur(20px); display: flex; align-items: center; gap: 18px; position: sticky; top: 0; z-index: 20">
+          <div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">{{ crumb }}</div>
+            <div style="font-size: 14px; font-weight: 600; color: #f4f4f5; letter-spacing: -0.01em; margin-top: 1px">{{ viewLabel }}</div>
+          </div>
+          <div style="width: 1px; height: 24px; background: rgba(255,255,255,0.06)"></div>
+          <div style="display: flex; align-items: center; gap: 7px">
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #34d399; animation: dotPulse 1.8s infinite"></span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #71717a; letter-spacing: 0.06em">{{ syncLine }}</span>
+          </div>
+          <div style="margin-left: auto; display: flex; align-items: center; gap: 8px">
+            <sc-for list="{{ periods }}" as="p" hint-placeholder-count="4">
+              <button sc-camel-on-click="{{ p.go }}" style="padding: 6px 11px; border-radius: 8px; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; background: {{ p.bg }}; border: 1px solid {{ p.bd }}; color: {{ p.fg }}">{{ p.label }}</button>
+            </sc-for>
+            <div style="width: 1px; height: 22px; background: rgba(255,255,255,0.06); margin: 0 4px"></div>
+            <button sc-camel-on-click="{{ openPalette }}" style="width: 32px; height: 32px; border-radius: 9px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: #a1a1aa; font-size: 13px; cursor: pointer">⌕</button>
+            <button sc-camel-on-click="{{ openInbox }}" style="position: relative; width: 32px; height: 32px; border-radius: 9px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: #a1a1aa; font-size: 12px; cursor: pointer">◎<span style="position: absolute; top: 6px; right: 7px; width: 5px; height: 5px; border-radius: 50%; background: #fbbf24"></span></button>
+          </div>
+        </header>
+
+        <div style="flex: 1; padding: {{ mainPad }}">
+
+          <sc-if value="{{ isPainel }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <sc-if value="{{ vazio }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: 16px; animation: fadeUp 500ms cubic-bezier(.21,.78,.35,1) both">
+                  <div style="position: relative; overflow: hidden; border-radius: 20px; border: 1px solid rgba(255,255,255,0.07); background: linear-gradient(180deg, #0c1119 0%, #070a10 100%); padding: 30px">
+                    <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 10% 0%, rgba(56,189,248,0.15) 0%, transparent 60%), radial-gradient(ellipse 60% 60% at 95% 100%, rgba(167,139,250,0.10) 0%, transparent 60%); pointer-events: none"></div>
+                    <div style="position: relative; display: grid; grid-template-columns: {{ emptyGrid }}; gap: 30px; align-items: center">
+                      <div>
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.24em; color: #38bdf8">PRIMEIRO ACESSO</div>
+                        <h2 style="font-size: {{ emptyH }}; font-weight: 700; letter-spacing: -0.03em; line-height: 1.08; margin: 14px 0 0; text-wrap: pretty">Conecte uma origem e seu patrimônio aparece pronto — não digitado.</h2>
+                        <p style="font-size: 14px; color: #a1a1aa; line-height: 1.6; margin: 14px 0 0; max-width: 520px; text-wrap: pretty">Leva cerca de dois minutos. A ZURT lê saldo, posição e provento; nunca movimenta dinheiro e nunca pede sua senha de banco.</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px">
+                          <button sc-camel-on-click="{{ goConexoes }}" style="padding: 12px 18px; border: none; border-radius: 11px; background: linear-gradient(90deg,#38bdf8,#06b6d4); color: #07090e; font-size: 13.5px; font-weight: 700; box-shadow: 0 10px 24px -10px rgba(56,189,248,0.4); cursor: pointer">Conectar primeira origem →</button>
+                          <button sc-camel-on-click="{{ goConexoes }}" style="padding: 12px 16px; border: 1px solid rgba(255,255,255,0.10); border-radius: 11px; background: rgba(255,255,255,0.03); color: #e4e4e7; font-size: 13.5px; font-weight: 600; cursor: pointer">Ver como funciona</button>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 18px; margin-top: 22px">
+                          <div style="display: flex; align-items: center; gap: 7px"><span style="color: #34d399; font-size: 11px">●</span><span style="font-size: 12px; color: #a1a1aa">Somente leitura</span></div>
+                          <div style="display: flex; align-items: center; gap: 7px"><span style="color: #34d399; font-size: 11px">●</span><span style="font-size: 12px; color: #a1a1aa">Consentimento revogável</span></div>
+                          <div style="display: flex; align-items: center; gap: 7px"><span style="color: #34d399; font-size: 11px">●</span><span style="font-size: 12px; color: #a1a1aa">CPF nunca exibido em claro</span></div>
+                        </div>
+                      </div>
+                      <div style="position: relative">
+                        <div style="border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); padding: 16px 18px; overflow: hidden">
+                          <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.2em; color: #52525b">DEPOIS DE CONECTAR, ESTA ÁREA MOSTRA</div>
+                          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px">
+                            <sc-for list="{{ emptyPreview }}" as="p" hint-placeholder-count="4">
+                              <div>
+                                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px">
+                                  <span style="font-size: 12.5px; color: #a1a1aa">{{ p.label }}</span>
+                                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3f3f46">—</span>
+                                </div>
+                                <div style="height: 5px; border-radius: 9999px; background: rgba(255,255,255,0.04); margin-top: 6px; overflow: hidden">
+                                  <div style="height: 100%; width: {{ p.w }}; border-radius: 9999px; background: repeating-linear-gradient(90deg, rgba(255,255,255,0.10) 0 6px, transparent 6px 12px)"></div>
+                                </div>
+                              </div>
+                            </sc-for>
+                          </div>
+                          <div style="font-size: 11px; color: #52525b; margin-top: 16px; line-height: 1.5">Nenhum valor é estimado. Enquanto não houver dado real, a ZURT mostra "—" no lugar de um número plausível.</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: {{ stepsGrid }}; gap: 14px">
+                    <sc-for list="{{ emptySteps }}" as="s" hint-placeholder-count="3">
+                      <div style="border: 1px solid {{ s.bd }}; border-radius: 16px; padding: 18px; background: {{ s.bg }}; display: flex; flex-direction: column">
+                        <div style="display: flex; align-items: center; justify-content: space-between">
+                          <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: {{ s.tone }}">{{ s.step }}</div>
+                          <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.14em; color: #52525b">{{ s.tempo }}</div>
+                        </div>
+                        <div style="font-size: 14.5px; font-weight: 600; color: #f4f4f5; margin-top: 10px">{{ s.title }}</div>
+                        <div style="font-size: 12.5px; color: #71717a; margin-top: 6px; line-height: 1.5; flex: 1">{{ s.desc }}</div>
+                        <button sc-camel-on-click="{{ goConexoes }}" style="margin-top: 14px; align-self: flex-start; padding: 9px 14px; border-radius: 10px; cursor: pointer; font-size: 12.5px; font-weight: 700; border: {{ s.btnBd }}; background: {{ s.btnBg }}; color: {{ s.btnFg }}">{{ s.cta }}</button>
+                      </div>
+                    </sc-for>
+                  </div>
+
+                  <div style="border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); padding: 16px 18px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.2em; color: #52525b">PREFERE COMEÇAR SEM CONECTAR NADA?</span>
+                    <span style="font-size: 12.5px; color: #a1a1aa; flex: 1; min-width: 220px">Cadastre um imóvel ou uma participação e o painel já passa a somar patrimônio.</span>
+                    <button sc-camel-on-click="{{ goPatrimonio }}" style="padding: 9px 14px; border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; background: rgba(255,255,255,0.03); color: #e4e4e7; font-size: 12.5px; font-weight: 600; cursor: pointer">Cadastrar bem manual</button>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ comDados }}" hint-placeholder-val="{{ true }}">
+                <div style="display: flex; flex-direction: column; gap: 14px">
+
+                  <div style="display: grid; grid-template-columns: {{ heroGrid }}; gap: 14px; align-items: stretch">
+                    <div style="position: relative; overflow: hidden; border-radius: 24px; border: 1px solid rgba(255,255,255,0.06); background: radial-gradient(ellipse 80% 60% at 15% 20%, rgba(56,189,248,0.12) 0%, transparent 55%), radial-gradient(ellipse 70% 50% at 85% 90%, rgba(16,185,129,0.10) 0%, transparent 55%), linear-gradient(180deg, #0b1018 0%, #050810 100%); box-shadow: 0 20px 80px -30px rgba(56,189,248,0.25), inset 0 0 0 1px rgba(255,255,255,0.03); padding: 24px 26px; animation: fadeUp 460ms cubic-bezier(.21,.78,.35,1) both">
+                      <div style="position: absolute; inset: 0; opacity: 0.035; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px); background-size: 48px 48px; -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 40%, transparent 100%); mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 40%, transparent 100%)"></div>
+                      <div style="position: absolute; top: -130px; left: 50%; transform: translateX(-50%); width: 70%; height: 200px; opacity: 0.4; filter: blur(40px); pointer-events: none; background: radial-gradient(ellipse, rgba(56,189,248,0.30) 0%, transparent 70%)"></div>
+                      <div style="position: relative">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+                          <div style="min-width: 0">
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.24em; color: #52525b">PATRIMÔNIO CONSOLIDADO</div>
+                            <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 10px">
+                              <div style="font-family: 'JetBrains Mono', monospace; font-size: {{ plSize }}; font-weight: 600; letter-spacing: -0.03em; line-height: 1; color: #f4f4f5; white-space: nowrap">{{ pl }}</div>
+                              <div style="display: flex; align-items: center; gap: 5px; padding: 4px 8px; border-radius: 8px; background: rgba(16,185,129,0.10); border: 1px solid rgba(16,185,129,0.18)">
+                                <span style="color: #34d399; font-size: 11px">↑</span>
+                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; color: #34d399">{{ plDelta }}</span>
+                              </div>
+                            </div>
+                            <div style="font-size: 12.5px; color: #71717a; margin-top: 8px">{{ plCaption }}</div>
+                          </div>
+                          <div style="text-align: right; flex-shrink: 0">
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #52525b">RETORNO {{ periodLabel }}</div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; color: #34d399; margin-top: 6px">{{ ret }}</div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #52525b; margin-top: 3px">CDI {{ cdi }}</div>
+                          </div>
+                        </div>
+
+                        <div style="margin-top: 20px; position: relative">
+                          <svg sc-camel-view-box="0 0 640 150" sc-camel-preserve-aspect-ratio="none" style="display: block; width: 100%; height: 150px">
+                            <defs>
+                              <linearGradient id="areaG" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.28"></stop>
+                                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"></stop>
+                              </linearGradient>
+                            </defs>
+                            <path d="{{ areaPath }}" fill="url(#areaG)"></path>
+                            <path d="{{ linePath }}" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1400" style="animation: drawIn 1400ms cubic-bezier(.21,.78,.35,1) both"></path>
+                          </svg>
+                          <div style="display: flex; justify-content: space-between; margin-top: 8px">
+                            <sc-for list="{{ axis }}" as="a" hint-placeholder-count="6">
+                              <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: #3f3f46">{{ a }}</span>
+                            </sc-for>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 14px">
+                      <div style="flex: 1; border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); padding: 16px 18px; animation: fadeUp 520ms cubic-bezier(.21,.78,.35,1) both">
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">COMPOSIÇÃO</div>
+                        <div style="display: flex; flex-direction: column; gap: 11px; margin-top: 14px">
+                          <sc-for list="{{ buckets }}" as="b" hint-placeholder-count="3">
+                            <div>
+                              <div style="display: flex; align-items: baseline; justify-content: space-between">
+                                <span style="font-size: 12.5px; color: #e4e4e7">{{ b.label }}</span>
+                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 600; color: {{ b.color }}">{{ b.value }}</span>
+                              </div>
+                              <div style="height: 5px; border-radius: 9999px; background: rgba(255,255,255,0.04); margin-top: 6px; overflow: hidden">
+                                <div style="height: 100%; border-radius: 9999px; width: {{ b.pct }}; background: {{ b.color }}; opacity: 0.85"></div>
+                              </div>
+                              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #52525b; margin-top: 4px">{{ b.sub }}</div>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </div>
+                      <div style="border-radius: 16px; border: 1px solid rgba(251,191,36,0.18); background: linear-gradient(135deg, rgba(251,191,36,0.08), transparent 65%); padding: 14px 16px">
+                        <div style="display: flex; align-items: center; gap: 8px">
+                          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.2em; color: #fbbf24">ATENÇÃO</span>
+                        </div>
+                        <div style="font-size: 13px; color: #e4e4e7; margin-top: 7px; line-height: 1.45">Sua conexão com a <strong style="font-weight: 600">B3</strong> expirou há 3 dias — a carteira de ações não está atualizando.</div>
+                        <button sc-camel-on-click="{{ goConexoes }}" style="margin-top: 11px; padding: 8px 12px; border: 1px solid rgba(251,191,36,0.28); border-radius: 9px; background: rgba(251,191,36,0.10); color: #fbbf24; font-size: 12px; font-weight: 600; cursor: pointer">Reconectar agora →</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: {{ kpiGrid }}; gap: 14px">
+                    <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+                      <div style="border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); padding: 16px; min-height: 118px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; box-shadow: {{ k.shadow }}">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px">
+                          <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.2em; color: #52525b">{{ k.label }}</div>
+                          <svg width="56" height="20" style="overflow: visible; flex-shrink: 0">
+                            <polyline points="{{ k.spark }}" fill="none" stroke="{{ k.color }}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"></polyline>
+                          </svg>
+                        </div>
+                        <div>
+                          <div style="font-family: 'JetBrains Mono', monospace; font-size: 21px; font-weight: 600; letter-spacing: -0.02em; color: {{ k.color }}; white-space: nowrap">{{ k.value }}</div>
+                          <div style="display: flex; align-items: center; gap: 6px; margin-top: 5px">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; color: {{ k.deltaColor }}; display: inline-flex; align-items: center; gap: 4px">{{ k.arrow }}{{ k.delta }}</span>
+                            <span style="font-size: 11.5px; color: #71717a">{{ k.sub }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: {{ lowGrid }}; gap: 14px; align-items: start">
+                    <div style="border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); padding: 18px">
+                      <div style="display: flex; align-items: baseline; justify-content: space-between">
+                        <div>
+                          <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">ALOCAÇÃO POR CLASSE</div>
+                          <div style="font-size: 14px; font-weight: 600; color: #e4e4e7; margin-top: 4px">Mix do patrimônio financeiro</div>
+                        </div>
+                        <button sc-camel-on-click="{{ goPatrimonio }}" style="background: none; border: none; color: #52525b; font-size: 11.5px; cursor: pointer">Abrir carteira →</button>
+                      </div>
+                      <div style="display: flex; flex-direction: column; gap: 9px; margin-top: 16px">
+                        <sc-for list="{{ classes }}" as="c" hint-placeholder-count="6">
+                          <div style="display: flex; align-items: center; gap: 12px">
+                            <span style="width: 96px; flex-shrink: 0; font-size: 12.5px; color: #e4e4e7">{{ c.label }}</span>
+                            <div style="flex: 1; height: 20px; border-radius: 6px; background: rgba(255,255,255,0.03); overflow: hidden">
+                              <div style="height: 100%; border-radius: 6px; width: {{ c.w }}; background: linear-gradient(90deg, {{ c.color }}, {{ c.color2 }})"></div>
+                            </div>
+                            <span style="width: 54px; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: {{ c.color }}">{{ c.pct }}</span>
+                            <span style="width: 92px; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #71717a">{{ c.value }}</span>
+                          </div>
+                        </sc-for>
+                      </div>
+                      <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: flex-start; gap: 10px">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #a78bfa; flex-shrink: 0; margin-top: 2px">IA</span>
+                        <div>
+                          <div style="font-size: 12.5px; color: #e4e4e7; line-height: 1.5; text-wrap: pretty">{{ insight }}</div>
+                          <div style="font-size: 10.5px; color: #52525b; margin-top: 7px; line-height: 1.45">Conteúdo analítico gerado automaticamente. Não constitui recomendação de investimento (CVM 179).</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 14px">
+                      <div style="border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); padding: 18px">
+                        <div style="display: flex; align-items: baseline; justify-content: space-between">
+                          <div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">ORIGENS DE DADO</div>
+                            <div style="font-size: 14px; font-weight: 600; color: #e4e4e7; margin-top: 4px">{{ conexoesTitle }}</div>
+                          </div>
+                          <button sc-camel-on-click="{{ goConexoes }}" style="background: none; border: none; color: #52525b; font-size: 11.5px; cursor: pointer">Gerenciar →</button>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 1px; margin-top: 14px; background: rgba(255,255,255,0.04); border-radius: 12px; overflow: hidden">
+                          <sc-for list="{{ conexoes }}" as="c" hint-placeholder-count="4">
+                            <div style="background: #0d1018; padding: 11px 13px; display: flex; align-items: center; gap: 11px">
+                              <span style="width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700; background: {{ c.chipBg }}; color: {{ c.chipFg }}">{{ c.sigla }}</span>
+                              <div style="flex: 1; min-width: 0">
+                                <div style="font-size: 12.5px; color: #e4e4e7; font-weight: 500">{{ c.nome }}</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #52525b; margin-top: 2px">{{ c.meta }}</div>
+                              </div>
+                              <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; padding: 3px 7px; border-radius: 9999px; color: {{ c.statusFg }}; background: {{ c.statusBg }}">{{ c.status }}</span>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </div>
+
+                      <div style="border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); padding: 18px">
+                        <div style="display: flex; align-items: baseline; justify-content: space-between">
+                          <div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">MOVIMENTAÇÕES</div>
+                            <div style="font-size: 14px; font-weight: 600; color: #e4e4e7; margin-top: 4px">Últimos 7 dias</div>
+                          </div>
+                          <button sc-camel-on-click="{{ goMov }}" style="background: none; border: none; color: #52525b; font-size: 11.5px; cursor: pointer">Ver extrato →</button>
+                        </div>
+                        <div style="margin-top: 12px">
+                          <sc-for list="{{ movs }}" as="m" hint-placeholder-count="5">
+                            <div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.04)">
+                              <div style="flex: 1; min-width: 0">
+                                <div style="font-size: 12.5px; color: #e4e4e7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ m.desc }}</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #52525b; margin-top: 2px">{{ m.meta }}</div>
+                              </div>
+                              <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 600; color: {{ m.color }}; white-space: nowrap">{{ m.valor }}</div>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isConexoes }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 16px">
+
+              <div style="display: grid; grid-template-columns: {{ lowGrid }}; gap: 14px; align-items: stretch">
+                <div style="position: relative; overflow: hidden; border-radius: 18px; border: 1px solid rgba(255,255,255,0.07); background: linear-gradient(180deg, #0c1119 0%, #070a10 100%); padding: 22px 24px">
+                  <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 8% 0%, rgba(56,189,248,0.13) 0%, transparent 60%); pointer-events: none"></div>
+                  <div style="position: relative">
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.24em; color: #52525b">ORIGENS DE DADO</div>
+                    <h2 style="font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin: 12px 0 0; text-wrap: pretty">{{ cxHeadline }}</h2>
+                    <p style="font-size: 13.5px; color: #a1a1aa; line-height: 1.55; margin: 10px 0 0; max-width: 560px; text-wrap: pretty">{{ cxSub }}</p>
+                    <div style="display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap">
+                      <sc-for list="{{ cxResumo }}" as="r" hint-placeholder-count="3">
+                        <div style="border: 1px solid {{ r.bd }}; background: {{ r.bg }}; border-radius: 12px; padding: 10px 14px; min-width: 132px">
+                          <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.18em; color: {{ r.tone }}">{{ r.label }}</div>
+                          <div style="display: flex; align-items: baseline; gap: 6px; margin-top: 5px">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 600; color: {{ r.tone }}">{{ r.n }}</span>
+                            <span style="font-size: 11.5px; color: #71717a">{{ r.sub }}</span>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); padding: 20px">
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">O QUE VOCÊ GANHA</div>
+                  <div style="display: flex; flex-direction: column; gap: 13px; margin-top: 14px">
+                    <sc-for list="{{ cxGanhos }}" as="g" hint-placeholder-count="3">
+                      <div style="display: flex; gap: 11px; align-items: flex-start">
+                        <span style="width: 22px; height: 22px; border-radius: 7px; flex-shrink: 0; background: rgba(56,189,248,0.10); color: #38bdf8; display: flex; align-items: center; justify-content: center; font-size: 11px">{{ g.glyph }}</span>
+                        <div>
+                          <div style="font-size: 13px; font-weight: 600; color: #e4e4e7">{{ g.title }}</div>
+                          <div style="font-size: 12px; color: #71717a; line-height: 1.45; margin-top: 3px">{{ g.desc }}</div>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="font-size: 11px; color: #52525b; line-height: 1.5; margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.05)">Acesso somente leitura, revogável a qualquer momento em Configurações. A ZURT não movimenta valores e não guarda senha de banco.</div>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: {{ cxGrid }}; gap: 14px">
+                <sc-for list="{{ origens }}" as="o" hint-placeholder-count="4">
+                  <div style="border: 1px solid {{ o.bd }}; border-radius: 18px; background: {{ o.bg }}; padding: 20px; display: flex; flex-direction: column">
+                    <div style="display: flex; align-items: flex-start; gap: 13px">
+                      <span style="width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; background: {{ o.chipBg }}; color: {{ o.chipFg }}; border: 1px solid {{ o.chipBd }}">{{ o.sigla }}</span>
+                      <div style="flex: 1; min-width: 0">
+                        <div style="display: flex; align-items: center; gap: 9px; flex-wrap: wrap">
+                          <span style="font-size: 15px; font-weight: 600; color: #f4f4f5; letter-spacing: -0.01em">{{ o.nome }}</span>
+                          <span style="display: inline-block; padding: 3px 9px; border-radius: 9999px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: {{ o.statusFg }}; background: {{ o.statusBg }}; border: 1px solid {{ o.statusBd }}">{{ o.status }}</span>
+                        </div>
+                        <div style="font-size: 12.5px; color: #71717a; line-height: 1.5; margin-top: 6px">{{ o.desc }}</div>
+                      </div>
+                    </div>
+
+                    <div style="margin-top: 14px; border-radius: 12px; background: {{ o.metaBg }}; border: 1px solid {{ o.metaBd }}; padding: 11px 13px">
+                      <div style="display: flex; align-items: center; gap: 8px">
+                        <span style="width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; background: {{ o.statusFg }}"></span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: {{ o.metaFg }}">{{ o.meta }}</span>
+                      </div>
+                      <sc-if value="{{ o.temMotivo }}" hint-placeholder-val="{{ false }}">
+                        <div style="font-size: 12px; color: #a1a1aa; line-height: 1.45; margin-top: 8px">{{ o.motivo }}</div>
+                      </sc-if>
+                    </div>
+
+                    <sc-if value="{{ o.temLista }}" hint-placeholder-val="{{ false }}">
+                      <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 1px; background: rgba(255,255,255,0.04); border-radius: 12px; overflow: hidden">
+                        <sc-for list="{{ o.itens }}" as="i" hint-placeholder-count="3">
+                          <div style="background: #0d1018; padding: 10px 12px; display: flex; align-items: center; gap: 10px">
+                            <span style="display: inline-block; flex-shrink: 0; padding: 3px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; background: rgba(255,255,255,0.04); color: {{ i.chipFg }}; border: 1px solid {{ i.chipBd }}">{{ i.sigla }}</span>
+                            <div style="flex: 1; min-width: 0">
+                              <div style="font-size: 12.5px; color: #e4e4e7">{{ i.nome }}</div>
+                              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #52525b; margin-top: 2px">{{ i.meta }}</div>
+                            </div>
+                            <span style="display: inline-block; padding: 3px 9px; border-radius: 9999px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: {{ i.fg }}; background: {{ i.bg }}; border: 1px solid {{ i.bd }}">{{ i.status }}</span>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 16px; flex-wrap: wrap">
+                      <sc-if value="{{ o.b3 }}" hint-placeholder-val="{{ false }}">
+                        <button style="display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.14); background: #f4f4f5; color: #07090e; font-size: 13px; font-weight: 700; cursor: pointer">
+                          <span style="display: inline-flex; align-items: baseline; gap: 1px; font-family: 'JetBrains Mono', monospace; font-weight: 700">
+                            <span style="font-size: 12px">[</span><span style="font-size: 14px">B</span><span style="font-size: 12px">]</span><span style="font-size: 10px; align-self: flex-start">3</span>
+                          </span>
+                          Vincular conta B3
+                        </button>
+                      </sc-if>
+                      <sc-if value="{{ o.temCta }}" hint-placeholder-val="{{ true }}">
+                        <button style="padding: 11px 16px; border-radius: 11px; cursor: pointer; font-size: 13px; font-weight: 700; border: {{ o.ctaBd }}; background: {{ o.ctaBg }}; color: {{ o.ctaFg }}">{{ o.cta }}</button>
+                      </sc-if>
+                      <sc-if value="{{ o.temSec }}" hint-placeholder-val="{{ false }}">
+                        <button style="padding: 11px 14px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.10); background: rgba(255,255,255,0.03); color: #a1a1aa; font-size: 12.5px; font-weight: 600; cursor: pointer">{{ o.sec }}</button>
+                      </sc-if>
+                    </div>
+
+                    <div style="font-size: 11px; color: #52525b; line-height: 1.5; margin-top: 12px">{{ o.nota }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isPatrimonio }}" hint-placeholder-val="{{ false }}">
+            <sc-if value="{{ patVazio }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width: 760px; margin: 30px auto; animation: fadeUp 480ms cubic-bezier(.21,.78,.35,1) both">
+                <div style="position: relative; overflow: hidden; border-radius: 20px; border: 1px solid rgba(255,255,255,0.07); background: linear-gradient(180deg, #0c1119 0%, #070a10 100%); padding: 30px">
+                  <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 12% 0%, rgba(56,189,248,0.12) 0%, transparent 60%); pointer-events: none"></div>
+                  <div style="position: relative">
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.24em; color: #52525b">PATRIMÔNIO LÍQUIDO</div>
+                    <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 10px">
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: {{ plSize }}; font-weight: 600; color: #3f3f46; line-height: 1">—</div>
+                      <div style="font-size: 12.5px; color: #52525b">nenhuma origem para somar</div>
+                    </div>
+                    <h2 style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin: 20px 0 0; text-wrap: pretty">Ainda não há posição, conta ou bem para consolidar</h2>
+                    <p style="font-size: 13.5px; color: #a1a1aa; line-height: 1.6; margin: 10px 0 0; max-width: 560px; text-wrap: pretty">Esta tela soma financeiro, bens e passivo. Nenhum dos três existe hoje na sua conta — e a ZURT não preenche com estimativa.</p>
+                    <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap">
+                      <button sc-camel-on-click="{{ goConexoes }}" style="padding: 11px 16px; border: none; border-radius: 11px; background: linear-gradient(90deg,#38bdf8,#06b6d4); color: #07090e; font-size: 13px; font-weight: 700; cursor: pointer">Conectar uma origem →</button>
+                      <button style="padding: 11px 16px; border: 1px solid rgba(255,255,255,0.10); border-radius: 11px; background: rgba(255,255,255,0.03); color: #e4e4e7; font-size: 13px; font-weight: 600; cursor: pointer">Cadastrar bem manual</button>
+                    </div>
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: {{ stepsGrid }}; gap: 12px; margin-top: 14px">
+                  <sc-for list="{{ patVazioLinhas }}" as="l" hint-placeholder-count="3">
+                    <div style="border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; background: rgba(255,255,255,0.02); padding: 16px">
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.18em; color: #52525b">{{ l.label }}</div>
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; color: #3f3f46; margin-top: 8px">—</div>
+                      <div style="font-size: 11.5px; color: #71717a; margin-top: 5px; line-height: 1.45">{{ l.sub }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ patComDados }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-direction: column; gap: 16px">
+
+              <div style="display: grid; grid-template-columns: {{ heroGrid }}; gap: 14px; align-items: stretch">
+                <div style="position: relative; overflow: hidden; border-radius: 24px; border: 1px solid rgba(255,255,255,0.06); background: radial-gradient(ellipse 80% 60% at 15% 20%, rgba(56,189,248,0.10) 0%, transparent 55%), radial-gradient(ellipse 70% 50% at 85% 90%, rgba(167,139,250,0.12) 0%, transparent 55%), linear-gradient(180deg, #0b1018 0%, #050810 100%); box-shadow: 0 20px 80px -30px rgba(56,189,248,0.25), inset 0 0 0 1px rgba(255,255,255,0.03); padding: 26px 28px">
+                  <div style="position: absolute; inset: 0; opacity: 0.035; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px); background-size: 48px 48px; -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 40%, transparent 100%); mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 40%, transparent 100%)"></div>
+                  <div style="position: absolute; top: -130px; left: 50%; transform: translateX(-50%); width: 70%; height: 200px; opacity: 0.4; filter: blur(40px); pointer-events: none; background: radial-gradient(ellipse, rgba(56,189,248,0.35) 0%, transparent 70%)"></div>
+                  <div style="position: relative">
+                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px">
+                      <span style="width: 8px; height: 8px; border-radius: 50%; background: #34d399; animation: dotPulse 1.8s infinite"></span>
+                      <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.28em; color: #a1a1aa; font-weight: 600">Patrimônio líquido</span>
+                      <span style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.2em; color: #52525b; font-weight: 500; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06)">{{ origensChip }}</span>
+                    </div>
+                    <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 10px; flex-wrap: wrap">
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: {{ plSize }}; font-weight: 600; letter-spacing: -0.03em; line-height: 1; color: #f4f4f5; white-space: nowrap">R$ 2.936.500</div>
+                      <div style="display: flex; align-items: center; gap: 5px; padding: 4px 8px; border-radius: 8px; background: rgba(16,185,129,0.10); border: 1px solid rgba(16,185,129,0.18)">
+                        <span style="color: #34d399; font-size: 11px">▲</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; color: #34d399">{{ ret }}</span>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 22px; margin-top: 20px; flex-wrap: wrap">
+                      <sc-for list="{{ composicao }}" as="c" hint-placeholder-count="3">
+                        <div>
+                          <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.18em; color: #52525b">{{ c.label }}</div>
+                          <div style="font-family: 'JetBrains Mono', monospace; font-size: 17px; font-weight: 600; color: {{ c.color }}; margin-top: 5px">{{ c.value }}</div>
+                          <div style="font-size: 11.5px; color: #71717a; margin-top: 2px">{{ c.sub }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <div style="height: 10px; border-radius: 9999px; overflow: hidden; display: flex; gap: 2px; margin-top: 20px">
+                      <div style="width: 95%; background: linear-gradient(90deg,#38bdf8,rgba(56,189,248,0.5))"></div>
+                      <div style="width: 5%; background: #f87171"></div>
+                    </div>
+                    <div style="font-size: 11.5px; color: #52525b; margin-top: 10px">{{ origensCaption }}</div>
+                  </div>
+                </div>
+
+                <div style="border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); padding: 20px; display: flex; flex-direction: column; gap: 14px">
+                  <div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">QUALIDADE DO DADO</div>
+                    <div style="font-size: 14px; font-weight: 600; color: #e4e4e7; margin-top: 4px">O que a ZURT sabe e o que não sabe</div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 10px">
+                    <sc-for list="{{ qualidade }}" as="q" hint-placeholder-count="3">
+                      <div style="display: flex; align-items: flex-start; gap: 10px">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: {{ q.tone }}; flex-shrink: 0; width: 46px; text-align: right">{{ q.n }}</span>
+                        <div>
+                          <div style="font-size: 12.5px; color: #e4e4e7; line-height: 1.4">{{ q.label }}</div>
+                          <div style="font-size: 11.5px; color: #71717a; line-height: 1.45; margin-top: 2px">{{ q.desc }}</div>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 11px; color: #52525b; line-height: 1.5">As 76 posições vêm da B3 (25) e do Open Finance (51). As 2 posições de cripto ficam fora da contagem enquanto a Foxbit está com erro. Valor "—" não é falha: é ausência de dado confiável na fonte.</div>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: {{ kpiGrid }}; gap: 14px">
+                <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+                  <div style="border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); padding: 16px; min-height: 118px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; box-shadow: {{ k.shadow }}">
+                    <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px">
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.2em; color: #52525b">{{ k.label }}</div>
+                      <sc-if value="{{ k.temSpark }}" hint-placeholder-val="{{ true }}">
+                        <svg width="56" height="20" style="overflow: visible; flex-shrink: 0">
+                          <polyline points="{{ k.spark }}" fill="none" stroke="{{ k.color }}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"></polyline>
+                        </svg>
+                      </sc-if>
+                    </div>
+                    <div>
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 21px; font-weight: 600; letter-spacing: -0.02em; color: {{ k.color }}; white-space: nowrap">{{ k.value }}</div>
+                      <div style="display: flex; align-items: center; gap: 6px; margin-top: 5px">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; color: {{ k.deltaColor }}; display: inline-flex; align-items: center; gap: 4px">{{ k.arrow }}{{ k.delta }}</span>
+                        <span style="font-size: 11.5px; color: #71717a">{{ k.sub }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); overflow: hidden">
+                <div style="padding: 18px 20px 0; display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap">
+                  <div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">POSIÇÕES</div>
+                    <div style="font-size: 15px; font-weight: 700; color: #f4f4f5; letter-spacing: -0.01em; margin-top: 4px">{{ posTitle }}</div>
+                  </div>
+                  <div style="display: flex; gap: 6px; flex-wrap: wrap">
+                    <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="6">
+                      <button sc-camel-on-click="{{ t.go }}" style="padding: 6px 11px; border-radius: 9px; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: {{ t.bg }}; border: 1px solid {{ t.bd }}; color: {{ t.fg }}">{{ t.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div style="padding: 14px 0 0">
+                  <div style="display: grid; grid-template-columns: {{ tableCols }}; gap: 12px; padding: 11px 20px; background: rgba(255,255,255,0.02)">
+                    <sc-for list="{{ tableHead }}" as="h" hint-placeholder-count="5">
+                      <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #52525b; text-align: {{ h.align }}">{{ h.label }}</div>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{ posVazio }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding: 34px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.03)">
+                      <div style="font-size: 14px; font-weight: 600; color: #e4e4e7">Nenhum bem cadastrado</div>
+                      <div style="font-size: 12.5px; color: #71717a; margin-top: 6px; line-height: 1.5; max-width: 420px; margin-left: auto; margin-right: auto">Imóvel, veículo ou participação em empresa entram aqui pelo valor que você declara — é a única parte do patrimônio que não depende de conectar conta.</div>
+                      <button style="margin-top: 14px; padding: 9px 14px; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; background: rgba(255,255,255,0.03); color: #e4e4e7; font-size: 12.5px; font-weight: 600; cursor: pointer">Cadastrar primeiro bem</button>
+                    </div>
+                  </sc-if>
+                  <sc-for list="{{ posicoes }}" as="p" hint-placeholder-count="8">
+                    <div style="display: grid; grid-template-columns: {{ tableCols }}; gap: 12px; padding: 10px 20px; border-top: 1px solid rgba(255,255,255,0.03); align-items: center">
+                      <div style="min-width: 0">
+                        <div style="font-size: 13px; color: #e4e4e7; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ p.nome }}</div>
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #52525b; margin-top: 2px">{{ p.meta }}</div>
+                      </div>
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #a1a1aa; text-align: right">{{ p.qtd }}</div>
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{ p.precoColor }}; text-align: right">{{ p.preco }}</div>
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: {{ p.valorColor }}; text-align: right">{{ p.valor }}</div>
+                      <div style="text-align: right">
+                        <sc-if value="{{ p.temRent }}" hint-placeholder-val="{{ true }}">
+                          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: {{ p.rentColor }}; display: inline-flex; align-items: center; gap: 4px; justify-content: flex-end">{{ p.rentArrow }}{{ p.rent }}</span>
+                        </sc-if>
+                        <sc-if value="{{ p.semRent }}" hint-placeholder-val="{{ false }}">
+                          <span title="{{ p.rentMotivo }}" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3f3f46; border-bottom: 1px dashed rgba(255,255,255,0.12); cursor: help">—</span>
+                        </sc-if>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ posComItens }}" hint-placeholder-val="{{ true }}">
+                  <div style="display: grid; grid-template-columns: {{ tableCols }}; gap: 12px; padding: 12px 20px; background: rgba(56,189,248,0.04); border-top: 2px solid rgba(56,189,248,0.2); align-items: center">
+                    <div style="font-size: 12px; font-weight: 700; color: #f4f4f5; letter-spacing: 0.04em">TOTAL</div>
+                    <sc-if value="{{ midCols }}" hint-placeholder-val="{{ true }}">
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #52525b; text-align: right">—</div>
+                    </sc-if>
+                    <sc-if value="{{ midCols }}" hint-placeholder-val="{{ true }}">
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #52525b; text-align: right">—</div>
+                    </sc-if>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #f4f4f5; text-align: right">{{ totalValor }}</div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #52525b; text-align: right">{{ totalNota }}</div>
+                  </div>
+                  </sc-if>
+                  <div style="display: flex; gap: 18px; margin: 0; padding: 14px 20px 20px; flex-wrap: wrap">
+                    <div style="display: flex; align-items: center; gap: 7px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #3f3f46">—</span><span style="font-size: 11.5px; color: #71717a">sem cotação na fonte (B3 informa só quantidade, ISIN e vencimento)</span></div>
+                    <div style="display: flex; align-items: center; gap: 7px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #3f3f46; border-bottom: 1px dashed rgba(255,255,255,0.12)">—</span><span style="font-size: 11.5px; color: #71717a">rentabilidade não conferida com a custódia</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="border-radius: 16px; border: 1px solid rgba(167,139,250,0.16); background: linear-gradient(135deg, rgba(167,139,250,0.07), transparent 65%); padding: 16px 18px; display: flex; gap: 12px; align-items: flex-start">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #a78bfa; flex-shrink: 0; margin-top: 3px">IA</span>
+                <div>
+                  <div style="font-size: 13px; color: #e4e4e7; line-height: 1.55; text-wrap: pretty">{{ patInsight }}</div>
+                  <div style="font-size: 10.5px; color: #52525b; margin-top: 8px; line-height: 1.45">Conteúdo analítico gerado automaticamente sobre 76 posições de B3 e Open Finance, das quais 11 sem cotação na fonte; as 2 de cripto estão fora enquanto a origem está com erro. Não constitui recomendação de investimento (CVM 179).</div>
+                </div>
+              </div>
+            </div>
+            </sc-if>
+          </sc-if>
+
+          <sc-if value="{{ isMov }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 14px">
+
+              <sc-if value="{{ movVazio }}" hint-placeholder-val="{{ false }}">
+                <div style="max-width: 680px; margin: 40px auto; text-align: center">
+                  <div style="width: 56px; height: 56px; margin: 0 auto; border-radius: 16px; border: 1px solid rgba(56,189,248,0.20); background: rgba(56,189,248,0.07); display: flex; align-items: center; justify-content: center; font-size: 22px; color: #38bdf8">◰</div>
+                  <h2 style="font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin: 20px 0 0; text-wrap: pretty">Sem extrato porque não há conta conectada</h2>
+                  <p style="font-size: 13.5px; color: #a1a1aa; line-height: 1.6; margin: 12px auto 0; max-width: 480px; text-wrap: pretty">Ao conectar um banco pelo Open Finance, a ZURT importa os últimos 12 meses de uma vez — gasto, recebimento, fatura e provento no mesmo lugar.</p>
+                  <button sc-camel-on-click="{{ goConexoes }}" style="margin-top: 20px; padding: 11px 17px; border: none; border-radius: 11px; background: linear-gradient(90deg,#38bdf8,#06b6d4); color: #07090e; font-size: 13px; font-weight: 700; cursor: pointer">Conectar banco →</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ movComDados }}" hint-placeholder-val="{{ true }}">
+                <div style="display: flex; flex-direction: column; gap: 14px">
+
+                  <div style="border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); padding: 16px 18px">
+                    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap">
+                      <div style="display: flex; padding: 3px; border-radius: 11px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); gap: 2px">
+                        <sc-for list="{{ lentes }}" as="l" hint-placeholder-count="3">
+                          <button sc-camel-on-click="{{ l.go }}" style="padding: 7px 13px; border-radius: 8px; border: none; cursor: pointer; font-size: 12px; font-weight: 600; background: {{ l.bg }}; color: {{ l.fg }}; display: inline-flex; align-items: center; gap: 7px">
+                            {{ l.label }}
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: {{ l.nFg }}">{{ l.n }}</span>
+                          </button>
+                        </sc-for>
+                      </div>
+                      <div style="flex: 1; min-width: 200px; position: relative">
+                        <span style="position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: #52525b; font-size: 12px">⌕</span>
+                        <input value="{{ movQ }}" sc-camel-on-change="{{ onMovQ }}" placeholder="Buscar descrição, ativo, estabelecimento…" style="width: 100%; box-sizing: border-box; padding: 9px 12px 9px 30px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: #e4e4e7; font-size: 12.5px; outline: none">
+                      </div>
+                      <sc-raw-select value="{{ movConta }}" sc-camel-on-change="{{ onMovConta }}" style="padding: 9px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: #e4e4e7; font-size: 12.5px; outline: none">
+                        <sc-for list="{{ contasOpt }}" as="c" hint-placeholder-count="4">
+                          <option value="{{ c.id }}">{{ c.label }}</option>
+                        </sc-for>
+                      </sc-raw-select>
+                      <sc-raw-select value="{{ movCat }}" sc-camel-on-change="{{ onMovCat }}" style="padding: 9px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: #e4e4e7; font-size: 12.5px; outline: none">
+                        <sc-for list="{{ catsOpt }}" as="c" hint-placeholder-count="5">
+                          <option value="{{ c.id }}">{{ c.label }}</option>
+                        </sc-for>
+                      </sc-raw-select>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05)">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.18em; color: #52525b">FAIXA DE VALOR</span>
+                      <div style="display: flex; gap: 6px; flex-wrap: wrap">
+                        <sc-for list="{{ faixas }}" as="x" hint-placeholder-count="5">
+                          <button sc-camel-on-click="{{ x.go }}" style="padding: 5px 10px; border-radius: 9999px; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em; background: {{ x.bg }}; border: 1px solid {{ x.bd }}; color: {{ x.fg }}">{{ x.label }}</button>
+                        </sc-for>
+                      </div>
+                      <div style="margin-left: auto; display: flex; align-items: center; gap: 10px">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #52525b">{{ movResultado }}</span>
+                        <sc-if value="{{ movFiltrado }}" hint-placeholder-val="{{ false }}">
+                          <button sc-camel-on-click="{{ limparMov }}" style="background: none; border: none; color: #38bdf8; font-size: 11.5px; font-weight: 600; cursor: pointer">Limpar filtros</button>
+                        </sc-if>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: {{ movKpiGrid }}; gap: 14px">
+                    <sc-for list="{{ movKpis }}" as="k" hint-placeholder-count="4">
+                      <div style="border-radius: 14px; border: 1px solid {{ k.bd }}; background: {{ k.bg }}; padding: 15px 16px">
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.2em; color: {{ k.tone }}">{{ k.label }}</div>
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 19px; font-weight: 600; letter-spacing: -0.02em; color: {{ k.color }}; margin-top: 8px; white-space: nowrap">{{ k.value }}</div>
+                        <div style="font-size: 11.5px; color: #71717a; margin-top: 5px">{{ k.sub }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+
+                  <div style="border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); overflow: hidden">
+                    <div style="padding: 16px 20px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.05)">
+                      <div>
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">EXTRATO CONSOLIDADO</div>
+                        <div style="font-size: 15px; font-weight: 700; color: #f4f4f5; letter-spacing: -0.01em; margin-top: 4px">{{ movTitulo }}</div>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+                        <div style="display: flex; align-items: center; gap: 7px"><span style="width: 8px; height: 8px; border-radius: 3px; background: rgba(255,255,255,0.14)"></span><span style="font-size: 11px; color: #71717a">dinheiro</span></div>
+                        <div style="display: flex; align-items: center; gap: 7px"><span style="width: 8px; height: 8px; border-radius: 3px; background: rgba(167,139,250,0.55)"></span><span style="font-size: 11px; color: #71717a">carteira — não entra no saldo do dia</span></div>
+                        <div style="display: flex; align-items: center; gap: 7px"><span style="display: inline-block; padding: 1px 6px; border-radius: 9999px; font-size: 8.5px; font-weight: 700; letter-spacing: 0.1em; color: #a78bfa; background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.22)">2 ORIGENS</span><span style="font-size: 11px; color: #71717a">provento pareado — conta uma vez</span></div>
+                      </div>
+                    </div>
+
+                    <sc-for list="{{ dias }}" as="d" hint-placeholder-count="4">
+                      <div>
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 20px; background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.03)">
+                          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: #a1a1aa">{{ d.data }}</span>
+                          <span style="font-size: 11.5px; color: #52525b">{{ d.dow }}</span>
+                          <sc-if value="{{ d.temEventos }}" hint-placeholder-val="{{ false }}">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.12em; padding: 3px 8px; border-radius: 9999px; color: #a78bfa; background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.22)">{{ d.eventos }}</span>
+                          </sc-if>
+                          <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; color: {{ d.saldoColor }}">{{ d.saldo }}</span>
+                        </div>
+                        <sc-for list="{{ d.linhas }}" as="m" hint-placeholder-count="3">
+                          <div style="display: grid; grid-template-columns: {{ movCols }}; gap: 12px; align-items: center; padding: 10px 20px; border-bottom: 1px solid rgba(255,255,255,0.03); background: {{ m.rowBg }}; border-left: 2px solid {{ m.rail }}">
+                            <div style="display: flex; align-items: center; gap: 11px; min-width: 0">
+                              <span style="display: inline-block; flex-shrink: 0; padding: 3px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; background: rgba(255,255,255,0.04); color: {{ m.tagFg }}; border: 1px solid {{ m.tagBd }}">{{ m.tag }}</span>
+                              <div style="min-width: 0">
+                                <div style="display: flex; align-items: center; gap: 8px; min-width: 0">
+                                  <span style="font-size: 13px; color: #e4e4e7; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ m.desc }}</span>
+                                  <sc-if value="{{ m.temPar }}" hint-placeholder-val="{{ false }}">
+                                    <span style="display: inline-block; flex-shrink: 0; padding: 2px 7px; border-radius: 9999px; font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.22)">2 ORIGENS</span>
+                                  </sc-if>
+                                </div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #52525b; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ m.meta }}</div>
+                                <sc-if value="{{ m.temPar }}" hint-placeholder-val="{{ false }}">
+                                  <div style="display: flex; align-items: center; gap: 7px; margin-top: 5px; padding-left: 9px; border-left: 1px solid rgba(167,139,250,0.28)">
+                                    <span style="color: #34d399; font-size: 10px">✓</span>
+                                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #71717a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">LIQUIDADO EM CONTA · {{ m.par }}</span>
+                                  </div>
+                                </sc-if>
+                              </div>
+                            </div>
+                            <sc-if value="{{ midCols }}" hint-placeholder-val="{{ true }}">
+                              <div style="min-width: 0">
+                                <div style="font-size: 12px; color: #a1a1aa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ m.categoria }}</div>
+                                <sc-if value="{{ m.temOriginal }}" hint-placeholder-val="{{ false }}">
+                                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #3f3f46; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ m.original }}</div>
+                                </sc-if>
+                              </div>
+                            </sc-if>
+                            <div style="text-align: right">
+                              <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: {{ m.valorColor }}; white-space: nowrap">{{ m.valor }}</div>
+                              <sc-if value="{{ m.temNota }}" hint-placeholder-val="{{ false }}">
+                                <div style="font-size: 9.5px; color: #52525b; margin-top: 2px; white-space: nowrap">{{ m.nota }}</div>
+                              </sc-if>
+                            </div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-for>
+
+                    <sc-if value="{{ movSemResultado }}" hint-placeholder-val="{{ false }}">
+                      <div style="padding: 40px 20px; text-align: center">
+                        <div style="font-size: 14px; font-weight: 600; color: #e4e4e7">Nenhum movimento com esses filtros</div>
+                        <div style="font-size: 12.5px; color: #71717a; margin-top: 6px">Tente uma faixa de valor maior ou limpe a busca.</div>
+                        <button sc-camel-on-click="{{ limparMov }}" style="margin-top: 14px; padding: 8px 13px; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; background: rgba(255,255,255,0.03); color: #e4e4e7; font-size: 12.5px; font-weight: 600; cursor: pointer">Limpar filtros</button>
+                      </div>
+                    </sc-if>
+
+                    <div style="padding: 14px 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; background: rgba(255,255,255,0.02)">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #52525b; letter-spacing: 0.06em">{{ movPaginacao }}</span>
+                      <button style="margin-left: auto; padding: 8px 13px; border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; background: rgba(255,255,255,0.03); color: #e4e4e7; font-size: 12.5px; font-weight: 600; cursor: pointer">Carregar mais 50</button>
+                      <button style="padding: 8px 13px; border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; background: rgba(255,255,255,0.03); color: #a1a1aa; font-size: 12.5px; font-weight: 600; cursor: pointer">Exportar CSV</button>
+                    </div>
+                  </div>
+
+                  <div style="border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); padding: 14px 18px; display: flex; gap: 12px; align-items: flex-start">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #52525b; flex-shrink: 0; margin-top: 3px">NOTA</span>
+                    <div style="font-size: 12px; color: #71717a; line-height: 1.55; text-wrap: pretty">As categorias chegam em inglês da Pluggy e são traduzidas na exibição — o rótulo original fica embaixo, para você conferir. Transferência entre suas próprias contas não conta como gasto nem como receita: aparece em cinza e fica fora do saldo do dia.<br><br><strong style="color: #a1a1aa; font-weight: 600">Provento em duas fontes.</strong> Quando a B3 registra o provento e o banco registra o crédito (<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #a1a1aa">Proceeds interests and dividends</span>), é o mesmo fato: 347 lançamentos bancários (R$ 34.771,73) contra 481 movimentos da B3 em produção. O registro da B3 manda — é quem sabe o ativo e o tipo de provento — e o crédito bancário aparece recolhido dentro dele como liquidação confirmada. O valor conta <strong style="color: #a1a1aa; font-weight: 600">uma vez</strong>, como entrada de dinheiro; por isso o total único é 8.016 e não 8.363. Um provento pareado aparece nas duas lentes porque é dinheiro e é evento — mas nunca é somado duas vezes. Enquanto a B3 estiver expirada, provento que só chegou pelo banco fica sem par e é exibido como entrada comum, com a categoria traduzida.</div>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isAnalise }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 14px">
+
+              <div style="border-radius: 14px; border: 1px solid rgba(167,139,250,0.20); background: linear-gradient(135deg, rgba(167,139,250,0.08), transparent 70%); padding: 14px 18px; display: flex; gap: 13px; align-items: flex-start">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #a78bfa; flex-shrink: 0; margin-top: 3px">CVM 179</span>
+                <div style="font-size: 12.5px; color: #e4e4e7; line-height: 1.55; text-wrap: pretty">Todo conteúdo desta seção — relatório gerado por IA e Radar Semanal — é <strong style="font-weight: 600">análise informativa</strong> e não constitui recomendação de investimento, oferta ou consultoria personalizada. Decisões de alocação são suas; se quiser recomendação, fale com um assessor certificado.</div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: {{ lowGrid }}; gap: 14px; align-items: start">
+                <div style="display: flex; flex-direction: column; gap: 14px">
+                  <div style="border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); padding: 20px">
+                    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap">
+                      <div>
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">SOB DEMANDA</div>
+                        <div style="font-size: 15px; font-weight: 700; color: #f4f4f5; letter-spacing: -0.01em; margin-top: 4px">Relatório de patrimônio</div>
+                      </div>
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #52525b">{{ relBase }}</span>
+                    </div>
+                    <div style="font-size: 12.5px; color: #71717a; line-height: 1.55; margin-top: 8px">PDF com composição, alocação, concentração e liquidez, mais a leitura da IA sobre o momento da carteira. Feito para levar à reunião com o assessor.</div>
+
+                    <sc-if value="{{ relDisponivel }}" hint-placeholder-val="{{ true }}">
+                      <div>
+                        <div style="display: flex; flex-direction: column; gap: 1px; margin-top: 16px; background: rgba(255,255,255,0.04); border-radius: 12px; overflow: hidden">
+                          <sc-for list="{{ relBlocos }}" as="b" hint-placeholder-count="4">
+                            <div sc-camel-on-click="{{ b.toggle }}" style="background: #0d1018; padding: 11px 13px; display: flex; align-items: center; gap: 11px; cursor: pointer">
+                              <span style="width: 16px; height: 16px; border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; background: {{ b.boxBg }}; border: 1px solid {{ b.boxBd }}; color: #07090e">{{ b.check }}</span>
+                              <div style="flex: 1; min-width: 0">
+                                <div style="font-size: 12.5px; color: #e4e4e7">{{ b.label }}</div>
+                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #52525b; margin-top: 2px">{{ b.meta }}</div>
+                              </div>
+                              <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; color: {{ b.tone }}">{{ b.status }}</span>
+                            </div>
+                          </sc-for>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-top: 16px; flex-wrap: wrap">
+                          <button style="padding: 11px 16px; border: none; border-radius: 11px; background: linear-gradient(90deg,#38bdf8,#06b6d4); color: #07090e; font-size: 13px; font-weight: 700; box-shadow: 0 10px 24px -10px rgba(56,189,248,0.35); cursor: pointer">Gerar relatório →</button>
+                          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #52525b">{{ relTempo }}</span>
+                        </div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ relIndisponivel }}" hint-placeholder-val="{{ false }}">
+                      <div style="margin-top: 16px; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.12); background: rgba(255,255,255,0.02); padding: 18px; text-align: center">
+                        <div style="font-size: 13.5px; font-weight: 600; color: #e4e4e7">Não há patrimônio para relatar</div>
+                        <div style="font-size: 12.5px; color: #71717a; margin-top: 6px; line-height: 1.5; max-width: 400px; margin-left: auto; margin-right: auto">O relatório é gerado sobre dado real de custódia e conta. Sem origem conectada, não há o que analisar — e a ZURT não emite PDF com número estimado.</div>
+                        <button sc-camel-on-click="{{ goConexoes }}" style="margin-top: 14px; padding: 9px 14px; border: none; border-radius: 10px; background: linear-gradient(90deg,#38bdf8,#06b6d4); color: #07090e; font-size: 12.5px; font-weight: 700; cursor: pointer">Conectar origem →</button>
+                      </div>
+                    </sc-if>
+                  </div>
+
+                  <div style="border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); overflow: hidden">
+                    <div style="padding: 18px 20px 0">
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">HISTÓRICO</div>
+                      <div style="font-size: 15px; font-weight: 700; color: #f4f4f5; letter-spacing: -0.01em; margin-top: 4px">{{ histTitulo }}</div>
+                    </div>
+                    <sc-if value="{{ histTemItens }}" hint-placeholder-val="{{ true }}">
+                      <div style="margin-top: 14px">
+                        <div style="display: grid; grid-template-columns: {{ histCols }}; gap: 12px; padding: 11px 20px; background: rgba(255,255,255,0.02)">
+                          <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #52525b">Emitido em</div>
+                          <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #52525b">Escopo</div>
+                          <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #52525b; text-align: right">Páginas</div>
+                          <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #52525b; text-align: right">Arquivo</div>
+                        </div>
+                        <sc-for list="{{ historico }}" as="h" hint-placeholder-count="3">
+                          <div style="display: grid; grid-template-columns: {{ histCols }}; gap: 12px; padding: 10px 20px; border-top: 1px solid rgba(255,255,255,0.03); align-items: center">
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #e4e4e7">{{ h.data }}</div>
+                            <div style="font-size: 12.5px; color: #a1a1aa; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ h.escopo }}</div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #71717a; text-align: right">{{ h.pag }}</div>
+                            <div style="text-align: right"><button style="background: none; border: none; color: #38bdf8; font-size: 12px; font-weight: 600; cursor: pointer">Baixar ↓</button></div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ histVazio }}" hint-placeholder-val="{{ false }}">
+                      <div style="padding: 26px 20px 24px; font-size: 12.5px; color: #71717a; line-height: 1.5">Você ainda não gerou nenhum relatório. Os emitidos ficam guardados aqui por 24 meses.</div>
+                    </sc-if>
+                  </div>
+                </div>
+
+                <div style="border-radius: 18px; border: 1px solid rgba(56,189,248,0.16); background: linear-gradient(160deg, rgba(56,189,248,0.07), rgba(255,255,255,0.02) 55%); overflow: hidden">
+                  <div style="padding: 20px 20px 0; display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap">
+                    <div>
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #38bdf8">PUBLICADO PELA ZURT</div>
+                      <div style="font-size: 15px; font-weight: 700; color: #f4f4f5; letter-spacing: -0.01em; margin-top: 4px">Radar Semanal</div>
+                    </div>
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; padding: 3px 8px; border-radius: 9999px; color: #34d399; background: rgba(16,185,129,0.18); border: 1px solid rgba(16,185,129,0.25)">INCLUSO NO SEU PLANO</span>
+                  </div>
+                  <div style="padding: 8px 20px 0; font-size: 12.5px; color: #71717a; line-height: 1.55">Toda sexta às 19h, um PDF analítico sobre a semana de mercado. Não depende de conexão — chega igual para todo assinante.</div>
+
+                  <div style="padding: 16px 20px 0">
+                    <div style="display: flex; gap: 14px">
+                      <div style="flex-shrink: 0; width: 86px; position: relative; aspect-ratio: 3 / 4; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: linear-gradient(150deg, #0e1826 0%, #071019 60%, #050810 100%)">
+                        <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 90% 70% at 25% 15%, rgba(56,189,248,0.28) 0%, transparent 62%)"></div>
+                        <div style="position: absolute; right: -4px; bottom: -14px; font-family: 'JetBrains Mono', monospace; font-size: 52px; font-weight: 700; line-height: 1; color: rgba(255,255,255,0.09)">26</div>
+                        <div style="position: absolute; top: 8px; left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 7.5px; font-weight: 700; letter-spacing: 0.16em; color: #22d3ee">MACRO</div>
+                      </div>
+                      <div style="flex: 1; min-width: 0">
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #38bdf8">EDIÇÃO 26 · 22 JUL</div>
+                        <div style="font-size: 15px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; color: #f4f4f5; margin-top: 6px; text-wrap: pretty">Selic em 10,25%: o fim do ciclo de corte?</div>
+                        <div style="font-size: 12px; color: #a1a1aa; line-height: 1.5; margin-top: 6px">A curva devolveu 40 bps. Onde alongar e o que evitar em crédito privado.</div>
+                        <button style="margin-top: 10px; padding: 8px 13px; border: none; border-radius: 10px; background: linear-gradient(90deg,#38bdf8,#06b6d4); color: #07090e; font-size: 12px; font-weight: 700; cursor: pointer">Baixar PDF ↓</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="padding: 16px 20px 0">
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.2em; color: #52525b">EDIÇÕES ANTERIORES</div>
+                    <div style="margin-top: 8px">
+                      <sc-for list="{{ radarAnteriores }}" as="r" hint-placeholder-count="3">
+                        <div style="display: flex; align-items: center; gap: 11px; padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.04)">
+                          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #52525b; width: 20px; flex-shrink: 0">{{ r.num }}</span>
+                          <div style="flex: 1; min-width: 0">
+                            <div style="font-size: 12.5px; color: #e4e4e7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ r.titulo }}</div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #52525b; margin-top: 2px">{{ r.meta }}</div>
+                          </div>
+                          <span style="color: #38bdf8; font-size: 12px">↓</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+
+                  <div style="padding: 16px 20px 20px">
+                    <a href="Radar Semanal.dc.html" style="display: block; text-align: center; padding: 10px; border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; background: rgba(255,255,255,0.03); color: #e4e4e7; font-size: 12.5px; font-weight: 600">Ver acervo completo · 26 edições →</a>
+                    <div style="font-size: 10.5px; color: #52525b; line-height: 1.45; margin-top: 12px">Conteúdo analítico da mesa ZURT. Não constitui recomendação de investimento (CVM 179).</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isMetas }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 16px">
+
+              <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; flex-wrap: wrap">
+                <div>
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">OBJETIVOS</div>
+                  <h2 style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin: 6px 0 0">Metas</h2>
+                  <p style="font-size: 12.5px; color: #71717a; margin: 6px 0 0">{{ metasSub }}</p>
+                </div>
+                <button style="padding: 10px 15px; border: none; border-radius: 11px; background: linear-gradient(90deg,#38bdf8,#06b6d4); color: #07090e; font-size: 13px; font-weight: 700; cursor: pointer">+ Nova meta</button>
+              </div>
+
+              <sc-if value="{{ metasTemItens }}" hint-placeholder-val="{{ true }}">
+                <div style="display: grid; grid-template-columns: {{ metasGrid }}; gap: 14px">
+                  <sc-for list="{{ metas }}" as="m" hint-placeholder-count="3">
+                    <div style="border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); padding: 20px; display: flex; flex-direction: column">
+                      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+                        <div style="min-width: 0">
+                          <div style="font-size: 15px; font-weight: 600; color: #f4f4f5; letter-spacing: -0.01em">{{ m.nome }}</div>
+                          <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; color: #52525b; margin-top: 4px">{{ m.prazo }}</div>
+                        </div>
+                        <span style="display: inline-block; flex-shrink: 0; padding: 3px 9px; border-radius: 9999px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: {{ m.pillFg }}; background: {{ m.pillBg }}; border: 1px solid {{ m.pillBd }}">{{ m.pill }}</span>
+                      </div>
+                      <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 16px">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 600; letter-spacing: -0.02em; color: #f4f4f5">{{ m.atual }}</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #52525b">de {{ m.alvo }}</span>
+                      </div>
+                      <div style="height: 8px; border-radius: 9999px; background: rgba(255,255,255,0.04); margin-top: 12px; overflow: hidden">
+                        <div style="height: 100%; border-radius: 9999px; width: {{ m.w }}; background: linear-gradient(90deg, {{ m.cor }}, {{ m.cor2 }})"></div>
+                      </div>
+                      <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 8px">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; color: {{ m.cor }}">{{ m.pct }}</span>
+                        <span style="font-size: 11.5px; color: #71717a">{{ m.falta }}</span>
+                      </div>
+                      <div style="font-size: 12px; color: #71717a; line-height: 1.5; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05)">{{ m.nota }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ metasVazio }}" hint-placeholder-val="{{ false }}">
+                <div style="border-radius: 20px; border: 1px solid rgba(56,189,248,0.18); background: linear-gradient(135deg, rgba(56,189,248,0.07), transparent 65%); padding: 30px; text-align: center">
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #38bdf8">FUNCIONA SEM CONECTAR NADA</div>
+                  <h3 style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin: 14px 0 0; text-wrap: pretty">Crie a primeira meta e acompanhe na mão até conectar</h3>
+                  <p style="font-size: 13.5px; color: #a1a1aa; line-height: 1.6; margin: 10px auto 0; max-width: 470px; text-wrap: pretty">Você define o alvo e o prazo, e atualiza o valor quando quiser. Ao conectar uma conta depois, o progresso passa a ser calculado sozinho.</p>
+                  <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap">
+                    <button style="padding: 11px 16px; border: none; border-radius: 11px; background: linear-gradient(90deg,#38bdf8,#06b6d4); color: #07090e; font-size: 13px; font-weight: 700; cursor: pointer">+ Criar primeira meta</button>
+                    <button sc-camel-on-click="{{ goConexoes }}" style="padding: 11px 16px; border: 1px solid rgba(255,255,255,0.10); border-radius: 11px; background: rgba(255,255,255,0.03); color: #e4e4e7; font-size: 13px; font-weight: 600; cursor: pointer">Conectar conta</button>
+                  </div>
+                </div>
+              </sc-if>
+
+              <div style="border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02); padding: 16px 18px">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap">
+                  <div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.22em; color: #52525b">FERRAMENTAS DE CÁLCULO</div>
+                    <div style="font-size: 12.5px; color: #71717a; margin-top: 5px">Uso pontual — todas também abrem por <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; border: 1px solid rgba(255,255,255,0.10); border-radius: 4px; padding: 1px 5px; color: #a1a1aa">⌘K</span></div>
+                  </div>
+                  <button sc-camel-on-click="{{ openPalette }}" style="background: none; border: none; color: #52525b; font-size: 11.5px; cursor: pointer">Buscar ferramenta →</button>
+                </div>
+                <div style="display: grid; grid-template-columns: {{ ferrGrid }}; gap: 8px; margin-top: 14px">
+                  <sc-for list="{{ ferramentas }}" as="t" hint-placeholder-count="5">
+                    <button style="text-align: left; padding: 12px 13px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); cursor: pointer; display: flex; flex-direction: column; gap: 4px">
+                      <span style="font-size: 12.5px; font-weight: 600; color: #e4e4e7">{{ t.nome }}</span>
+                      <span style="font-size: 11px; color: #71717a; line-height: 1.4">{{ t.desc }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+        </div>
+      </main>
+
+      <sc-if value="{{ inboxOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position: fixed; inset: 0; z-index: 55">
+          <div sc-camel-on-click="{{ closeInbox }}" style="position: absolute; inset: 0; background: rgba(0,0,0,0.70); backdrop-filter: blur(3px); animation: fadeIn 200ms ease both"></div>
+          <div style="position: absolute; top: 0; right: 0; bottom: 0; width: 400px; max-width: 92vw; background: #0b0e14; border-left: 1px solid rgba(255,255,255,0.08); box-shadow: -30px 0 80px -20px rgba(0,0,0,0.6); display: flex; flex-direction: column; animation: fadeIn 240ms ease both">
+            <div style="padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.06)">
+              <div style="display: flex; align-items: center; gap: 10px">
+                <div>
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.2em; color: #52525b">/APP/INBOX</div>
+                  <div style="font-size: 15px; font-weight: 700; color: #f4f4f5; letter-spacing: -0.01em; margin-top: 3px">Caixa de entrada</div>
+                </div>
+                <span style="margin-left: auto; display: inline-block; padding: 3px 9px; border-radius: 9999px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #fbbf24; background: rgba(251,191,36,0.15); border: 1px solid rgba(251,191,36,0.25)">BACKLOG</span>
+                <button sc-camel-on-click="{{ closeInbox }}" style="width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.10); background: rgba(255,255,255,0.03); color: #a1a1aa; font-size: 12px; cursor: pointer">✕</button>
+              </div>
+              <div style="font-size: 11.5px; color: #71717a; line-height: 1.5; margin-top: 10px">Proposta de consolidação: hoje são três telas separadas (<span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #a1a1aa">/notifications</span>, <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #a1a1aa">/invitations</span>, <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #a1a1aa">/messages</span>). Rota nova, pendente de implementação — as antigas seguem redirecionando, porque o app iOS aponta para elas.</div>
+              <div style="display: flex; gap: 6px; margin-top: 12px">
+                <sc-for list="{{ inboxTabs }}" as="t" hint-placeholder-count="3">
+                  <button sc-camel-on-click="{{ t.go }}" style="padding: 6px 11px; border-radius: 9px; cursor: pointer; font-size: 11.5px; font-weight: 600; background: {{ t.bg }}; border: 1px solid {{ t.bd }}; color: {{ t.fg }}; display: inline-flex; align-items: center; gap: 6px">{{ t.label }}<span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: {{ t.nFg }}">{{ t.n }}</span></button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="flex: 1; overflow-y: auto; padding: 8px 0">
+              <sc-for list="{{ inboxItens }}" as="i" hint-placeholder-count="3">
+                <div style="padding: 13px 18px; border-bottom: 1px solid rgba(255,255,255,0.03); display: flex; gap: 12px; align-items: flex-start">
+                  <span style="width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; background: {{ i.dot }}"></span>
+                  <div style="flex: 1; min-width: 0">
+                    <div style="font-size: 13px; color: #e4e4e7; font-weight: 500">{{ i.titulo }}</div>
+                    <div style="font-size: 12px; color: #71717a; line-height: 1.45; margin-top: 3px">{{ i.corpo }}</div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: #3f3f46; margin-top: 6px">{{ i.quando }}</div>
+                  </div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ inboxVazio }}" hint-placeholder-val="{{ false }}">
+                <div style="padding: 40px 20px; text-align: center; font-size: 12.5px; color: #71717a">Nada por aqui ainda.</div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+        <div style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: flex; background: rgba(11,14,20,0.94); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.06); padding: 8px 6px 10px">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+            <button sc-camel-on-click="{{ n.go }}" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px 2px; border: none; background: none; cursor: pointer; color: {{ n.fg2 }}">
+              <span style="font-size: 15px; line-height: 1; color: {{ n.icon }}">{{ n.glyph }}</span>
+              <span style="font-size: 8.5px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%">{{ n.short }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ paletteOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position: fixed; inset: 0; z-index: 60">
+          <div sc-camel-on-click="{{ closePalette }}" style="position: absolute; inset: 0; background: rgba(0,0,0,0.80); backdrop-filter: blur(4px); animation: fadeIn 200ms ease both"></div>
+          <div style="position: absolute; top: 14vh; left: 50%; transform: translateX(-50%); width: 560px; max-width: 90vw; border-radius: 16px; border: 1px solid rgba(255,255,255,0.10); background: #0b0e14; box-shadow: 0 30px 80px -20px rgba(0,0,0,0.6); overflow: hidden; animation: scaleIn 220ms cubic-bezier(.21,.78,.35,1) both">
+            <div style="display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.06)">
+              <span style="color: #52525b; font-size: 13px">⌕</span>
+              <input value="{{ pq }}" sc-camel-on-change="{{ onPq }}" placeholder="Ir para tela, buscar ativo, conta ou transação…" style="flex: 1; background: none; border: none; outline: none; color: #f4f4f5; font-size: 14px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #52525b; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 2px 5px">ESC</span>
+            </div>
+            <div style="max-height: 320px; overflow-y: auto; padding: 8px">
+              <sc-for list="{{ paletteItems }}" as="p" hint-placeholder-count="5">
+                <button sc-camel-on-click="{{ p.go }}" style="width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: none; border-radius: 10px; background: transparent; color: #e4e4e7; font-size: 13px; text-align: left; cursor: pointer">
+                  <span style="width: 16px; color: #52525b; font-size: 13px; flex-shrink: 0">{{ p.glyph }}</span>
+                  <span style="flex: 1">{{ p.label }}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #3f3f46">{{ p.hint }}</span>
+                </button>
+              </sc-for>
+              <sc-if value="{{ paletteEmpty }}" hint-placeholder-val="{{ false }}">
+                <div style="padding: 30px 12px; text-align: center; font-size: 13px; color: #71717a">Nada encontrado. Tente "conexões", "B3", "relatório".</div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;estado&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;dados&quot;,&quot;vazio&quot;],&quot;default&quot;:&quot;dados&quot;,&quot;tsType&quot;:&quot;'dados' | 'vazio'&quot;,&quot;section&quot;:&quot;Conta&quot;,&quot;label&quot;:&quot;Estado da conta (afeta Painel, Conexões e Patrimônio)&quot;}}">
+const NAV = [
+  { id: 'painel', label: 'Painel', glyph: '◐', short: 'PAINEL' },
+  { id: 'patrimonio', label: 'Patrimônio', glyph: '⬢', short: 'PATRIM.' },
+  { id: 'movimentacoes', label: 'Movimentações', glyph: '◰', short: 'MOVIM.' },
+  { id: 'conexoes', label: 'Conexões', glyph: '◉', badge: true, badgeText: '1', short: 'CONEX.' },
+  { id: 'analise', label: 'Análise', glyph: '◎', short: 'ANÁLISE' },
+  { id: 'metas', label: 'Metas e Ferramentas', glyph: '◆', short: 'METAS' },
+];
+
+const SPARKS = {
+  liquidez: [141, 152, 148, 167, 172, 181, 194],
+  renda: [4.1, 5.2, 5.0, 6.4, 6.1, 7.2, 7.8],
+  conc: [14.2, 13.6, 13.1, 12.4, 12.0, 11.7, 11.4],
+  cobertura: [58, 60, 61, 62, 63, 65, 65],
+};
+const spark = (d, w, h) => {
+  const mn = Math.min.apply(null, d), mx = Math.max.apply(null, d), rng = (mx - mn) || 1;
+  return d.map((v, i) => ((i / (d.length - 1)) * w).toFixed(1) + ',' + (h - ((v - mn) / rng) * (h - 4) - 2).toFixed(1)).join(' ');
+};
+
+const CRUMB = {
+  painel: 'PRINCIPAL', patrimonio: 'PATRIMÔNIO', movimentacoes: 'PATRIMÔNIO',
+  conexoes: 'ORIGENS DE DADO', analise: 'RELATÓRIOS', metas: 'FERRAMENTAS',
+};
+const LABEL = {
+  painel: 'Painel', patrimonio: 'Patrimônio consolidado', movimentacoes: 'Movimentações',
+  conexoes: 'Conexões', analise: 'Análise e relatórios', metas: 'Metas e ferramentas',
+};
+
+const SERIES = {
+  '12M': [3.42, 3.51, 3.48, 3.63, 3.71, 3.66, 3.82, 3.94, 4.02, 3.97, 4.19, 4.29],
+  'YTD': [3.82, 3.94, 4.02, 3.97, 4.19, 4.24, 4.29],
+  'MES': [4.19, 4.21, 4.17, 4.23, 4.26, 4.24, 4.29],
+};
+const AXIS = {
+  '12M': ['AGO/25', 'OUT', 'DEZ', 'FEV/26', 'ABR', 'JUL'],
+  'YTD': ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL'],
+  'MES': ['01', '05', '10', '15', '20', '25', '28'],
+};
+const RET = { '12M': { r: '+14,8%', cdi: '+11,2%', d: '+R$ 553.410' }, 'YTD': { r: '+9,4%', cdi: '+6,1%', d: '+R$ 368.220' }, 'MES': { r: '+2,4%', cdi: '+0,84%', d: '+R$ 100.312' } };
+const PERIODS = [{ id: 'MES', label: 'MÊS' }, { id: 'YTD', label: 'YTD' }, { id: '12M', label: '12M' }];
+
+const CLASSES = [
+  { label: 'Renda Fixa',    pct: 34.2, value: 'R$ 1.055.180', color: '#38bdf8', color2: 'rgba(56,189,248,0.45)' },
+  { label: 'Ações BR',      pct: 18.6, value: 'R$ 573.760',   color: '#34d399', color2: 'rgba(52,211,153,0.45)' },
+  { label: 'Fundos',        pct: 14.1, value: 'R$ 435.030',   color: '#fbbf24', color2: 'rgba(251,191,36,0.45)' },
+  { label: 'Internacional', pct: 12.4, value: 'R$ 382.580',   color: '#a78bfa', color2: 'rgba(167,139,250,0.45)' },
+  { label: 'FIIs',          pct: 9.8,  value: 'R$ 302.360',   color: '#22d3ee', color2: 'rgba(34,211,238,0.45)' },
+  { label: 'Cripto',        pct: 4.6,  value: 'R$ 141.920',   color: '#7c8aff', color2: 'rgba(124,138,255,0.45)' },
+  { label: 'Caixa',         pct: 6.3,  value: 'R$ 194.370',   color: '#71717a', color2: 'rgba(113,113,122,0.45)' },
+];
+
+const MOVS = [
+  { desc: 'Aplicação CDB BTG 116% CDI', meta: '28 JUL · BTG PACTUAL', valor: '−R$ 80.000,00', color: '#e4e4e7' },
+  { desc: 'Dividendos ITSA4', meta: '27 JUL · B3 · PROVENTOS', valor: '+R$ 2.418,60', color: '#34d399' },
+  { desc: 'Fatura cartão Itaú Personnalité', meta: '26 JUL · DÉBITO AUTOMÁTICO', valor: '−R$ 18.742,15', color: '#f87171' },
+  { desc: 'Resgate fundo multimercado', meta: '24 JUL · XP · D+1', valor: '+R$ 45.000,00', color: '#34d399' },
+  { desc: 'Compra PETR4 · 300 un', meta: '23 JUL · B3 · PREÇO MÉD. 38,42', valor: '−R$ 11.526,00', color: '#e4e4e7' },
+];
+
+const ORIGENS = [
+  {
+    id: 'of', sigla: 'OF', nome: 'Open Finance', estado: 'ativo',
+    desc: 'Bancos e corretoras: saldo em conta, extrato, cartões e fatura. Até 2.400 instituições.',
+    meta: 'SINCRONIZADO HOJE ÀS 08:12 · 3 INSTITUIÇÕES · 17 CONTAS · 51 POSIÇÕES',
+    cta: '+ Conectar outra instituição', ctaKind: 'ghost',
+    nota: 'Consentimento válido por 12 meses, renovável sem religar as contas.',
+    itens: [
+      { sigla: 'ITAÚ', nome: 'Itaú Unibanco', meta: '6 CONTAS · 2 CARTÕES · SYNC 08:12', status: 'ATIVO', ok: 'ativo' },
+      { sigla: 'BTG', nome: 'BTG Pactual', meta: '4 CONTAS · SYNC 08:12', status: 'ATIVO', ok: 'ativo' },
+      { sigla: 'NU', nome: 'Nubank', meta: 'FALHA NA LEITURA DA FATURA · 06:40', status: 'ERRO', ok: 'erro' },
+    ],
+  },
+  {
+    id: 'b3', sigla: 'B³', siglaNeutra: 'B3', nome: 'B3 — Área do Investidor', estado: 'expirado', b3: true,
+    desc: 'Ações, FIIs, ETFs e renda fixa custodiada, com quantidade, ISIN e data de aquisição.',
+    meta: 'CONSENTIMENTO EXPIRADO EM 25 JUL · 25 POSIÇÕES CONGELADAS',
+    motivo: 'A autorização na Área do Investidor vence a cada 12 meses. Suas posições continuam visíveis, mas param de atualizar até você religar.',
+    sec: 'Entender o que expirou',
+    nota: 'Vínculo por CPF com confirmação na própria B3. A ZURT recebe dado somente leitura e nunca opera pela sua conta.',
+  },
+  {
+    id: 'cripto', sigla: 'FOX', nome: 'Exchanges de cripto', estado: 'erro',
+    desc: 'Saldo e histórico em exchange brasileira. Hoje suportamos Foxbit via chave de API somente leitura.',
+    meta: 'ÚLTIMA TENTATIVA HOJE ÀS 07:55 · 2 ATIVOS DESATUALIZADOS',
+    motivo: 'A chave de API foi revogada ou perdeu a permissão de leitura (erro 401). Gere uma nova chave na Foxbit — leitura apenas, sem permissão de saque.',
+    cta: 'Substituir chave de API', ctaKind: 'danger', sec: 'Como gerar a chave',
+    nota: 'A ZURT recusa chave com permissão de saque ou ordem. Se a sua tiver, o cadastro é bloqueado.',
+  },
+  {
+    id: 'manual', sigla: 'MAN', nome: 'Ativos manuais', estado: 'nunca',
+    desc: 'Imóvel, veículo, participação em empresa e qualquer bem que não vive em sistema financeiro.',
+    meta: 'NENHUM BEM CADASTRADO',
+    motivo: 'É a única origem que não depende de terceiro: você declara o valor e a data, e a ZURT passa a somar no patrimônio.',
+    cta: 'Cadastrar primeiro bem', ctaKind: 'primary',
+    nota: 'Valor declarado pelo titular. Não entra no cálculo de rentabilidade da carteira financeira.',
+  },
+];
+
+const POSICOES = [
+  { cat: 'acoes', nome: 'ITSA4 · Itaúsa PN', meta: 'AÇÃO · B3 · PM R$ 9,84', qtd: '1.200', preco: 'R$ 11,42', valor: 'R$ 13.704', rent: '16,1%', dir: 'up' },
+  { cat: 'acoes', nome: 'PETR4 · Petrobras PN', meta: 'AÇÃO · B3 · PM R$ 38,42', qtd: '800', preco: 'R$ 41,18', valor: 'R$ 32.944', rent: '7,2%', dir: 'up' },
+  { cat: 'acoes', nome: 'HGLG11 · CSHG Logística', meta: 'FII · B3 · PM R$ 158,20', qtd: '340', preco: 'R$ 164,90', valor: 'R$ 56.066', rent: '4,2%', dir: 'up' },
+  { cat: 'acoes', nome: 'IVVB11 · S&P 500', meta: 'ETF · B3 · PM R$ 341,10', qtd: '210', preco: 'R$ 398,44', valor: 'R$ 83.672', rent: '16,8%', dir: 'up' },
+  { cat: 'acoes', nome: 'BBAS3 · Banco do Brasil ON', meta: 'AÇÃO · B3 · QUANTIDADE DIVERGENTE', qtd: '600', preco: 'R$ 27,86', valor: 'R$ 16.716', semRent: 'Quantidade derivada do histórico não bate com a custódia — rentabilidade omitida até conferir.' },
+  { cat: 'rf', nome: 'CDB BTG 116% CDI · 2028', meta: 'CDB · ISIN BRBTGCDB012 · VENC. 14/03/2028', qtd: 'R$ 480.000', preco: '—', valor: '—', semPreco: 1, semRent: 'A B3 informa apenas quantidade, ISIN e vencimento para renda fixa de balcão — não há cotação na fonte.' },
+  { cat: 'rf', nome: 'CRA Raízen · 2029', meta: 'CRA · ISIN BRRAIZCRA019 · VENC. 20/09/2029', qtd: 'R$ 150.000', preco: '—', valor: '—', semPreco: 1, semRent: 'Sem cotação na fonte (renda fixa de balcão).' },
+  { cat: 'rf', nome: 'LF Itaú · 2028', meta: 'LF · ISIN BRITAULFI034 · VENC. 02/02/2028', qtd: 'R$ 200.000', preco: '—', valor: '—', semPreco: 1, semRent: 'Sem cotação na fonte (renda fixa de balcão).' },
+  { cat: 'rf', nome: 'Tesouro IPCA+ 2035', meta: 'TESOURO DIRETO · VENC. 15/05/2035', qtd: '48,12', preco: 'R$ 4.284,10', valor: 'R$ 206.150', rent: '9,8%', dir: 'up' },
+  { cat: 'fundos', nome: 'XP Macro Plus FIC FIM', meta: 'MULTIMERCADO · COTA 28/07', qtd: '1.842,40', preco: 'R$ 2,31', valor: 'R$ 253.590', rent: '6,4%', dir: 'up' },
+  { cat: 'fundos', nome: 'Kinea Prev IPCA FIC', meta: 'PREVIDÊNCIA · COTA 28/07', qtd: '904,18', preco: 'R$ 3,12', valor: 'R$ 181.440', rent: '2,1%', dir: 'down' },
+  { cat: 'cripto', nome: 'BTC · Bitcoin', meta: 'FOXBIT · SALDO DE 25/07 (ORIGEM COM ERRO)', qtd: '0,4218', preco: 'R$ 338.400', valor: 'R$ 142.735', semRent: 'A origem está com erro desde 25/07 — o preço pode estar defasado, então a rentabilidade fica indisponível.' },
+  { cat: 'cripto', nome: 'ETH · Ethereum', meta: 'FOXBIT · SALDO DE 25/07 (ORIGEM COM ERRO)', qtd: '2,140', preco: 'R$ 14.820', valor: 'R$ 31.715', semRent: 'A origem está com erro desde 25/07 — rentabilidade indisponível.' },
+];
+
+const PILL = {
+  ativo:    { fg: '#34d399', bg: 'rgba(16,185,129,0.18)', bd: 'rgba(16,185,129,0.25)', label: 'ATIVO' },
+  expirado: { fg: '#fbbf24', bg: 'rgba(251,191,36,0.15)', bd: 'rgba(251,191,36,0.25)', label: 'EXPIRADO' },
+  erro:     { fg: '#f87171', bg: 'rgba(239,68,68,0.15)',  bd: 'rgba(239,68,68,0.25)',  label: 'ERRO' },
+  nunca:    { fg: '#a1a1aa', bg: 'rgba(255,255,255,0.05)', bd: 'rgba(255,255,255,0.12)', label: 'NÃO CONECTADO' },
+};
+const PAINEL_META = {
+  of: 'OPEN FINANCE · 3 INSTITUIÇÕES · SYNC 08:12',
+  b3: 'CONSENTIMENTO EXPIRADO EM 25 JUL · 25 POSIÇÕES',
+  cripto: 'CHAVE DE API REVOGADA · 07:55',
+  manual: 'NENHUM BEM CADASTRADO',
+};
+
+const VAZIO_META = {
+  of: 'NENHUMA INSTITUIÇÃO CONECTADA',
+  b3: 'CONTA B3 NÃO VINCULADA',
+  cripto: 'NENHUMA EXCHANGE CONECTADA',
+  manual: 'NENHUM BEM CADASTRADO',
+};
+const VAZIO_CTA = {
+  of: 'Conectar banco →',
+  b3: '',
+  cripto: 'Conectar Foxbit',
+  manual: 'Cadastrar primeiro bem',
+};
+
+const TABS = [
+  { id: 'tudo', label: 'Tudo' }, { id: 'acoes', label: 'Ações e FIIs' }, { id: 'rf', label: 'Renda fixa' },
+  { id: 'fundos', label: 'Fundos' }, { id: 'cripto', label: 'Cripto' }, { id: 'bens', label: 'Bens' },
+];
+
+const CAT_PT = {
+  'Taxi and ride-hailing': { pt: 'Transporte por app', tag: 'TRP', n: 917 },
+  'Eating out': { pt: 'Restaurantes e bares', tag: 'ALI', n: 458 },
+  'Groceries': { pt: 'Supermercado', tag: 'MER', n: 431 },
+  'Same person transfer': { pt: 'Transferência entre suas contas', tag: 'TRF', n: 734 },
+  'Income': { pt: 'Recebimento', tag: 'REC', n: null },
+  'Credit card payment': { pt: 'Pagamento de fatura', tag: 'FAT', n: null },
+  'Investment': { pt: 'Aplicação', tag: 'APL', n: null },
+};
+
+const MOVIMENTOS = [
+  { dia: '28/07', dow: 'terça', tipo: 'cash', desc: 'Aplicação CDB BTG 116% CDI', cat: 'Investment', conta: 'btg', valor: -80000, nota: 'saiu da conta para a carteira' },
+  { dia: '28/07', dow: 'terça', tipo: 'cash', desc: 'Uber · Jardins → Itaim', cat: 'Taxi and ride-hailing', conta: 'itau', valor: -32.4 },
+  { dia: '28/07', dow: 'terça', tipo: 'evento', desc: 'JCP · VALE3', cat: null, conta: 'b3', valor: 89.2, ev: 'JUROS SOBRE CAPITAL PRÓPRIO', par: 'ITAÚ · 28/07 · Proceeds interests and dividends' },
+  { dia: '28/07', dow: 'terça', tipo: 'cash', desc: 'Transferência para conta BTG', cat: 'Same person transfer', conta: 'itau', valor: -25000 },
+  { dia: '27/07', dow: 'segunda', tipo: 'evento', desc: 'Dividendo · ITSA4', cat: null, conta: 'b3', valor: 2418.6, ev: 'DIVIDENDO', par: 'ITAÚ · 27/07 · Proceeds interests and dividends' },
+  { dia: '27/07', dow: 'segunda', tipo: 'cash', desc: 'Pão de Açúcar · Itaim', cat: 'Groceries', conta: 'itau', valor: -487.9 },
+  { dia: '27/07', dow: 'segunda', tipo: 'evento', desc: 'Rendimento · HGLG11', cat: null, conta: 'b3', valor: 374.0, ev: 'RENDIMENTO FII', par: 'BTG · 27/07 · Proceeds interests and dividends' },
+  { dia: '26/07', dow: 'domingo', tipo: 'cash', desc: 'Fatura cartão Itaú Personnalité', cat: 'Credit card payment', conta: 'itau', valor: -18742.15 },
+  { dia: '26/07', dow: 'domingo', tipo: 'cash', desc: 'Tanit · almoço', cat: 'Eating out', conta: 'itau', valor: -412.0 },
+  { dia: '26/07', dow: 'domingo', tipo: 'evento', desc: 'Grupamento · MGLU3 1:10', cat: null, conta: 'b3', valor: 0, ev: 'GRUPAMENTO', semValor: 1 },
+  { dia: '25/07', dow: 'sábado', tipo: 'cash', desc: 'PIX recebido · Consultoria PJ', cat: 'Income', conta: 'btg', valor: 42000 },
+  { dia: '25/07', dow: 'sábado', tipo: 'cash', desc: 'Uber · Congonhas', cat: 'Taxi and ride-hailing', conta: 'itau', valor: -68.9 },
+  { dia: '24/07', dow: 'quinta', tipo: 'cash', desc: 'Resgate fundo multimercado XP', cat: 'Investment', conta: 'btg', valor: 45000 },
+  { dia: '24/07', dow: 'quinta', tipo: 'evento', desc: 'Transferência de custódia · IVVB11', cat: null, conta: 'b3', valor: 0, ev: 'TRANSFERÊNCIA DE CUSTÓDIA', semValor: 1 },
+  { dia: '24/07', dow: 'quinta', tipo: 'cash', desc: 'Mercado Municipal', cat: 'Groceries', conta: 'itau', valor: -276.4 },
+];
+
+const CONTAS = [
+  { id: 'todas', label: 'Todas as contas' },
+  { id: 'itau', label: 'Itaú · c/c e cartão' },
+  { id: 'btg', label: 'BTG · c/c' },
+  { id: 'b3', label: 'B3 · custódia' },
+];
+const FAIXAS = [
+  { id: 'todas', label: 'QUALQUER', min: 0, max: Infinity },
+  { id: 'p', label: 'ATÉ 100', min: 0, max: 100 },
+  { id: 'm', label: '100 – 1 MIL', min: 100, max: 1000 },
+  { id: 'g', label: '1 – 10 MIL', min: 1000, max: 10000 },
+  { id: 'gg', label: 'ACIMA DE 10 MIL', min: 10000, max: Infinity },
+];
+const LENTES = [
+  { id: 'tudo', label: 'Tudo', n: '8.016' },
+  { id: 'cash', label: 'Dinheiro', n: '6.736' },
+  { id: 'evento', label: 'Carteira', n: '1.627' },
+];
+const brl = v => (v < 0 ? '− ' : '+ ') + 'R$ ' + Math.abs(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+const REL_BLOCOS = [
+  { id: 'comp', label: 'Composição e alocação', meta: 'FINANCEIRO, BENS E PASSIVO', on: true },
+  { id: 'conc', label: 'Concentração e liquidez', meta: '76 POSIÇÕES B3 + OPEN FINANCE · 17 CONTAS', on: true },
+  { id: 'prov', label: 'Renda passiva 12 meses', meta: '497 PROVENTOS REAIS', on: true },
+  { id: 'ia', label: 'Leitura da IA sobre a carteira', meta: 'INCLUI AVISO CVM 179', on: true },
+  { id: 'mov', label: 'Extrato do período', meta: '8.363 MOVIMENTOS · +14 PÁGINAS', on: false },
+];
+const HISTORICO = [
+  { data: '02/07/2026', escopo: 'Composição · Concentração · IA', pag: '11' },
+  { data: '01/04/2026', escopo: 'Composição · Renda passiva', pag: '9' },
+  { data: '07/01/2026', escopo: 'Completo com extrato', pag: '24' },
+];
+const RADAR_ANT = [
+  { num: '25', titulo: 'Ibovespa nos 152 mil: o que sustenta o rali', meta: '15 JUL · 12 PÁG · BOLSA' },
+  { num: '24', titulo: 'Dólar abaixo de R$ 5,00 e o custo do hedge', meta: '08 JUL · 10 PÁG · CÂMBIO' },
+  { num: '23', titulo: 'Balanço do 1º semestre: onde o dinheiro rendeu', meta: '01 JUL · 18 PÁG · MACRO' },
+];
+const METAS = [
+  { nome: 'Reserva de emergência', prazo: 'SEM PRAZO · 12 MESES DE CUSTO', atual: 'R$ 194.370', alvo: 'R$ 360.000', pct: 54, cor: '#38bdf8', cor2: 'rgba(56,189,248,0.45)', pill: 'EM CURSO', nota: 'Calculada sobre o saldo em conta das 17 contas conectadas — atualiza sozinha.' },
+  { nome: 'Aporte anual 2026', prazo: 'ATÉ 31/12/2026', atual: 'R$ 428.000', alvo: 'R$ 600.000', pct: 71, cor: '#34d399', cor2: 'rgba(52,211,153,0.45)', pill: 'NO RITMO', nota: 'Soma das aplicações identificadas no extrato. Faltam 5 meses no ritmo atual.' },
+  { nome: 'Entrada do imóvel', prazo: 'ATÉ 06/2028', atual: 'R$ 156.000', alvo: 'R$ 700.000', pct: 22, cor: '#fbbf24', cor2: 'rgba(251,191,36,0.45)', pill: 'ATRASADA', nota: 'No ritmo dos últimos 6 meses, a data projetada é 11/2029 — 17 meses depois do alvo.' },
+];
+const FERRAMENTAS = [
+  { nome: 'FIRE', desc: 'Independência financeira' },
+  { nome: 'Juros compostos', desc: 'Projeção de aporte' },
+  { nome: 'Usufruto', desc: 'Planejamento sucessório' },
+  { nome: 'ITCMD', desc: 'Herança e doação por estado' },
+  { nome: 'Rentabilidade', desc: 'Retorno de um investimento' },
+];
+const INBOX = {
+  notificacoes: [
+    { titulo: 'Consentimento da B3 expirou', corpo: '25 posições pararam de atualizar. Religue em Conexões.', quando: 'HOJE 08:12', dot: '#fbbf24' },
+    { titulo: 'Chave da Foxbit foi revogada', corpo: 'Cripto sem preço desde 25/07 (erro 401).', quando: 'HOJE 07:55', dot: '#f87171' },
+    { titulo: 'Radar Semanal · edição 26', corpo: 'Selic em 10,25%: o fim do ciclo de corte?', quando: 'SEX 19:00', dot: '#38bdf8' },
+    { titulo: 'Sincronização concluída', corpo: '3 instituições, 51 posições atualizadas.', quando: 'HOJE 08:12', dot: '#34d399' },
+  ],
+  convites: [
+    { titulo: 'Convite de consultor', corpo: 'Marina Castro (CVM 12.884) pede acesso de leitura à sua carteira.', quando: 'ONTEM 16:40', dot: '#38bdf8' },
+  ],
+  mensagens: [],
+};
+const INBOX_TABS = [
+  { id: 'notificacoes', label: 'Notificações' },
+  { id: 'convites', label: 'Convites' },
+  { id: 'mensagens', label: 'Mensagens' },
+];
+
+const PALETTE = [
+  { id: 'painel', label: 'Ir para Painel', glyph: '◐', hint: 'TELA' },
+  { id: 'patrimonio', label: 'Ir para Patrimônio consolidado', glyph: '⬢', hint: 'TELA' },
+  { id: 'movimentacoes', label: 'Ir para Movimentações', glyph: '◰', hint: 'TELA' },
+  { id: 'conexoes', label: 'Conexões — reconectar B3', glyph: '◉', hint: 'AÇÃO' },
+  { id: 'analise', label: 'Gerar relatório de patrimônio', glyph: '◎', hint: 'AÇÃO' },
+  { id: 'metas', label: 'Calculadora FIRE', glyph: '◆', hint: 'FERRAMENTA' },
+  { id: 'metas', label: 'Simulador de ITCMD por estado', glyph: '◆', hint: 'FERRAMENTA' },
+  { id: 'metas', label: 'Calculadora de juros compostos', glyph: '◆', hint: 'FERRAMENTA' },
+  { id: 'metas', label: 'Usufruto — planejamento sucessório', glyph: '◆', hint: 'FERRAMENTA' },
+  { id: 'metas', label: 'Rentabilidade de um investimento', glyph: '◆', hint: 'FERRAMENTA' },
+  { id: 'analise', label: 'Radar Semanal — edição da semana', glyph: '◎', hint: 'CONTEÚDO' },
+];
+
+class Component extends DCLogic {
+  state = { screen: 'app', view: 'painel', period: 'MES', palette: false, pq: '', tab: 'tudo', lente: 'tudo', movQ: '', movConta: 'todas', movCat: 'todas', movFaixa: 'todas', relOn: ['comp', 'conc', 'prov', 'ia'], inbox: false, inboxTab: 'notificacoes', w: typeof window !== 'undefined' ? window.innerWidth : 1440 };
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onKey = e => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); this.setState({ palette: true, pq: '' }); }
+      if (e.key === 'Escape') this.setState({ palette: false, inbox: false });
+    };
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize); }
+
+  path(vals, close) {
+    const w = 640, h = 150, pad = 6;
+    const min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
+    const span = (max - min) || 1;
+    const pts = vals.map((v, i) => {
+      const x = (i / (vals.length - 1)) * w;
+      const y = pad + (1 - (v - min) / span) * (h - pad * 2 - 18);
+      return [x, y];
+    });
+    let d = 'M ' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1);
+    for (let i = 1; i < pts.length; i++) {
+      const p0 = pts[i - 1], p1 = pts[i], cx = (p0[0] + p1[0]) / 2;
+      d += ' C ' + cx.toFixed(1) + ' ' + p0[1].toFixed(1) + ', ' + cx.toFixed(1) + ' ' + p1[1].toFixed(1) + ', ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1);
+    }
+    if (close) d += ' L ' + w + ' ' + h + ' L 0 ' + h + ' Z';
+    return d;
+  }
+
+  renderVals() {
+    const st = this.state;
+    const vazio = (this.props.estado ?? 'dados') === 'vazio';
+    const per = st.period;
+    const ser = SERIES[per];
+    const ret = RET[per];
+    const q = st.pq.trim().toLowerCase();
+    const pal = PALETTE.filter(p => !q || p.label.toLowerCase().indexOf(q) >= 0);
+    const w = st.w;
+    const wide = w >= 1200, mid = w >= 900, mobile = w < 760;
+    const orig = ORIGENS.map(raw => vazio ? {
+      id: raw.id, sigla: raw.sigla, siglaNeutra: raw.siglaNeutra, nome: raw.nome, desc: raw.desc, b3: raw.b3, estado: 'nunca',
+      meta: VAZIO_META[raw.id],
+      motivo: raw.id === 'manual' ? 'É a única origem que não depende de terceiro: você declara o valor e a data, e a ZURT passa a somar no patrimônio.' : '',
+      cta: VAZIO_CTA[raw.id], ctaKind: raw.id === 'of' ? 'primary' : 'ghost',
+      sec: raw.id === 'b3' ? '' : raw.sec, nota: raw.nota,
+    } : raw);
+    const nAtivas = orig.filter(o => o.estado === 'ativo').length;
+    const nQuebrou = orig.filter(o => o.estado === 'expirado' || o.estado === 'erro').length;
+    const nFalta = orig.filter(o => o.estado === 'nunca').length;
+    const nPendentes = nQuebrou + nFalta;
+    const fx = FAIXAS.filter(x => x.id === st.movFaixa)[0];
+    const mq = st.movQ.trim().toLowerCase();
+    const movFiltrados = MOVIMENTOS.filter(m => {
+      const naLente = st.lente === 'tudo' || m.tipo === st.lente || (st.lente === 'cash' && !!m.par);
+      if (!naLente) return false;
+      if (st.movConta !== 'todas' && m.conta !== st.movConta) return false;
+      if (st.movCat !== 'todas' && m.cat !== st.movCat) return false;
+      const abs = Math.abs(m.valor);
+      if (st.movFaixa !== 'todas' && !(abs >= fx.min && abs < fx.max)) return false;
+      if (mq && (m.desc + ' ' + (m.cat || '') + ' ' + (m.cat ? CAT_PT[m.cat].pt : '') + ' ' + (m.ev || '')).toLowerCase().indexOf(mq) < 0) return false;
+      return true;
+    });
+
+    return {
+      mobile,
+      authGrid: w >= 1000 ? '1fr 1fr' : '1fr',
+      authPad: w >= 1000 ? '56px 64px' : '36px 28px',
+      sidebarDisplay: mobile ? 'none' : 'flex',
+      mainPad: mobile ? '18px 16px 90px' : '24px 26px 40px',
+      heroGrid: wide ? '1.55fr 1fr' : '1fr',
+      kpiGrid: wide ? 'repeat(4, 1fr)' : (mid ? 'repeat(2, 1fr)' : '1fr'),
+      lowGrid: wide ? '1.15fr 1fr' : '1fr',
+      stepsGrid: mid ? 'repeat(3, 1fr)' : '1fr',
+      plSize: wide ? '44px' : (mid ? '36px' : '28px'),
+      isAuth: st.screen === 'login' || st.screen === 'signup',
+      isLogin: st.screen === 'login',
+      isSignup: st.screen === 'signup',
+      isApp: st.screen === 'app',
+      authCta: st.screen === 'signup' ? 'Criar conta e conectar →' : 'Entrar →',
+      goLogin: e => { if (e) e.preventDefault(); this.setState({ screen: 'login' }); },
+      goSignup: e => { if (e) e.preventDefault(); this.setState({ screen: 'signup' }); },
+      enter: () => this.setState({ screen: 'app', view: 'painel' }),
+      logout: () => this.setState({ screen: 'login' }),
+
+      nav: NAV.map(n => {
+        const on = st.view === n.id;
+        const bt = n.badge ? String(nPendentes) : '';
+        return {
+          label: n.label, short: n.short, glyph: n.glyph, badge: !!n.badge, badgeText: bt,
+          bg: on ? 'linear-gradient(90deg, rgba(56,189,248,0.14), rgba(56,189,248,0.03))' : 'transparent',
+          fg: on ? '#e0f2fe' : '#a1a1aa',
+          fg2: on ? '#38bdf8' : '#52525b',
+          icon: on ? '#38bdf8' : '#71717a',
+          go: () => this.setState({ view: n.id }),
+        };
+      }),
+      crumb: CRUMB[st.view], viewLabel: LABEL[st.view],
+      syncLine: vazio
+        ? 'NENHUMA ORIGEM CONECTADA'
+        : 'SINCRONIZADO ÀS 08:12 · ' + nAtivas + ' DE ' + orig.length + ' ORIGENS' + (nPendentes ? ' · ' + nPendentes + ' PEDEM AÇÃO' : ''),
+
+      periods: PERIODS.map(p => {
+        const on = per === p.id;
+        return {
+          label: p.label,
+          bg: on ? 'rgba(56,189,248,0.10)' : 'rgba(255,255,255,0.03)',
+          bd: on ? 'rgba(56,189,248,0.22)' : 'rgba(255,255,255,0.08)',
+          fg: on ? '#38bdf8' : '#71717a',
+          go: () => this.setState({ period: p.id }),
+        };
+      }),
+      periodLabel: per,
+
+      isPainel: st.view === 'painel',
+      isMov: st.view === 'movimentacoes',
+      isAnalise: st.view === 'analise',
+      isMetas: st.view === 'metas',
+      isConexoes: st.view === 'conexoes',
+      isPatrimonio: st.view === 'patrimonio',
+
+      emptyGrid: wide ? '1.25fr 0.9fr' : '1fr',
+      emptyH: wide ? '32px' : '25px',
+      cxGrid: mid ? 'repeat(2, 1fr)' : '1fr',
+      tableCols: mid ? 'minmax(0,2.1fr) 0.8fr 0.9fr 1fr 0.8fr' : 'minmax(0,1.6fr) 0.9fr 1fr',
+
+      emptyPreview: [
+        { label: 'Patrimônio consolidado', w: '78%' },
+        { label: 'Alocação por classe', w: '54%' },
+        { label: 'Renda passiva 12 meses', w: '40%' },
+        { label: 'Concentração de risco', w: '62%' },
+      ],
+      emptySteps: [
+        { step: 'CAMINHO MAIS RÁPIDO', tempo: '~2 MIN', title: 'Bancos por Open Finance', desc: 'Escolha a instituição, autorize no app do banco e volte. Saldo, extrato e cartões entram de uma vez.', cta: 'Conectar banco →', tone: '#38bdf8', bd: 'rgba(56,189,248,0.20)', bg: 'linear-gradient(135deg, rgba(56,189,248,0.08), transparent 65%)', btnBd: 'none', btnBg: 'linear-gradient(90deg,#38bdf8,#06b6d4)', btnFg: '#07090e' },
+        { step: 'MAIOR IMPACTO', tempo: '~3 MIN', title: 'Carteira na B3', desc: 'Ações, FIIs, ETFs e renda fixa custodiada. É a origem que mais muda o painel de quem investe.', cta: 'Vincular conta B3', tone: '#52525b', bd: 'rgba(255,255,255,0.07)', bg: 'rgba(255,255,255,0.02)', btnBd: '1px solid rgba(255,255,255,0.12)', btnBg: 'rgba(255,255,255,0.03)', btnFg: '#e4e4e7' },
+        { step: 'SEM DEPENDER DE NINGUÉM', tempo: '~1 MIN', title: 'Bens fora do sistema', desc: 'Imóvel, veículo ou participação. Você declara o valor e ele já soma no patrimônio.', cta: 'Cadastrar bem', tone: '#52525b', bd: 'rgba(255,255,255,0.07)', bg: 'rgba(255,255,255,0.02)', btnBd: '1px solid rgba(255,255,255,0.12)', btnBg: 'rgba(255,255,255,0.03)', btnFg: '#e4e4e7' },
+      ],
+
+      cxHeadline: vazio ? 'Nada conectado ainda — comece pela origem que você mais usa' : 'Uma origem lendo, duas pedindo atenção e uma nunca conectada',
+      cxSub: vazio
+        ? 'Cada origem entra em minutos e some do seu caminho depois: a partir daí a ZURT sincroniza sozinha e só te chama quando algo expira.'
+        : 'Open Finance está lendo três instituições. A B3 venceu o consentimento anual e a Foxbit perdeu a chave de API — as posições delas continuam visíveis, mas paradas no tempo. Bens fora do sistema financeiro ainda não foram cadastrados.',
+      cxResumo: [
+        { label: 'CONECTADO', n: String(nAtivas), sub: 'origens ativas', tone: vazio ? '#52525b' : '#34d399', bd: vazio ? 'rgba(255,255,255,0.08)' : 'rgba(16,185,129,0.20)', bg: vazio ? 'rgba(255,255,255,0.02)' : 'rgba(16,185,129,0.07)' },
+        { label: 'QUEBROU', n: String(nQuebrou), sub: nQuebrou ? 'exigem ação sua' : 'nada a reparar', tone: vazio ? '#52525b' : '#fbbf24', bd: vazio ? 'rgba(255,255,255,0.08)' : 'rgba(251,191,36,0.22)', bg: vazio ? 'rgba(255,255,255,0.02)' : 'rgba(251,191,36,0.07)' },
+        { label: 'FALTA', n: String(nFalta), sub: nFalta === orig.length ? 'todas as origens' : (nFalta === 1 ? 'nunca conectada' : 'nunca conectadas'), tone: vazio ? '#38bdf8' : '#71717a', bd: vazio ? 'rgba(56,189,248,0.20)' : 'rgba(255,255,255,0.08)', bg: vazio ? 'rgba(56,189,248,0.07)' : 'rgba(255,255,255,0.02)' },
+      ],
+      cxGanhos: [
+        { glyph: '◐', title: 'Patrimônio somado sozinho', desc: 'Conta, carteira, fundo, cripto e imóvel no mesmo total — sem planilha.' },
+        { glyph: '⬢', title: 'Concentração e liquidez calculadas', desc: 'Quanto está preso, quanto é resgatável hoje e onde há risco concentrado.' },
+        { glyph: '◆', title: 'Relatório pronto para o assessor', desc: 'PDF de patrimônio com a análise, para a próxima reunião.' },
+      ],
+      origens: orig.map(o => {
+        const S = PILL[o.estado];
+        const CTA = {
+          primary: { bg: 'linear-gradient(90deg,#38bdf8,#06b6d4)', fg: '#07090e', bd: 'none' },
+          danger:  { bg: 'rgba(239,68,68,0.12)', fg: '#f87171', bd: '1px solid rgba(239,68,68,0.28)' },
+          ghost:   { bg: 'rgba(255,255,255,0.03)', fg: '#e4e4e7', bd: '1px solid rgba(255,255,255,0.10)' },
+        }[o.ctaKind || 'ghost'];
+        return {
+          sigla: o.sigla, nome: o.nome, desc: o.desc, meta: o.meta, nota: o.nota,
+          status: S.label, statusFg: S.fg, statusBg: S.bg, statusBd: S.bd,
+          bd: o.estado === 'erro' ? 'rgba(239,68,68,0.20)' : (o.estado === 'expirado' ? 'rgba(251,191,36,0.20)' : 'rgba(255,255,255,0.06)'),
+          bg: o.estado === 'erro' ? 'linear-gradient(135deg, rgba(239,68,68,0.05), rgba(255,255,255,0.02) 60%)' : (o.estado === 'expirado' ? 'linear-gradient(135deg, rgba(251,191,36,0.05), rgba(255,255,255,0.02) 60%)' : 'rgba(255,255,255,0.03)'),
+          chipBg: 'rgba(255,255,255,0.04)', chipFg: o.b3 ? '#f4f4f5' : S.fg, chipBd: 'rgba(255,255,255,0.08)',
+          metaBg: 'rgba(255,255,255,0.02)', metaBd: 'rgba(255,255,255,0.05)', metaFg: o.estado === 'ativo' ? '#71717a' : S.fg,
+          temMotivo: !!o.motivo, motivo: o.motivo || '',
+          temLista: !!o.itens, itens: (o.itens || []).map(i => ({
+            sigla: i.sigla, nome: i.nome, meta: i.meta, status: i.status,
+            fg: i.ok === 'ativo' ? '#34d399' : '#f87171',
+            bg: i.ok === 'ativo' ? 'rgba(16,185,129,0.18)' : 'rgba(239,68,68,0.15)',
+            bd: i.ok === 'ativo' ? 'rgba(16,185,129,0.25)' : 'rgba(239,68,68,0.25)',
+            chipFg: '#a1a1aa', chipBd: 'rgba(255,255,255,0.10)',
+          })),
+          b3: !!o.b3,
+          temCta: !!o.cta, cta: o.cta || '', ctaBg: CTA.bg, ctaFg: CTA.fg, ctaBd: CTA.bd,
+          temSec: !!o.sec, sec: o.sec || '',
+        };
+      }),
+
+      composicao: [
+        { label: 'FINANCEIRO', value: 'R$ 3.085.200', sub: 'bancos, B3, fundos, cripto', color: '#38bdf8' },
+        { label: 'BENS', value: '—', sub: 'nenhum bem cadastrado', color: '#a78bfa' },
+        { label: 'PASSIVO', value: '− R$ 148.700', sub: 'financiamento + fatura', color: '#f87171' },
+      ],
+      qualidade: [
+        { n: '65/76', label: 'Posições com cotação', desc: '14 de renda variável na B3 e 51 vindas do Open Finance, com preço atualizado na origem.', tone: '#34d399' },
+        { n: '11', label: 'Sem cotação por contrato', desc: 'CDB, CRA, LF e debênture de balcão: o Manual Técnico da B3 informa apenas quantidade, ISIN, data de aquisição e vencimento — não existe preço na fonte, e nós não inventamos um.', tone: '#a1a1aa' },
+        { n: '13/14', label: 'Com rentabilidade conferida', desc: 'O restante fica sem percentual até a quantidade bater com a custódia.', tone: '#fbbf24' },
+        { n: '—', label: 'Custo de carrego', desc: 'Indisponível: nenhuma fonte informa quanto de taxa foi efetivamente pago.', tone: '#3f3f46' },
+      ],
+      tabs: TABS.map(t => {
+        const on = st.tab === t.id;
+        return { label: t.label, bg: on ? 'rgba(56,189,248,0.10)' : 'rgba(255,255,255,0.03)', bd: on ? 'rgba(56,189,248,0.22)' : 'rgba(255,255,255,0.08)', fg: on ? '#38bdf8' : '#71717a', go: () => this.setState({ tab: t.id }) };
+      }),
+      tableHead: (mid
+        ? [{ label: 'ATIVO', align: 'left' }, { label: 'QTD', align: 'right' }, { label: 'PREÇO', align: 'right' }, { label: 'VALOR', align: 'right' }, { label: 'RENT.', align: 'right' }]
+        : [{ label: 'ATIVO', align: 'left' }, { label: 'VALOR', align: 'right' }, { label: 'RENT.', align: 'right' }]),
+      posTitle: (st.tab === 'tudo' ? 'Todas as posições' : TABS.filter(t => t.id === st.tab)[0].label) + ' · ' + POSICOES.filter(p => st.tab === 'tudo' || p.cat === st.tab).length + ' itens',
+      midCols: mid,
+      origensChip: nAtivas + ' DE ' + orig.length + ' ORIGENS',
+      origensCaption: 'Financeiro 95% · Passivo 5% · Bens ainda não cadastrados — atualizado hoje às 08:12 a partir de ' + nAtivas + (nAtivas === 1 ? ' origem ativa' : ' origens ativas'),
+      posVazio: POSICOES.filter(p => st.tab === 'tudo' || p.cat === st.tab).length === 0,
+      posComItens: POSICOES.filter(p => st.tab === 'tudo' || p.cat === st.tab).length > 0,
+      totalValor: (function () {
+        const sel = POSICOES.filter(p => st.tab === 'tudo' || p.cat === st.tab);
+        const soma = sel.reduce((s, p) => s + (p.valor === '—' ? 0 : Number(p.valor.replace(/[^0-9]/g, ''))), 0);
+        return 'R$ ' + soma.toLocaleString('pt-BR');
+      })(),
+      totalNota: (function () {
+        const sel = POSICOES.filter(p => st.tab === 'tudo' || p.cat === st.tab);
+        const sem = sel.filter(p => p.valor === '—').length;
+        return sem ? (sel.length - sem) + '/' + sel.length : sel.length + ' itens';
+      })(),
+      posicoes: POSICOES.filter(p => st.tab === 'tudo' || p.cat === st.tab).map(p => ({
+        nome: p.nome, meta: p.meta, qtd: p.qtd, preco: p.preco, valor: p.valor,
+        precoColor: p.preco === '—' ? '#3f3f46' : '#a1a1aa',
+        valorColor: p.valor === '—' ? '#3f3f46' : '#e4e4e7',
+        temRent: !p.semRent, semRent: !!p.semRent,
+        rent: p.rent || '', rentArrow: p.dir === 'down' ? '▼' : '▲',
+        rentColor: p.dir === 'down' ? '#f87171' : '#34d399',
+        rentMotivo: p.semRent || '',
+      })),
+      patVazio: vazio, patComDados: !vazio,
+      patVazioLinhas: [
+        { label: 'FINANCEIRO', sub: 'entra ao conectar banco, B3 ou exchange' },
+        { label: 'BENS', sub: 'entra ao cadastrar imóvel, veículo ou participação' },
+        { label: 'PASSIVO', sub: 'entra com a fatura do cartão e o financiamento' },
+      ],
+      patInsight: 'Onze papéis de renda fixa de balcão entram pelo custo de aquisição, porque a B3 não fornece cotação para eles — o patrimônio exibido é conservador por construção, nunca inflado. A liquidez imediata cobre 5,4 meses do seu custo médio mensal.',
+      vazio, comDados: !vazio,
+
+      pl: 'R$ 2.936.500',
+      plDelta: ret.r,
+      plCaption: ret.d + ' no período · líquido de R$ 148.700 em passivo · sem bens cadastrados',
+      ret: ret.r, cdi: ret.cdi,
+      areaPath: this.path(ser, true), linePath: this.path(ser, false),
+      axis: AXIS[per],
+
+      buckets: [
+        { label: 'Financeiro', value: 'R$ 3.085.200', pct: '95%', sub: 'BANCOS · B3 · FUNDOS · CRIPTO', color: '#38bdf8' },
+        { label: 'Imóveis e bens', value: '—', pct: '0%', sub: 'NENHUM BEM CADASTRADO AINDA', color: '#a78bfa' },
+        { label: 'Passivo', value: '− R$ 148.700', pct: '5%', sub: 'FINANCIAMENTO + CARTÃO', color: '#f87171' },
+      ],
+
+      kpis: [
+        { label: 'LIQUIDEZ IMEDIATA', value: 'R$ 194.370', color: '#38bdf8', delta: '17 contas', arrow: '', deltaColor: '#71717a', sub: '4,5% do patrimônio', temSpark: true, spark: spark(SPARKS.liquidez, 56, 20), shadow: '0 0 40px -10px rgba(56,189,248,0.15)' },
+        { label: 'RENDA PASSIVA 12M', value: 'R$ 78.420', color: '#34d399', delta: '18,2%', arrow: '▲', deltaColor: '#34d399', sub: '497 proventos', temSpark: true, spark: spark(SPARKS.renda, 56, 20), shadow: 'none' },
+        { label: 'MAIOR CONCENTRAÇÃO', value: '11,4%', color: '#fbbf24', delta: 'CDB BTG', arrow: '', deltaColor: '#fbbf24', sub: 'de 76 posições', temSpark: true, spark: spark(SPARKS.conc, 56, 20), shadow: 'none' },
+        { label: 'COBERTURA DE PREÇO', value: '65 de 76', color: '#a78bfa', delta: '11', arrow: '', deltaColor: '#71717a', sub: 'sem cotação por contrato', spark: spark(SPARKS.cobertura, 56, 20), shadow: 'none', temSpark: true },
+      ],
+
+      classes: CLASSES.map(c => ({
+        label: c.label, value: c.value, color: c.color, color2: c.color2,
+        pct: c.pct.toFixed(1).replace('.', ',') + '%',
+        w: (c.pct / 34.2 * 100).toFixed(1) + '%',
+      })),
+
+      insight: 'Renda fixa responde por 34% da carteira com 62% vencendo em 2027 — há concentração de reinvestimento numa única janela. A liquidez imediata cobre 5,4 meses do seu custo médio mensal.',
+
+      conexoesTitle: nAtivas + ' de ' + orig.length + (nAtivas === 1 ? ' ativa' : ' ativas'),
+      conexoes: orig.map(o => ({
+        sigla: o.siglaNeutra || o.sigla, nome: o.nome, status: PILL[o.estado].label,
+        meta: vazio ? VAZIO_META[o.id] : PAINEL_META[o.id],
+        chipBg: 'rgba(255,255,255,0.04)', chipFg: '#a1a1aa',
+        statusFg: PILL[o.estado].fg, statusBg: PILL[o.estado].bg,
+      })),
+      movs: MOVS,
+
+      movVazio: vazio, movComDados: !vazio,
+      movKpiGrid: wide ? 'repeat(4, 1fr)' : (mid ? 'repeat(2, 1fr)' : '1fr'),
+      movCols: mid ? 'minmax(0,2.2fr) minmax(0,1.1fr) 0.9fr' : 'minmax(0,2fr) 0.9fr',
+      movQ: st.movQ, movConta: st.movConta, movCat: st.movCat,
+      onMovQ: e => this.setState({ movQ: e.target.value }),
+      onMovConta: e => this.setState({ movConta: e.target.value }),
+      onMovCat: e => this.setState({ movCat: e.target.value }),
+      limparMov: () => this.setState({ movQ: '', movConta: 'todas', movCat: 'todas', movFaixa: 'todas', lente: 'tudo' }),
+      movFiltrado: !!(st.movQ || st.movConta !== 'todas' || st.movCat !== 'todas' || st.movFaixa !== 'todas' || st.lente !== 'tudo'),
+      contasOpt: CONTAS,
+      catsOpt: [{ id: 'todas', label: 'Todas as categorias' }].concat(Object.keys(CAT_PT).map(k => ({ id: k, label: CAT_PT[k].pt + (CAT_PT[k].n ? ' (' + CAT_PT[k].n + ')' : '') }))),
+      lentes: LENTES.map(l => {
+        const on = st.lente === l.id;
+        return { label: l.label, n: l.n, go: () => this.setState({ lente: l.id }),
+          bg: on ? 'rgba(56,189,248,0.12)' : 'transparent', fg: on ? '#38bdf8' : '#a1a1aa', nFg: on ? '#38bdf8' : '#52525b' };
+      }),
+      faixas: FAIXAS.map(x => {
+        const on = st.movFaixa === x.id;
+        return { label: x.label, go: () => this.setState({ movFaixa: x.id }),
+          bg: on ? 'rgba(56,189,248,0.10)' : 'rgba(255,255,255,0.02)', bd: on ? 'rgba(56,189,248,0.22)' : 'rgba(255,255,255,0.07)', fg: on ? '#38bdf8' : '#71717a' };
+      }),
+      movKpis: (function () {
+        const sel = movFiltrados;
+        const cash = sel.filter(m => (m.tipo === 'cash' || m.par) && m.cat !== 'Same person transfer');
+        const ent = cash.filter(m => m.valor > 0).reduce((s, m) => s + m.valor, 0);
+        const sai = cash.filter(m => m.valor < 0).reduce((s, m) => s + m.valor, 0);
+        const ev = sel.filter(m => m.tipo === 'evento' && !m.par);
+        const evValorado = ev.filter(m => !m.semValor);
+        const evTotal = evValorado.reduce((s, m) => s + m.valor, 0);
+        const entN = cash.filter(m => m.valor > 0).length;
+        const saiN = cash.filter(m => m.valor < 0).length;
+        const fmt = v => 'R$ ' + Math.abs(v).toLocaleString('pt-BR', { maximumFractionDigits: 0 });
+        const semCash = cash.length === 0;
+        const cinza = { bd: 'rgba(255,255,255,0.06)', bg: 'rgba(255,255,255,0.03)' };
+        return [
+          { label: 'ENTRADAS NESTA PÁGINA', value: entN ? fmt(ent) : '—', color: entN ? '#34d399' : '#3f3f46', tone: '#52525b', sub: entN ? entN + ' movimentos exibidos' : (semCash ? 'lente Carteira não tem dinheiro' : 'nenhuma entrada nos filtros'), bd: cinza.bd, bg: cinza.bg },
+          { label: 'SAÍDAS NESTA PÁGINA', value: saiN ? fmt(sai) : '—', color: saiN ? '#f87171' : '#3f3f46', tone: '#52525b', sub: saiN ? saiN + ' movimentos exibidos' : (semCash ? 'lente Carteira não tem dinheiro' : 'nenhuma saída nos filtros'), bd: cinza.bd, bg: cinza.bg },
+          { label: 'SALDO DOS FILTROS ATUAIS', value: semCash ? '—' : (ent + sai >= 0 ? '+ ' : '− ') + fmt(ent + sai), color: semCash ? '#3f3f46' : (ent + sai >= 0 ? '#34d399' : '#f87171'), tone: '#52525b', sub: semCash ? 'sem base de cálculo na lente' : 'transferência interna fora da conta', bd: cinza.bd, bg: cinza.bg },
+          { label: 'EVENTOS SEM DINHEIRO', value: evValorado.length ? fmt(evTotal) : (ev.length ? ev.length + (ev.length === 1 ? ' evento' : ' eventos') : '—'), color: ev.length ? '#a78bfa' : '#3f3f46', tone: '#a78bfa', sub: evValorado.length ? evValorado.length + ' com valor · ' + ev.length + ' no total' : (ev.length ? 'grupamento e custódia não têm valor' : 'nenhum evento sem caixa'), bd: 'rgba(167,139,250,0.18)', bg: 'linear-gradient(135deg, rgba(167,139,250,0.07), transparent 65%)' },
+        ];
+      })(),
+      movTitulo: (st.lente === 'tudo' ? 'Dinheiro e carteira na mesma linha do tempo' : (st.lente === 'cash' ? 'Só movimento de dinheiro' : 'Só evento de carteira')),
+      movResultado: movFiltrados.length + ' de ' + MOVIMENTOS.length + ' nesta página',
+      movPaginacao: 'MOSTRANDO ' + movFiltrados.length + ' DE 8.016 MOVIMENTOS ÚNICOS · 347 PROVENTOS PAREADOS B3 + BANCO · 12 MESES',
+      movSemResultado: movFiltrados.length === 0,
+      dias: (function () {
+        const out = [];
+        movFiltrados.forEach(m => {
+          let d = out.filter(x => x.data === m.dia)[0];
+          if (!d) { d = { data: m.dia, dow: m.dow, linhas: [], cashSoma: 0, nEventos: 0, temCash: false }; out.push(d); }
+          if (m.tipo === 'evento' && !m.par) d.nEventos++;
+          if (m.tipo === 'cash' || m.par) { d.temCash = true; if (m.cat !== 'Same person transfer') d.cashSoma += m.valor; }
+          const isEv = m.tipo === 'evento';
+          const interna = m.cat === 'Same person transfer';
+          const c = m.cat ? CAT_PT[m.cat] : null;
+          d.linhas.push({
+            desc: m.desc,
+            meta: isEv ? ('B3 · ' + m.ev) : (CONTAS.filter(x => x.id === m.conta)[0].label.toUpperCase()),
+            tag: isEv ? 'B3' : c.tag,
+            tagFg: isEv ? '#a78bfa' : (interna ? '#71717a' : '#a1a1aa'),
+            tagBd: isEv ? 'rgba(167,139,250,0.25)' : 'rgba(255,255,255,0.10)',
+            categoria: isEv ? 'Evento de carteira' : c.pt,
+            temOriginal: !isEv, original: isEv ? '' : m.cat,
+            valor: m.semValor ? '—' : brl(m.valor),
+            valorColor: m.semValor ? '#3f3f46' : (m.par ? '#34d399' : (isEv ? '#a78bfa' : (interna ? '#71717a' : (m.valor > 0 ? '#34d399' : '#e4e4e7')))),
+            temPar: !!m.par, par: m.par || '',
+            temNota: !!m.nota || isEv || interna,
+            nota: m.nota || (m.par ? 'contado uma vez, como entrada' : (isEv ? 'não entra no saldo' : (interna ? 'entre suas contas' : ''))),
+            rowBg: isEv ? 'rgba(167,139,250,0.035)' : 'transparent',
+            rail: isEv ? 'rgba(167,139,250,0.55)' : 'transparent',
+          });
+        });
+        return out.map(d => ({
+          data: d.data, dow: d.dow, linhas: d.linhas, temCash: d.temCash,
+          temEventos: d.nEventos > 0,
+          eventos: '+ ' + d.nEventos + (d.nEventos === 1 ? ' EVENTO DE CARTEIRA' : ' EVENTOS DE CARTEIRA'),
+          saldo: d.temCash ? (d.cashSoma >= 0 ? '+ ' : '− ') + 'R$ ' + Math.abs(d.cashSoma).toLocaleString('pt-BR', { maximumFractionDigits: 0 }) : '—',
+          saldoColor: d.temCash ? (d.cashSoma >= 0 ? '#34d399' : '#a1a1aa') : '#3f3f46',
+        }));
+      })(),
+
+      histCols: mid ? 'minmax(0,1fr) minmax(0,1.7fr) 0.6fr 0.8fr' : 'minmax(0,1fr) 0.7fr 0.8fr',
+      relDisponivel: !vazio, relIndisponivel: vazio,
+      relBase: vazio ? 'SEM BASE DE DADOS' : 'BASE: 76 POSIÇÕES · ' + nAtivas + ' DE ' + orig.length + ' ORIGENS ATIVAS',
+      relTempo: 'GERA EM ~40 SEGUNDOS · PDF',
+      relBlocos: REL_BLOCOS.map(b => {
+        const on = st.relOn.indexOf(b.id) >= 0;
+        return {
+          label: b.label, meta: b.meta,
+          check: on ? '✓' : '',
+          boxBg: on ? '#38bdf8' : 'transparent',
+          boxBd: on ? '#38bdf8' : 'rgba(255,255,255,0.14)',
+          status: on ? 'INCLUÍDO' : 'FORA',
+          tone: on ? '#38bdf8' : '#52525b',
+          toggle: () => this.setState(s => ({ relOn: s.relOn.indexOf(b.id) >= 0 ? s.relOn.filter(x => x !== b.id) : s.relOn.concat([b.id]) })),
+        };
+      }),
+      histTitulo: vazio ? 'Nenhum relatório emitido' : HISTORICO.length + ' relatórios emitidos',
+      histTemItens: !vazio, histVazio: vazio,
+      historico: HISTORICO,
+      radarAnteriores: RADAR_ANT,
+
+      metasSub: vazio
+        ? 'Metas não dependem de conexão — é a parte do produto que funciona no primeiro minuto.'
+        : 'Progresso calculado sobre saldo e extrato reais das contas conectadas.',
+      metasTemItens: !vazio, metasVazio: vazio,
+      metasGrid: wide ? 'repeat(3, 1fr)' : (mid ? 'repeat(2, 1fr)' : '1fr'),
+      ferrGrid: wide ? 'repeat(5, 1fr)' : (mid ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)'),
+      metas: METAS.map(m => ({
+        nome: m.nome, prazo: m.prazo, atual: m.atual, alvo: m.alvo,
+        pct: m.pct + '%', w: m.pct + '%', cor: m.cor, cor2: m.cor2, nota: m.nota,
+        falta: 'faltam ' + (100 - m.pct) + '%',
+        pill: m.pill,
+        pillFg: m.pill === 'ATRASADA' ? '#fbbf24' : (m.pill === 'NO RITMO' ? '#34d399' : '#38bdf8'),
+        pillBg: m.pill === 'ATRASADA' ? 'rgba(251,191,36,0.15)' : (m.pill === 'NO RITMO' ? 'rgba(16,185,129,0.18)' : 'rgba(56,189,248,0.18)'),
+        pillBd: m.pill === 'ATRASADA' ? 'rgba(251,191,36,0.25)' : (m.pill === 'NO RITMO' ? 'rgba(16,185,129,0.25)' : 'rgba(56,189,248,0.25)'),
+      })),
+      ferramentas: FERRAMENTAS,
+
+      inboxOpen: st.inbox,
+      openInbox: () => this.setState({ inbox: true }),
+      closeInbox: () => this.setState({ inbox: false }),
+      inboxTabs: INBOX_TABS.map(t => {
+        const on = st.inboxTab === t.id;
+        const n = vazio && t.id !== 'notificacoes' ? 0 : (vazio ? 1 : INBOX[t.id].length);
+        return { label: t.label, n: String(n), go: () => this.setState({ inboxTab: t.id }),
+          bg: on ? 'rgba(56,189,248,0.12)' : 'rgba(255,255,255,0.02)', bd: on ? 'rgba(56,189,248,0.22)' : 'rgba(255,255,255,0.07)',
+          fg: on ? '#38bdf8' : '#71717a', nFg: on ? '#38bdf8' : '#3f3f46' };
+      }),
+      inboxItens: vazio
+        ? (st.inboxTab === 'notificacoes' ? [{ titulo: 'Bem-vindo à ZURT', corpo: 'Conecte a primeira origem para o painel se montar.', quando: 'HOJE 08:00', dot: '#38bdf8' }] : [])
+        : INBOX[st.inboxTab],
+      inboxVazio: (vazio ? (st.inboxTab !== 'notificacoes') : INBOX[st.inboxTab].length === 0),
+
+      goPainel: () => this.setState({ view: 'painel' }),
+      goConexoes: () => this.setState({ view: 'conexoes' }),
+      goPatrimonio: () => this.setState({ view: 'patrimonio' }),
+      goMov: () => this.setState({ view: 'movimentacoes' }),
+
+      paletteOpen: st.palette,
+      openPalette: () => this.setState({ palette: true, pq: '' }),
+      closePalette: () => this.setState({ palette: false }),
+      pq: st.pq,
+      onPq: e => this.setState({ pq: e.target.value }),
+      paletteItems: pal.map(p => ({ label: p.label, glyph: p.glyph, hint: p.hint, go: () => this.setState({ view: p.id, palette: false }) })),
+      paletteEmpty: !pal.length,
+    };
+  }
+}
+</script>
+
+
+</body></html>

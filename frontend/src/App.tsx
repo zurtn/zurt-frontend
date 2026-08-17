@@ -47,6 +47,13 @@ const B3 = lazy(() => import("./pages/B3"));
 const Accounts = lazy(() => import("./pages/Accounts"));
 const Cards = lazy(() => import("./pages/Cards"));
 const Investments = lazy(() => import("./pages/Investments"));
+const Rentabilidade = lazy(() => import("./pages/Rentabilidade"));
+const PainelNovo = lazy(() => import("./pages/PainelNovo"));
+const ConexoesNovo = lazy(() => import("./pages/ConexoesNovo"));
+const PatrimonioNovo = lazy(() => import("./pages/PatrimonioNovo"));
+const MovimentacoesNovo = lazy(() => import("./pages/MovimentacoesNovo"));
+const AnaliseNovo = lazy(() => import("./pages/AnaliseNovo"));
+const MetasNovo = lazy(() => import("./pages/MetasNovo"));
 const Exchanges = lazy(() => import("./pages/Exchanges"));
 const B3Portfolio = lazy(() => import("./pages/B3Portfolio"));
 const Reports = lazy(() => import("./pages/Reports"));
@@ -145,7 +152,18 @@ const App = () => (
             
             {/* App Routes (Customer) */}
             <Route path="/app" element={<AppLayout />}>
-              <Route path="dashboard" element={<Dashboard />} />
+              {/* Painel repaginado (design convertido). O antigo continua em
+                  /app/dashboard-antigo para rollback imediato — basta trocar
+                  os dois elementos de volta. */}
+              <Route path="dashboard" element={<PainelNovo />} />
+              <Route path="dashboard-antigo" element={<Dashboard />} />
+              {/* Hub repaginado — as 6 telas do design convertido.
+                  As rotas antigas seguem valendo: o app iOS aponta para elas. */}
+              <Route path="patrimonio" element={<PatrimonioNovo />} />
+              <Route path="movimentacoes" element={<MovimentacoesNovo />} />
+              <Route path="conexoes" element={<ConexoesNovo />} />
+              <Route path="analise" element={<AnaliseNovo />} />
+              <Route path="metas" element={<MetasNovo />} />
               <Route path="connections" element={<Connections />} />
               <Route path="connections/open-finance" element={<OpenFinance />} />
               <Route path="connections/b3" element={<FeatureGate feature="b3"><B3 /></FeatureGate>} />
@@ -154,6 +172,9 @@ const App = () => (
               <Route path="cards" element={<Cards />} />
               <Route path="assets" element={<Assets />} />
               <Route path="investments" element={<Investments />} />
+              <Route path="rentabilidade" element={<Rentabilidade />} />
+              {/* Painel repaginado — convive com o antigo até validar. */}
+              <Route path="painel" element={<PainelNovo />} />
               <Route path="investments/b3" element={<FeatureGate feature="b3"><B3Portfolio /></FeatureGate>} />
               <Route path="exchanges" element={<Exchanges />} />
               <Route path="reports" element={<FeatureGate feature="reports"><Reports /></FeatureGate>} />
